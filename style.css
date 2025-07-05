@@ -495,10 +495,10 @@
             min-width: 320px;
             width: 320px;
             height: 400px;
-            background: #ffffff;
+            background: #ffffff00;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(139, 69, 19, 0.2);
+            box-shadow: 0 0 36px 0 rgba(139, 69, 19, 0.35);
             position: relative;
             perspective: 1000px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
