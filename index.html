@@ -11,13 +11,17 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Playfair+Display:wght@700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="masala_logo.png" alt="Organic Masale Logo">
+                <img src="img/masala_logo.png" alt="Organic Masale Logo">
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,129 +63,793 @@
         </div>
     </nav>
 
-    <!-- Placeholder content to enable scrolling -->
-    <div style="height: 2000px; padding-top: 80px;">
-        <!-- This empty div creates scrollable space -->
-    </div>
-
     <!-- Login Modal -->
-   
-<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header border-0 pb-0">
-                <div class="w-100 text-center">
-                    <h3 class="modal-title fw-bold text-dark mb-2">Welcome Back</h3>
-                    <p class="text-muted small">Sign in to access your account</p>
+        
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-content border-0 shadow-lg">
+                    <div class="modal-header border-0 pb-0">
+                        <div class="w-100 text-center">
+                            <h3 class="modal-title fw-bold text-dark mb-2">Welcome Back</h3>
+                            <p class="text-muted small">Sign in to access your account</p>
+                        </div>
+                        <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body px-4 py-4">
+                        <form>
+                            <div class="mb-3">
+                                <label for="loginEmail" class="form-label small text-uppercase text-muted fw-bold">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                    <input type="email" class="form-control border-start-0 ps-1" id="loginEmail" placeholder="Enter Your Email" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="loginPassword" class="form-label small text-uppercase text-muted fw-bold">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock text-muted"></i></span>
+                                    <input type="password" class="form-control border-start-0 ps-1" id="loginPassword" placeholder="••••••••" required>
+                                    <button class="btn btn-sm bg-transparent border" type="button" id="togglePassword">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-signup">Login</button>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <a href="#" class="small text-decoration-none">Forgot password?</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer border-0 justify-content-center pt-0">
+                        <p class="small text-muted mb-0">Don't have an account? 
+                            <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Sign up</a>
+                        </p>
+                    </div>
                 </div>
-                <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body px-4 py-4">
-                <form>
-                    <div class="mb-3">
-                        <label for="loginEmail" class="form-label small text-uppercase text-muted fw-bold">Email Address</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            <input type="email" class="form-control border-start-0 ps-1" id="loginEmail" placeholder="Enter Your Email" required>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label for="loginPassword" class="form-label small text-uppercase text-muted fw-bold">Password</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-lock text-muted"></i></span>
-                            <input type="password" class="form-control border-start-0 ps-1" id="loginPassword" placeholder="••••••••" required>
-                            <button class="btn btn-sm bg-transparent border" type="button" id="togglePassword">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-signup">Login</button>
-                    </div>
-                    <div class="d-flex justify-content-center align-items-center">
-                        <a href="#" class="small text-decoration-none">Forgot password?</a>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer border-0 justify-content-center pt-0">
-                <p class="small text-muted mb-0">Don't have an account? 
-                    <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Sign up</a>
-                </p>
             </div>
         </div>
-    </div>
-</div>
 
 
 
     <!-- Signup Modal -->
-   <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header border-0 pb-0">
-                <div class="w-100 text-center">
-                    <h3 class="modal-title fw-bold text-dark mb-1">Create Account</h3>
-                    <p class="text-muted small">Join our community today</p>
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <div class="w-100 text-center">
+                        <h3 class="modal-title fw-bold text-dark mb-1">Create Account</h3>
+                        <p class="text-muted small">Join our community today</p>
+                    </div>
+                    <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body px-4 py-4">
-                <form>
-                    <div class="mb-3">
-                        <label for="signupName" class="form-label small text-uppercase text-muted fw-bold">Full Name</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-transparent"><i class="bi bi-person text-muted"></i></span>
-                            <input type="text" class="form-control border-start-0 ps-1" id="signupName" placeholder="Enter Your Name" required>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="signupmobile" class="form-label small text-uppercase text-muted fw-bold">Mobile Number</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-transparent"><i class="bi bi-telephone text-muted">
-                            </i></span>
-                            <input type="number" class="form-control border-start-0 ps-1" id="signupmobile" placeholder="Enter Your Mobile" required>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="signupEmail" class="form-label small text-uppercase text-muted fw-bold">Email Address</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-transparent"><i class="bi bi-envelope text-muted"></i></span>
-                            <input type="email" class="form-control border-start-0 ps-1" id="signupEmail" placeholder="Enter Your Email" required>
-                        </div>
-                    </div>
+                <div class="modal-body px-4 py-4">
+                    <form>
                         <div class="mb-3">
-                        <label for="signupPassword" class="form-label small text-uppercase text-muted fw-bold">Password</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-transparent"><i class="bi bi-lock text-muted"></i></span>
-                            <input type="password" class="form-control border-start-0 ps-1" id="signupPassword" placeholder="••••••••" required>
-                            <button class="btn btn-sm bg-transparent border" type="button" id="toggleSignupPassword">
-                                <i class="bi bi-eye"></i>
+                            <label for="signupName" class="form-label small text-uppercase text-muted fw-bold">Full Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent"><i class="bi bi-person text-muted"></i></span>
+                                <input type="text" class="form-control border-start-0 ps-1" id="signupName" placeholder="Enter Your Name" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signupmobile" class="form-label small text-uppercase text-muted fw-bold">Mobile Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent"><i class="bi bi-telephone text-muted">
+                                </i></span>
+                                <input type="number" class="form-control border-start-0 ps-1" id="signupmobile" placeholder="Enter Your Mobile" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signupEmail" class="form-label small text-uppercase text-muted fw-bold">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent"><i class="bi bi-envelope text-muted"></i></span>
+                                <input type="email" class="form-control border-start-0 ps-1" id="signupEmail" placeholder="Enter Your Email" required>
+                            </div>
+                        </div>
+                            <div class="mb-3">
+                            <label for="signupPassword" class="form-label small text-uppercase text-muted fw-bold">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent"><i class="bi bi-lock text-muted"></i></span>
+                                <input type="password" class="form-control border-start-0 ps-1" id="signupPassword" placeholder="••••••••" required>
+                                <button class="btn btn-sm bg-transparent border" type="button" id="toggleSignupPassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-text small">Minimum 8 characters with numbers</div>
+                        </div> 
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-signup py-2 fw-bold rounded-3">
+                                <i class="bi bi-person-plus me-2"></i> Create Account
                             </button>
                         </div>
-                        <div class="form-text small">Minimum 8 characters with numbers</div>
-                    </div> 
-                    <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-signup py-2 fw-bold rounded-3">
-                            <i class="bi bi-person-plus me-2"></i> Create Account
-                        </button>
-                    </div>
-                </form>
-                <p class="small text-muted mb-0 text-center">Already have an account? 
-                    <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Sign in</a>
-                </p>
+                    </form>
+                    <p class="small text-muted mb-0 text-center">Already have an account? 
+                        <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Sign in</a>
+                    </p>
+                </div>
             </div>
-   
         </div>
     </div>
-</div>
-
 
 <!-- Navbar End -->
 
 
 
-    
 
+<!-- Why Choose Us Section -->
+<section class="position-relative">
+  <div class="bg-image"></div>
+  <div class="bg-text">
+    <p><span style="color: lightgray;">Home</span> / Why Choose Our Handmade Masala?</p>
+    <h1>Why Choose Our Homemade Masala?</h1>
+  </div>
+  <div class="container py-5" >
+    <div class="row text-center g-4">
+
+      <!-- Feature 1 -->
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up-left"  data-aos-duration="1200" data-aos-delay="0">
+        <div class="feature-bx h-100" >
+          <div class="feature-icon mx-auto">
+            <i class="fas fa-home"></i>
+          </div>
+          <h4>100% Home Made</h4>
+          <p>Each batch is carefully prepared in our home kitchen with love and care.</p>
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up-left"  data-aos-duration="1200" data-aos-delay="0">
+        <div class="feature-bx h-100">
+          <div class="feature-icon mx-auto">
+            <i class="fas fa-ban"></i>
+          </div>
+          <h4>No Chemicals</h4>
+          <p>Pure spices with no artificial colors, preservatives, or additives.</p>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up-left"  data-aos-duration="1200" data-aos-delay="0">
+        <div class="feature-bx h-100">
+          <div class="feature-icon mx-auto">
+            <i class="fas fa-history"></i>
+          </div>
+          <h4>Traditional Methods</h4>
+          <p>Time-honored techniques to preserve the authentic flavors of India.</p>
+        </div>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="col-sm-6 col-lg-3" data-aos="fade-up-left"  data-aos-duration="1200" data-aos-delay="0">
+        <div class="feature-bx h-100">
+          <div class="feature-icon mx-auto">
+            <i class="fas fa-mortar-pestle"></i>
+          </div>
+          <h4>Freshly Ground</h4>
+          <p>Spices are ground fresh in small batches to ensure maximum aroma.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!--Testimonials  -->
+<div class="containers">
+        <div class="header">
+            <h1><b>What Our Customers Say</b></h1>
+            <p>Authentic homemade masala blends that bring the taste of India to your kitchen</p>
+        </div>
+        
+        <div class="testimonials">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card featured" data-aos="fade-up-left"  data-aos-duration="1200" data-aos-delay="0">
+                <div class="card-header">
+                    <img src="img/priya.png" alt="Portrait of Priya Sharma, happy middle-aged Indian woman cooking with spices" class="profile-img">
+                    <div class="user-info">
+                        <h3>Priya Sharma</h3>
+                        <p>Home Chef, Mumbai</p>
+                    </div>
+                </div>
+                <div class="rating">★★★★★</div>
+                <p class="review-text">The homemade garam masala changed my cooking completely. The aroma fills my kitchen just like my grandmother's used to!</p>
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/544853d8-a471-4eac-992d-b67362f30070.png" alt="Golden brown garam masala powder in an Indian stainless steel spice box" class="masala-image">
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card" data-aos="fade-up-left"  data-aos-duration="1200" data-aos-delay="0">
+                <div class="card-header">
+                    <img src="img/raj.png" alt="Portrait of Raj Patel, smiling Indian man in chef's uniform holding spices" class="profile-img">
+                    <div class="user-info">
+                        <h3>Raj Patel</h3>
+                        <p>Restaurant Owner, Delhi</p>
+                    </div>
+                </div>
+                <div class="rating">★★★★½</div>
+                <p class="review-text">As a professional chef, I'm very particular about spices. Their chaat masala has the perfect balance of tangy and spicy flavors.</p>
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5af82bbb-d3dc-44f2-b518-707a12eec6a0.png" alt="Bright orange chaat masala sprinkled on fresh pani puri with coriander garnish" class="masala-image">
+            </div>
+            
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card" data-aos="fade-up-left"  data-aos-duration="1200" data-aos-delay="0">
+                <div class="card-header">
+                    <img src="img/anjali.png" alt="Portrait of Anjali Kapoor, young woman holding masala packets with background of spices" class="profile-img">
+                    <div class="user-info">
+                        <h3>Anjali Kapoor</h3>
+                        <p>Food Blogger, Bangalore</p>
+                    </div>
+                </div>
+                <div class="rating">★★★★★</div>
+                <p class="review-text">The sambar powder is exceptional! It gives that authentic South Indian taste I've been searching for abroad.</p>
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5b025b8a-8957-4e61-9984-2181b2fc1a74.png" alt="Colorful array of South Indian spices including sambar powder and curry leaves" class="masala-image">
+            </div>
+           
+        </div>
+    </div>
+
+<!--Recipe of the month -->
+
+<section class="recipe-section py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Image -->
+      <div class="col-lg-6 text-center mb-4 mb-lg-0">
+        <img src="img/butter-chiken.jpg" alt="Spiced Chicken Curry" class="recipe-image">
+      </div>
+
+      <!-- Text -->
+      <div class="col-lg-6">
+        <h1 class="recipe-title"><span class="text-warning">Recipe</span> Of The Month</h1>
+        <p class="lead">
+          Discover our delicious, carefully crafted recipe for this month, infusing bold spices and fresh ingredients for a truly memorable meal experience.
+        </p>
+
+        <h2 class="mt-4">Spiced Chicken Curry</h2>
+        <p>
+          Indulge in the rich and aromatic flavors of our Spiced Chicken Curry. This recipe combines tender chicken pieces with a blend of traditional Indian spices simmered to perfection in a creamy tomato-based sauce.
+        </p>
+
+        <h3 class="mt-4 fw-semibold">Fun Facts</h3>
+        <ul class="list-unstyled mt-3">
+          <li class="fun-fact-item mb-2">
+            <i class="ri-star-fill text-warning me-2"></i>
+            The turmeric in this curry contains curcumin, which is a powerful anti-inflammatory agent.
+          </li>
+          <li class="fun-fact-item mb-2">
+            <i class="ri-star-fill text-warning me-2"></i>
+            Garam masala is a warm spice blend that varies regionally and elevates the dish's complexity.
+          </li>
+          <li class="fun-fact-item">
+            <i class="ri-star-fill text-warning me-2"></i>
+            Coconut milk adds creaminess and mellows the heat of the spices beautifully.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="recipe-section py-5">
+  <div class="container">
+    <div class="row align-items-center">
+       <!-- Text -->
+      <div class="col-lg-6">
+        <h2 class="mt-4">Paneer Masala</h2>
+        <p>
+          Paneer Masala is a classic North Indian dish that brings together the richness of paneer (Indian cottage cheese) with the deep flavors of a spiced tomato-onion gravy. This vegetarian favorite features soft, succulent paneer cubes simmered in a creamy base infused with aromatic spices like cumin, garam masala, turmeric, and dried fenugreek leaves (kasuri methi). 
+        </p>
+
+        <h3 class="mt-4 fw-semibold">Fun Facts</h3>
+        <ul class="list-unstyled mt-3">
+          <li class="fun-fact-item mb-2">
+            <i class="ri-star-fill text-warning me-2"></i>
+            Paneer is a rich source of protein and calcium, especially valuable in vegetarian diets.
+          </li>
+          <li class="fun-fact-item mb-2">
+            <i class="ri-star-fill text-warning me-2"></i>
+            Unlike most cheeses, paneer doesn’t melt, making it perfect for hearty curries and grilling.
+
+        </li>
+          <li class="fun-fact-item">
+            <i class="ri-star-fill text-warning me-2"></i>
+            Paneer Masala is sometimes called Shahi Paneer when prepared with added cream, nuts, and a more indulgent spice base.
+          </li>
+        </ul>
+      </div>
+      <!-- Image -->
+      <div class="col-lg-6 text-center mb-4 mb-lg-0">
+        <img src="img/paneer-img.jpg"  class=" recipe-image">
+      </div>     
+    </div>
+  </div>
+</section>
+
+
+    <div class="container">
+      <header>
+        <div class="logo">
+          <i class="fa fa-leaf" style="color: #ff9933; font-size: 3.5rem"></i>
+        </div>
+        <h1>Oraganic masale</h1>
+        <p class="subtitle">
+          Authentic organic spices crafted with traditional recipes and a touch
+          of Marathi zaika
+        </p>
+      </header>
+
+      <div class="section-title">Spice Story Reel</div>
+      <p style="text-align: center; margin-bottom: 20px; color: #7f5a2b">
+        Hover over any post to flip and see details
+      </p>
+
+      <div class="carousel-container">
+        <div class="instagram-carousel" id="carousel">
+          <!-- Post 1 -->
+          <div class="post-card">
+            <div class="post-inner">
+              <div class="post-front">
+                <div
+                  class="post-image"
+                  style="
+                    background-image: url('https://tse2.mm.bing.net/th/id/OIP.mejgkrmGtm8j8ya5p0mREgHaHa?r=0&cb=thvnextc2&rs=1&pid=ImgDetMain&o=7&rm=3');
+                  "
+                ></div>
+                <div class="post-info">
+                  <div class="post-header">
+                    <div class="profile-pic">MB</div>
+                    <div>
+                      <strong>Oragnic Masale</strong>
+                      <p>Homemade Garam Masala Blend</p>
+                    </div>
+                  </div>
+                  <div class="post-stats">
+                    <div>1.2K views</div>
+                    <div class="post-actions">
+                      <div class="post-action">
+                        <i class="fas fa-heart"></i> 245
+                      </div>
+                      <div class="post-action">
+                        <i class="fas fa-comment"></i> 42
+                      </div>
+                      <div class="post-action">
+                        <i class="fas fa-share-alt"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="post-back">
+                <img
+                  class="zoomed-image"
+                  src="https://tse2.mm.bing.net/th/id/OIP.mejgkrmGtm8j8ya5p0mREgHaHa?r=0&cb=thvnextc2&rs=1&pid=ImgDetMain&o=7&rm=3"
+                  alt="Garam Masala"
+                  style="background-size: contain"
+                />
+                <div class="post-caption">
+                  <p>
+                    Our signature Garam Masala blend made with 12 authentic
+                    spices. Slow-roasted and ground to perfection for that
+                    traditional taste.
+                  </p>
+                </div>
+                <div class="brand-watermark">The Masala Basket</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post 2 -->
+          <div class="post-card">
+            <div class="post-inner">
+              <div class="post-front">
+                <div
+                  class="post-image"
+                  style="
+                    background-image: url('https://rimaindustries.co.in/wp-content/uploads/2024/09/Kashmiri2.jpg');
+                  "
+                ></div>
+                <div class="post-info">
+                  <div class="post-header">
+                    <div class="profile-pic">MB</div>
+                    <div>
+                      <strong>Oragnic Masale</strong>
+                      <p>Freshly Ground Red Chili Powder</p>
+                    </div>
+                  </div>
+                  <div class="post-stats">
+                    <div>980 views</div>
+                    <div class="post-actions">
+                      <div class="post-action">
+                        <i class="fas fa-heart"></i> 312
+                      </div>
+                      <div class="post-action">
+                        <i class="fas fa-comment"></i> 28
+                      </div>
+                      <div class="post-action">
+                        <i class="fas fa-share-alt"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="post-back">
+                <img
+                  class="zoomed-image"
+                  src="https://rimaindustries.co.in/wp-content/uploads/2024/09/Kashmiri2.jpg"
+                  alt="Red Chili Powder"
+                />
+                <div class="post-caption">
+                  <p>
+                    Pure Kashmiri chili powder with vibrant color and mild heat.
+                    Perfect for adding rich color to your dishes without
+                    overwhelming spice.
+                  </p>
+                </div>
+                <div class="brand-watermark">The Masala Basket</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post 3 -->
+          <div class="post-card">
+            <div class="post-inner">
+              <div class="post-front">
+                <div
+                  class="post-image"
+                  style="
+                    background-image: url('https://alopikas.com/assets/img/product/red-chilli-secondary-alopikas.webp');
+                  "
+                ></div>
+                <div class="post-info">
+                  <div class="post-header">
+                    <div class="profile-pic">MB</div>
+                    <div>
+                      <strong>Oragnic Masale</strong>
+                      <p>Homemade Pickle Collection</p>
+                    </div>
+                  </div>
+                  <div class="post-stats">
+                    <div>1.5K views</div>
+                    <div class="post-actions">
+                      <div class="post-action">
+                        <i class="fas fa-heart"></i> 421
+                      </div>
+                      <div class="post-action">
+                        <i class="fas fa-comment"></i> 56
+                      </div>
+                      <div class="post-action">
+                        <i class="fas fa-share-alt"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="post-back">
+                <img
+                  class="zoomed-image"
+                  src="https://alopikas.com/assets/img/product/red-chilli-secondary-alopikas.webp"
+                  alt="Pickle Collection"
+                />
+                <div class="post-caption">
+                  <p>
+                    Traditional Indian pickles made with seasonal fruits and
+                    vegetables. Preserved using authentic family recipes handed
+                    down for generations.
+                  </p>
+                </div>
+                <div class="brand-watermark">The Masala Basket</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post 4 -->
+          <div class="post-card">
+            <div class="post-inner">
+              <div class="post-front">
+                <div
+                  class="post-image"
+                  style="
+                    background-image: url('https://www.gosupps.com/media/catalog/product/cache/25/image/1500x/040ec09b1e35df139433887a97daa66f/8/1/81aGrguDHML._SL1500_.jpg');
+                  "
+                ></div>
+                <div class="post-info">
+                  <div class="post-header">
+                    <div class="profile-pic">MB</div>
+                    <div>
+                      <strong>Oragnic Masale</strong>
+                      <p>Traditional Turmeric Powder</p>
+                    </div>
+                  </div>
+                  <div class="post-stats">
+                    <div>1.1K views</div>
+                    <div class="post-actions">
+                      <div class="post-action">
+                        <i class="fas fa-heart"></i> 387
+                      </div>
+                      <div class="post-action">
+                        <i class="fas fa-comment"></i> 34
+                      </div>
+                      <div class="post-action">
+                        <i class="fas fa-share-alt"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="post-back">
+                <img
+                  class="zoomed-image"
+                  src="https://www.gosupps.com/media/catalog/product/cache/25/image/1500x/040ec09b1e35df139433887a97daa66f/8/1/81aGrguDHML._SL1500_.jpg"
+                  alt="Turmeric Powder"
+                />
+                <div class="post-caption">
+                  <p>
+                    Pure organic turmeric with high curcumin content. Sourced
+                    directly from farmers in Maharashtra and processed without
+                    additives.
+                  </p>
+                </div>
+                <div class="brand-watermark">The Masala Basket</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post 5 -->
+          <div class="post-card">
+            <div class="post-inner">
+              <div class="post-front">
+                <div
+                  class="post-image"
+                  style="
+                    background-image: url('https://assets.epicurious.com/photos/5f7b812544b4b8f1f7ddfba2/1:1/w_2560%2Cc_limit/CurryBlend_RECIPE_100320_0231.jpg');
+                  "
+                ></div>
+                <div class="post-info">
+                  <div class="post-header">
+                    <div class="profile-pic">MB</div>
+                    <div>
+                      <strong>Oragnic Masale</strong>
+                      <p>Special Curry Masala Blend</p>
+                    </div>
+                  </div>
+                  <div class="post-stats">
+                    <div>890 views</div>
+                    <div class="post-actions">
+                      <div class="post-action">
+                        <i class="fas fa-heart"></i> 278
+                      </div>
+                      <div class="post-action">
+                        <i class="fas fa-comment"></i> 19
+                      </div>
+                      <div class="post-action">
+                        <i class="fas fa-share-alt"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="post-back">
+                <img
+                  class="zoomed-image"
+                  src="https://assets.epicurious.com/photos/5f7b812544b4b8f1f7ddfba2/1:1/w_2560%2Cc_limit/CurryBlend_RECIPE_100320_0231.jpg"
+                  alt="Curry Masala"
+                />
+                <div class="post-caption">
+                  <p>
+                    Our aromatic curry blend with 15 spices. Perfect for
+                    creating rich, flavorful curries in minutes. Just add to
+                    sautéed onions and tomatoes.
+                  </p>
+                </div>
+                <div class="brand-watermark">The Masala Basket</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-nav">
+          <button class="nav-btn" onclick="scrollCarousel(-1)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="nav-btn" onclick="scrollCarousel(1)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative spice elements -->
+    <div class="spice-decoration turmeric"></div>
+    <div class="spice-decoration chili"></div>
+    <div class="spice-decoration cumin"></div>
+
+    <!-- Hero Section with Spice Basket Animation -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title">Organic Masale</h1>
+          <p class="hero-subtitle">
+            Authentic Indian Spices Handpicked from the Heart of India
+          </p>
+
+          <div class="cta-buttons">
+            <button class="cta-btn shop-btn">
+              <i class="fas fa-shopping-cart"></i> Shop Now
+            </button>
+            <button class="cta-btn whatsapp-btn">
+              <i class="fab fa-whatsapp"></i> WhatsApp to Order
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-animation">
+          <div class="spice-basket-container">
+            <div class="spice-basket">
+              <div class="basket"></div>
+              <div class="basket-handle"></div>
+
+              <div class="spice-packet packet-1">
+                <i class="fas fa-pepper-hot spice-icon"></i>
+                <div class="spice-label">CHILI</div>
+              </div>
+
+              <div class="spice-packet packet-2">
+                <i class="fas fa-mortar-pestle spice-icon"></i>
+                <div class="spice-label">TURMERIC</div>
+              </div>
+
+              <div class="spice-packet packet-3">
+                <i class="fas fa-seedling spice-icon"></i>
+                <div class="spice-label">CARDAMOM</div>
+              </div>
+
+              <div class="spice-packet packet-4">
+                <i class="fas fa-leaf spice-icon"></i>
+                <div class="spice-label">BAY LEAF</div>
+              </div>
+
+              <div class="spice-packet packet-5">
+                <i class="fas fa-fire-alt spice-icon"></i>
+                <div class="spice-label">GARAM MASALA</div>
+              </div>
+
+              <div class="spice-particles">
+                <!-- Particles will be generated by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="rangoli-border"></div>
+
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <div class="quick-links">
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-home"></i>&nbsp;&nbsp; Home</a
+            >
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-pepper-hot"></i>&nbsp;&nbsp; Our Spices</a
+            >
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-book"></i>&nbsp;&nbsp; Recipes</a
+            >
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-info-circle"></i>&nbsp;&nbsp; About Us</a
+            >
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-blog"></i>&nbsp;&nbsp; Blog</a
+            >
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-question-circle"></i>&nbsp; FAQ</a
+            >
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>Spice Market, Pune, Maharashtra</div>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-phone-alt"></i>
+              <div>+91 98765 43210</div>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <div>contact@masalabasket.com</div>
+            </div>
+            <div class="contact-item">
+              <i class="fab fa-whatsapp"></i>
+              <div>WhatsApp: +91 98765 43210</div>
+            </div>
+
+            <br>
+            <h3 style="font-size: medium;">Social Links &nbsp;: </h3>
+            <div class="social-icons">
+              <div class="spice-jar">
+                <i class="fab fa-instagram"></i>
+              </div>
+              <div class="spice-jar">
+                <i class="fab fa-facebook-f"></i>
+              </div>
+              <div class="spice-jar">
+                <i class="fab fa-youtube"></i>
+              </div>
+              <div class="spice-jar">
+                <i class="fab fa-pinterest-p"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>Newsletter</h3>
+          <p style="color: white; margin-bottom: 2rem; font-size: 1.1rem">
+            Subscribe for exclusive recipes, spice tips, and special offers!
+          </p>
+          <div style="display: flex">
+            <input
+              type="email"
+              placeholder="Your email address"
+              style="
+                flex: 1;
+                padding: 1rem;
+                border: none;
+                border-radius: 40px 0 0 40px;
+                font-size: 1rem;
+              "
+            />
+            <button
+              style="
+                background: var(--turmeric);
+                border: none;
+                padding: 0 2rem;
+                border-radius: 0 40px 40px 0;
+                font-weight: 600;
+                cursor: pointer;
+                font-size: 1.1rem;
+              "
+            >
+              Join
+            </button>
+          </div>
+
+          <div style="margin-top: 2.5rem">
+            <h3 style="margin-bottom: 1.5rem">Our Promise</h3>
+            <p style="color: white; line-height: 1.6">
+              <i class="fas fa-check-circle" style="color: var(--turmeric)"></i
+              >&nbsp;&nbsp; 100% Natural Ingredients<br />
+              <i class="fas fa-check-circle" style="color: var(--turmeric)"></i
+              >&nbsp;&nbsp; Handcrafted with Tradition<br />
+              <i class="fas fa-check-circle" style="color: var(--turmeric)"></i
+              >&nbsp;&nbsp; Ethically Sourced Spices<br />
+              <i class="fas fa-check-circle" style="color: var(--turmeric)"></i
+              >&nbsp;&nbsp; Direct from Farmers
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-banner">
+        Handmade with <i class="fas fa-heart" style="color: #ff0000"></i> in
+        Maharashtra | © Organic Masale 2025 <i class="fas fa-mortar-pestle"></i>
+      </div>
+    </footer>
+
+
+
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
 
