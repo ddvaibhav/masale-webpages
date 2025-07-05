@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    :root {
+      --primary-color: #ff9933;
+      --secondary-color: #F8F4E6;
+      --accent-color: #FFC72C;
+      --whatsapp-color: #25D366;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+      min-height: 350px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(#00000080, #00000080), 
+                  url('https://www.sdsmasala.com/cdn/shop/files/cta-bg03-wp_1512x.webp?v=1715152534') no-repeat center center;
+      background-size: cover;
+      color: white;
+      overflow: hidden;
+      background-attachment: fixed; 
+      box-shadow: inset 0 -5px 8px 0 #000;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero-title {
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      color: #ff9933;
+    }
+    
+    .hero-subtitle {
+      font-weight: 300;
+      opacity: 0.9;
+      max-width: 750px;
+    }
+    
+    
+    /* Contact Cards */
+    .contact-card {
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: white;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+    
+    /* Contact Info */
+    .contact-icon {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin-right: 15px;
+      width: 48px;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(67, 97, 238, 0.1);
+      border-radius: 12px;
+    }
+    
+    .section-title {
+      position: relative;
+      margin-bottom: 2rem;
+      color: black;
+      font-weight: 600;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      border-radius: 3px;
+    }
+    
+    /* Buttons */
+    .btn-whatsapp {
+      background-color: var(--whatsapp-color);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s;
+      border: none;
+    }
+    
+    .btn-whatsapp:hover {
+      background-color: #128C7E;
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--accent-color);
+    }
+    
+    /* Form Elements */
+    .form-control, .form-select {
+      border-radius: 8px;
+      padding: 12px 15px;
+      border: 1px solid #ff9933;
+      transition: all 0.3s;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.15rem #ff9933;
+    }
+    
+    /* Map */
+    .map-container {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e0e0e0;
+    }
+    
+    /* Contact Info Items */
+    .contact-info-item {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      transition: transform 0.3s;
+    }
+    
+    .contact-info-item:hover {
+      transform: translateX(5px);
+    }
+    
+    .contact-info-text h5 {
+      font-weight: 600;
+      color: black;
+    }
+    
+    /* Footer */
+    .footer {
+      background-color: black;
+      color: white;
+      padding: 3rem 0;
+    }
+    
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      margin-right: 10px;
+      transition: all 0.3s;
+    }
+    
+    .social-icon:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero-section {
+        height: 50vh;
+        min-height: 300px;
+      }
+      
+      .hero-title {
+        font-size: 2.2rem !important;
+      }
+      
+      .contact-card {
+        padding: 1.5rem !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-8">
+          <h1 class="hero-title display-4 fw-bold mb-4 animate__animated animate__fadeInDown">Let's Connect</h1>
+          <p class="hero-subtitle lead mb-5 animate__animated animate__fadeInUp animate__delay-1s">
+            Want to know More? Reach out to us!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-5 my-5">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Contact Info Column -->
+        <div class="col-lg-5">
+          <div class="contact-card p-4 p-lg-5 h-100">
+            <h2 class="section-title">Contact Information</h2>
+            
+            <div class="contact-info-item">
+              <div class="contact-icon">
+                <i class="bi bi-geo-alt-fill"></i>
+              </div>
+              <div class="contact-info-text">
+                <h5 class="fw-bold mb-1">Our Location</h5>
+                <p class="mb-0 text-secondary">123, Shivaji Nagar, Pune, Maharashtra - 411005</p>
+              </div>
+            </div>
+            
+            <div class="contact-info-item">
+              <div class="contact-icon">
+                <i class="bi bi-telephone-fill"></i>
+              </div>
+              <div class="contact-info-text">
+                <h5 class="fw-bold mb-1">Phone Number</h5>
+                <p class="mb-0 text-secondary">+91 98765 43210</p>
+              </div>
+            </div>
+            
+            <div class="contact-info-item">
+              <div class="contact-icon">
+                <i class="bi bi-envelope-fill"></i>
+              </div>
+              <div class="contact-info-text">
+                <h5 class="fw-bold mb-1">Email Address</h5>
+                <p class="mb-0 text-secondary">contact@example.com</p>
+              </div>
+            </div>
+            
+            <div class="contact-info-item">
+              <div class="contact-icon">
+                <i class="bi bi-clock-fill"></i>
+              </div>
+              <div class="contact-info-text">
+                <h5 class="fw-bold mb-1">Working Hours</h5>
+                <p class="mb-0 text-secondary">Monday - Friday: 9:00 AM - 6:00 PM</p>
+                <p class="mb-0 text-secondary">Saturday: 10:00 AM - 4:00 PM</p>
+              </div>
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex mt-5">
+              <a href="https://wa.me/919876543210" target="_blank" class="btn btn-whatsapp me-md-2">
+                <i class="bi bi-whatsapp me-2"></i>Chat on WhatsApp
+              </a>
+              <a href="tel:+919876543210" class="btn btn-primary">
+                <i class="bi bi-telephone-outbound me-2"></i>Call Us
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Contact Form Column -->
+        <div class="col-lg-7">
+          <div class="contact-card p-4 p-lg-5 h-100">
+            <h2 class="section-title">Send Us a Message</h2>
+            <p class="text-secondary mb-4">Have questions or need assistance? Fill out the form below and we'll get back to you within 24 hours.</p>
+            
+            <form>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" required>
+                </div>
+                
+                <div class="col-md-6">
+                  <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" id="email" placeholder="Enter Email" required>
+                </div>
+                
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone" placeholder="Enter Mobile Number">
+                </div>
+                
+                <div class="col-12">
+                  <label for="subject" class="form-label">Subject <span class="text-danger">*</span></label>
+                  <select class="form-select" id="subject" required>
+                    <option value="" selected disabled>Select a subject</option>
+                    <option>General Inquiry</option>
+                    <option>Support Request</option>
+                    <option>Feedback</option>
+                    <option>Partnership</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                
+                <div class="col-12">
+                  <label for="message" class="form-label">Your Message <span class="text-danger">*</span></label>
+                  <textarea class="form-control" id="message" rows="5" placeholder="Type your message here..." required></textarea>
+                </div>
+                
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                    <label class="form-check-label" for="agreeTerms">
+                      I agree to the <a href="#" class="text-primary">terms and conditions</a>
+                    </label>
+                  </div>
+                </div>
+                
+                <div class="col-12 mt-4">
+                  <button type="submit" class="btn btn-primary px-4 py-2">
+                    <i class="bi bi-send-fill me-2"></i>Send Message
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Map Section -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="contact-card p-4 p-lg-5 mt-4">
+            <h2 class="section-title">Find Us on Map</h2>
+            <div class="map-container mt-3">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.3867352338126!2d73.84702247503396!3d18.56004198254786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c07af0c26011%3A0x2f0eaa3d0034d33b!2sShivaji%20Nagar%2C%20Pune%2C%20Maharashtra%20411005!5e0!3m2!1sen!2sin!4v1623828030123!5m2!1sen!2sin"
+                width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Bootstrap 5 JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Smooth scroll for the scroll down button
+    document.querySelector('.scroll-down').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelector('.contact-section').scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+    
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const form = e.target;
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+  </script>
+</body>
+</html>
