@@ -1,1 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Masale</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="masala_logo.png" alt="Organic Masale Logo">
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Spice Service</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Review</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact Us</a>
+                    </li>
+                </ul>
+                
+               <div class="d-flex align-items-center gap-1">
+                  <button class="btn btn-login px-4 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#loginModal">
+                      <i class="bi bi-box-arrow-in-right me-2"></i> Login
+                  </button>
+                  <button class="btn btn-signup px-4 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#signupModal">
+                      <i class="bi bi-person-plus me-2"></i> Sign Up
+                  </button>
+              </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Placeholder content to enable scrolling -->
+    <div style="height: 2000px; padding-top: 80px;">
+        <!-- This empty div creates scrollable space -->
+    </div>
+
+    <!-- Login Modal -->
+   
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header border-0 pb-0">
+                <div class="w-100 text-center">
+                    <h3 class="modal-title fw-bold text-dark mb-2">Welcome Back</h3>
+                    <p class="text-muted small">Sign in to access your account</p>
+                </div>
+                <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4 py-4">
+                <form>
+                    <div class="mb-3">
+                        <label for="loginEmail" class="form-label small text-uppercase text-muted fw-bold">Email Address</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                            <input type="email" class="form-control border-start-0 ps-1" id="loginEmail" placeholder="Enter Your Email" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="loginPassword" class="form-label small text-uppercase text-muted fw-bold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-lock text-muted"></i></span>
+                            <input type="password" class="form-control border-start-0 ps-1" id="loginPassword" placeholder="••••••••" required>
+                            <button class="btn btn-sm bg-transparent border" type="button" id="togglePassword">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-signup">Login</button>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <a href="#" class="small text-decoration-none">Forgot password?</a>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 justify-content-center pt-0">
+                <p class="small text-muted mb-0">Don't have an account? 
+                    <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Sign up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Signup Modal -->
+   <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header border-0 pb-0">
+                <div class="w-100 text-center">
+                    <h3 class="modal-title fw-bold text-dark mb-1">Create Account</h3>
+                    <p class="text-muted small">Join our community today</p>
+                </div>
+                <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4 py-4">
+                <form>
+                    <div class="mb-3">
+                        <label for="signupName" class="form-label small text-uppercase text-muted fw-bold">Full Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent"><i class="bi bi-person text-muted"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-1" id="signupName" placeholder="Enter Your Name" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupmobile" class="form-label small text-uppercase text-muted fw-bold">Mobile Number</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent"><i class="bi bi-telephone text-muted">
+                            </i></span>
+                            <input type="number" class="form-control border-start-0 ps-1" id="signupmobile" placeholder="Enter Your Mobile" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupEmail" class="form-label small text-uppercase text-muted fw-bold">Email Address</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent"><i class="bi bi-envelope text-muted"></i></span>
+                            <input type="email" class="form-control border-start-0 ps-1" id="signupEmail" placeholder="Enter Your Email" required>
+                        </div>
+                    </div>
+                        <div class="mb-3">
+                        <label for="signupPassword" class="form-label small text-uppercase text-muted fw-bold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent"><i class="bi bi-lock text-muted"></i></span>
+                            <input type="password" class="form-control border-start-0 ps-1" id="signupPassword" placeholder="••••••••" required>
+                            <button class="btn btn-sm bg-transparent border" type="button" id="toggleSignupPassword">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <div class="form-text small">Minimum 8 characters with numbers</div>
+                    </div> 
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-signup py-2 fw-bold rounded-3">
+                            <i class="bi bi-person-plus me-2"></i> Create Account
+                        </button>
+                    </div>
+                </form>
+                <p class="small text-muted mb-0 text-center">Already have an account? 
+                    <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Sign in</a>
+                </p>
+            </div>
+   
+        </div>
+    </div>
+</div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Navbar Scroll Animation -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+            // Password toggle functionality
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('loginPassword');
+        const icon = this.querySelector('i');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+        }
+    });
+
+      // Password toggle functionality
+    document.getElementById('toggleSignupPassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('signupPassword');
+        const icon = this.querySelector('i');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+        }
+    });
+    </script>
+</body>
+</html>
+
+
+
 <h1>Welcome To Index Page</h1>
