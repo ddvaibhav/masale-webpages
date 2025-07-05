@@ -615,7 +615,7 @@
 
         .post-caption {
             padding: 15px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgb(255, 255, 255);
             color: #333;
             font-size: 0.9rem;
             border-top: 1px solid #eee;
