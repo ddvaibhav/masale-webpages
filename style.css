@@ -1710,7 +1710,7 @@
       .footer-content {
         max-width: 1300px;
     
-   
+        
         margin: 0 auto;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -1780,6 +1780,8 @@
         height: 15px;
         background: #c00;
       }
+
+      /* contact us */
 
       .contact-info {
         background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f0e68c" opacity="0.4"/></svg>');
@@ -2078,10 +2080,10 @@
       --green-stock: #0a8f08;
     }
 
-    body {
+    /* body {
       background-color: var(--off-white);
       font-family: 'Poppins', sans-serif;
-    }
+    } */
 
     .filter-title {
       font-weight: 600;
@@ -2280,10 +2282,10 @@
       width: 100%;
       height: 5px;
       background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-    }
+    } 
     
     /* Contact Info */
-    .contact-icon {
+     .contact-icon {
       font-size: 1.5rem;
       color: var(--primary-color);
       margin-right: 15px;
@@ -2312,7 +2314,7 @@
       height: 3px;
       background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
       border-radius: 3px;
-    }
+    } 
     
     /* Buttons */
     .btn-whatsapp {
@@ -2342,9 +2344,9 @@
     .btn-primary:hover {
       background-color: var(--accent-color);
     }
-    
+     
     /* Form Elements */
-    .form-control, .form-select {
+     .form-control, .form-select {
       border-radius: 8px;
       padding: 12px 15px;
       border: 1px solid #ff9933;
@@ -2355,17 +2357,17 @@
       border-color: var(--primary-color);
       box-shadow: 0 0 0 0.15rem #ff9933;
     }
-    
+     */
     /* Map */
     .map-container {
       border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       border: 1px solid #e0e0e0;
-    }
+    } 
     
     /* Contact Info Items */
-    .contact-info-item {
+     .contact-info-item {
       margin-bottom: 1.5rem;
       display: flex;
       align-items: flex-start;
@@ -2380,7 +2382,7 @@
       font-weight: 600;
       color: black;
     }
-    
+     
     /* Footer */
     .footer {
       background-color: black;
@@ -2388,7 +2390,7 @@
       padding: 3rem 0;
     }
     
-    .social-icon {
+     .social-icon {
       width: 40px;
       height: 40px;
       display: inline-flex;
@@ -2403,7 +2405,7 @@
     .social-icon:hover {
       background-color: var(--primary-color);
       transform: translateY(-3px);
-    }
+    } 
     
     /* Responsive Adjustments */
     @media (max-width: 768px) {
@@ -2434,15 +2436,15 @@
       --earth-brown: #5D4037;
     }
 
-    body {
+    /* body {
       background-color: var(--off-white);
       font-family: 'Poppins', sans-serif;
       color: var(--earth-brown);
       background-image: radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.05) 0%, transparent 20%),
                         radial-gradient(circle at 90% 80%, rgba(255, 111, 0, 0.05) 0%, transparent 20%);
-    }
+    } */
 
-    .header-section {
+     .header-section {
       background: linear-gradient(135deg, var(--saffron-orange), var(--turmeric-yellow));
       color: white;
       padding: 60px 0 40px;
@@ -2496,7 +2498,7 @@
       transform: translateY(-5px);
     }
 
-    .section-title {
+    /* .section-title {
       color: var(--saffron-orange);
       font-weight: 700;
       margin-bottom: 25px;
@@ -2514,7 +2516,7 @@
       height: 3px;
       background: linear-gradient(90deg, var(--saffron-orange), var(--turmeric-yellow));
       border-radius: 2px;
-    }
+    } */
 
     .benefit-icon {
       width: 60px;
@@ -2667,7 +2669,7 @@
 
     .floating {
       animation: float 6s infinite ease-in-out;
-    }
+    } 
 
     @keyframes float {
       0%, 100% {
@@ -2695,12 +2697,12 @@
       display: none;
     }
 
-    .footer {
+    /* .footer {
       background: linear-gradient(135deg, rgba(167, 79, 0, 0.1), rgba(255, 215, 0, 0.1));
       padding: 30px 0;
       margin-top: 50px;
       border-top: 1px solid rgba(167, 79, 0, 0.1);
-    }
+    }  */
 
     @media (max-width: 992px) {
       .header-title {
