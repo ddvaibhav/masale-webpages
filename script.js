@@ -216,3 +216,28 @@
         });
       });
 
+  const slider = document.getElementById("sliderWrapper");
+  const cardWidth = 270; // Card width + margin
+
+  function scrollSlider(direction) {
+    slider.scrollBy({
+      left: direction * cardWidth,
+      behavior: 'smooth'
+    });
+  }
+
+    window.onload = function () {
+      const slider = document.getElementById("categorySlider");
+
+      function scrollCategories(direction) {
+        const scrollAmount = slider.offsetWidth * 0.8;
+        slider.scrollBy({
+          left: direction * scrollAmount,
+          behavior: 'smooth'
+        });
+      }
+
+      window.scrollCategories = scrollCategories;
+    };
+
+
