@@ -2034,4 +2034,346 @@
         color: #bd081c; /* Pinterest */
       }
 
+      
 
+
+      /* Product Page CSS */
+
+
+    :root {
+      --turmeric-yellow: #FFD700;
+      --saffron-orange: #FF6F00;
+      --saffron-brown: #A74F00;
+      --off-white: #FAF9F6;
+      --text-dark: #333;
+      --border-color: #eee;
+      --hover-yellow: #FFC400;
+      --green-stock: #0a8f08;
+    }
+
+    body {
+      background-color: var(--off-white);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .filter-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--saffron-orange);
+    }
+
+    .filter-box {
+      background-color: #fff;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .product-card {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background: #fff;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .product-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--text-dark);
+    }
+
+    .product-title:hover {
+      color: var(--saffron-brown);
+    }
+
+    .price {
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: var(--saffron-orange);
+    }
+
+    .add-to-cart-btn {
+      background-color: var(--turmeric-yellow);
+      color: #000;
+      font-weight: 600;
+      border: none;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: var(--hover-yellow);
+    }
+
+    .variant-select {
+      font-size: 0.9rem;
+    }
+
+    .section-title {
+      font-weight: 700;
+      color: var(--saffron-brown);
+      margin-bottom: 1.5rem;
+    }
+
+    .stock-status {
+      color: var(--green-stock);
+      font-weight: 500;
+    }
+
+    /* Flip Image */
+    .flip-box {
+      background-color: transparent;
+      width: 100%;
+      height: 250px;
+      perspective: 1000px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      overflow: hidden;
+    }
+
+    .flip-box-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .flip-box:hover .flip-box-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-box-front, .flip-box-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+    }
+
+    .flip-box-front img,
+    .flip-box-back img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .flip-box-back {
+      transform: rotateY(180deg);
+    }
+
+    @media (max-width: 768px) {
+      .flip-box {
+        height: 200px;
+      }
+    }
+
+
+/* hero-section-img */
+    
+    :root {
+      --primary-color: #ff9933;
+      --secondary-color: #F8F4E6;
+      --accent-color: #FFC72C;
+      --whatsapp-color: #25D366;
+    }
+    
+    /* Hero Section */
+    .hero-section-img {
+      min-height: 350px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(#00000080, #00000080), 
+                  url('https://www.sdsmasala.com/cdn/shop/files/cta-bg03-wp_1512x.webp?v=1715152534') no-repeat center center;
+      background-size: cover;
+      color: white;
+      overflow: hidden;
+      background-attachment: fixed; 
+      box-shadow: inset 0 -5px 8px 0 #000;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero-title {
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      color: #ff9933;
+    }
+    
+    .hero-subtitle {
+      font-weight: 300;
+      opacity: 0.9;
+      max-width: 750px;
+    }
+    
+    
+    /* Contact Cards */
+    .contact-card {
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: white;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+    
+    /* Contact Info */
+    .contact-icon {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin-right: 15px;
+      width: 48px;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(67, 97, 238, 0.1);
+      border-radius: 12px;
+    }
+    
+    .section-title {
+      position: relative;
+      margin-bottom: 2rem;
+      color: black;
+      font-weight: 600;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      border-radius: 3px;
+    }
+    
+    /* Buttons */
+    .btn-whatsapp {
+      background-color: var(--whatsapp-color);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s;
+      border: none;
+    }
+    
+    .btn-whatsapp:hover {
+      background-color: #128C7E;
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--accent-color);
+    }
+    
+    /* Form Elements */
+    .form-control, .form-select {
+      border-radius: 8px;
+      padding: 12px 15px;
+      border: 1px solid #ff9933;
+      transition: all 0.3s;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.15rem #ff9933;
+    }
+    
+    /* Map */
+    .map-container {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e0e0e0;
+    }
+    
+    /* Contact Info Items */
+    .contact-info-item {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      transition: transform 0.3s;
+    }
+    
+    .contact-info-item:hover {
+      transform: translateX(5px);
+    }
+    
+    .contact-info-text h5 {
+      font-weight: 600;
+      color: black;
+    }
+    
+    /* Footer */
+    .footer {
+      background-color: black;
+      color: white;
+      padding: 3rem 0;
+    }
+    
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      margin-right: 10px;
+      transition: all 0.3s;
+    }
+    
+    .social-icon:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero-section {
+        height: 50vh;
+        min-height: 300px;
+      }
+      
+      .hero-title {
+        font-size: 2.2rem !important;
+      }
+      
+      .contact-card {
+        padding: 1.5rem !important;
+      }
+    }
