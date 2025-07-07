@@ -376,3 +376,62 @@
       });
     });
 
+
+        // Smooth scroll for the scroll down button
+    document.querySelector('.scroll-down').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelector('.contact-section').scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+    
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const form = e.target;
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+
+
+
+       // Function to show toast notification
+    function showToast(message) {
+      const toast = document.getElementById('actionToast');
+      const toastMessage = document.getElementById('toastMessage');
+      
+      toastMessage.textContent = message;
+      toast.style.display = 'block';
+      
+      // Auto hide after 3 seconds
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
+    
+    // Function to close toast
+    function closeToast() {
+      document.getElementById('actionToast').style.display = 'none';
+    }
+    
+    // Form submission handler
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      showToast('Your enquiry has been submitted successfully!');
+      this.reset();
+    });
+    
+    // Add hover effect to contact items
+    const contactItems = document.querySelectorAll('.contact-item');
+    contactItems.forEach(item => {
+      item.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateX(5px)';
+      });
+      item.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateX(0)';
+      });
+    });
+
+
