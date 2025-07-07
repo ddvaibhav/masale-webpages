@@ -129,7 +129,6 @@
     /* Hero Carousel */
     .hero-container {
       max-width: 1500px;  
-      border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 15px 35px var(--spice-shadow);
       position: relative;
@@ -239,11 +238,10 @@
     
     .carousel-indicators {
       position: absolute;
-      bottom: 20px;
-      left: 50%;
+      left: 35%;
       transform: translateX(-50%);
       display: flex;
-      gap: 10px;
+      gap: 15px;
       z-index: 5;
     }
     
@@ -576,7 +574,7 @@
     
     .category-card:hover {
       transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(255, 153, 51, 0.25);
+      box-shadow: 0 15px 30px rgba(255, 153, 51, 0.25);
     }
     
     .category-card img {
@@ -584,7 +582,7 @@
       height: 120px;
       object-fit: cover;
       border-radius: 50%;
-      border: 3px solid var(--turmeric-yellow);
+      border: 2px solid var(--turmeric-yellow);
       margin-bottom: 15px;
       transition: all 0.4s ease;
     }
