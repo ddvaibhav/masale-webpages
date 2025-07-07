@@ -17,6 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
       <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
   <body>
     <!-- Navbar Start -->
@@ -301,6 +302,302 @@
     </div>
 
     <!-- Navbar End -->
+
+     <!-- Spice Decorations -->
+  <div class="spice-decoration spice-1">🌶️</div>
+  <div class="spice-decoration spice-2">🧅</div>
+  <div class="spice-decoration spice-3">🧄</div>
+  <div class="spice-decoration spice-4">🍋</div>
+  
+  <!-- Hero Carousel - Fixed duplicate images -->
+  <div class="hero-container">
+    <div class="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://images.unsplash.com/photo-1590779033100-9f60a05a013d?q=80&w=1974&auto=format&fit=crop" alt="Garam Masala">
+          <div class="carousel-caption">
+            <h2>Authentic Homemade Masale</h2>
+          </div>
+          <div class="order-btn-container">
+            <button class="btn order-btn">Shop Now</button>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=1974&auto=format&fit=crop" alt="Spice Market">
+          <div class="carousel-caption">
+            <h2>Premium Quality Spices</h2>
+          </div>
+          <div class="order-btn-container">
+            <button class="btn order-btn">Shop Now</button>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=1974&auto=format&fit=crop" alt="Traditional Spices">
+          <div class="carousel-caption">
+            <h2>Traditional Recipes</h2>
+          </div>
+          <div class="order-btn-container">
+            <button class="btn order-btn">Shop Now</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="carousel-controls">
+        <button class="carousel-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+        <button class="carousel-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      
+      <div class="carousel-indicators">
+        <div class="indicator active"></div>
+        <div class="indicator"></div>
+        <div class="indicator"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Products Section -->
+  <div class="section-title">
+    <h1>Our Top Selling Products</h1>
+  </div>
+  
+  <div class="slider-container">
+    <button class="nav-btn nav-left"><i class="fas fa-chevron-left"></i></button>
+
+    <div class="slider-wrapper" id="sliderWrapper">
+      <!-- Product 1 -->
+      <div class="product-card">
+        <div class="flip-container">
+          <div class="flipper">
+            <div class="front">
+              <img src="https://m.media-amazon.com/images/I/81aN-UDQL2L.jpg" alt="Meat Masala">
+            </div>
+            <div class="back">
+              <img src="https://m.media-amazon.com/images/I/81wbHxQXdML._UF1000,1000_QL80_.jpg" alt="Meat Masala Back">
+            </div>
+          </div>
+        </div>
+        <div class="product-content">
+          <h5>Meat Masala</h5>
+          <p class="price">₹199</p>
+          <p class="desc">Bold & spicy for non-veg curries</p>
+          <div class="quantity-selector">
+            <label for="meatMasalaSelect" class="form-label fw-medium">Choose Quantity:</label>
+            <select class="form-select" id="meatMasalaSelect">
+              <option>100 gm - ₹190.00</option>
+              <option selected>250 gm - ₹370.00</option>
+              <option>500 gm - ₹850.00</option>
+              <option>1 kg - ₹1650.00</option>
+            </select>
+          </div>
+          <button class="buy-btn">Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 2 -->
+      <div class="product-card">
+        <div class="flip-container">
+          <div class="flipper">
+            <div class="front">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX8YwTauy5liUalT3UPc4LuVdLvY1io1jZdQ&s" alt="Garam Masala">
+            </div>
+            <div class="back">
+              <img src="https://m.media-amazon.com/images/I/81wbHxQXdML._UF1000,1000_QL80_.jpg" alt="Garam Masala Back">
+            </div>
+          </div>
+        </div>
+        <div class="product-content">
+          <h5>Garam Masala</h5>
+          <p class="price">₹249</p>
+          <p class="desc">Aromatic blend for everyday cooking</p>
+          <div class="quantity-selector">
+            <label for="garamMasalaSelect" class="form-label fw-medium">Choose Quantity:</label>
+            <select class="form-select" id="garamMasalaSelect">
+              <option>100 gm - ₹220.00</option>
+              <option selected>250 gm - ₹420.00</option>
+              <option>500 gm - ₹800.00</option>
+              <option>1 kg - ₹1500.00</option>
+            </select>
+          </div>
+          <button class="buy-btn">Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 3 -->
+      <div class="product-card">
+        <div class="flip-container">
+          <div class="flipper">
+            <div class="front">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuSn6b9TQcoTU0u1MuJe0kk3Izwy_3B77NvQ&s" alt="Kitchen King">
+            </div>
+            <div class="back">
+              <img src="https://m.media-amazon.com/images/I/81wbHxQXdML._UF1000,1000_QL80_.jpg" alt="Kitchen King Back">
+            </div>
+          </div>
+        </div>
+        <div class="product-content">
+          <h5>Kitchen King</h5>
+          <p class="price">₹299</p>
+          <p class="desc">Perfect for mixed sabzi & gravies</p>
+          <div class="quantity-selector">
+            <label for="kitchenKingSelect" class="form-label fw-medium">Choose Quantity:</label>
+            <select class="form-select" id="kitchenKingSelect">
+              <option>100 gm - ₹250.00</option>
+              <option selected>250 gm - ₹450.00</option>
+              <option>500 gm - ₹850.00</option>
+              <option>1 kg - ₹1600.00</option>
+            </select>
+          </div>
+          <button class="buy-btn">Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 4 -->
+      <div class="product-card">
+        <div class="flip-container">
+          <div class="flipper">
+            <div class="front">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUCPN11FZhdLRfx-fxEfZ3sODfuTXGMPFoUw&s" alt="Chaat Masala">
+            </div>
+            <div class="back">
+              <img src="https://m.media-amazon.com/images/I/81wbHxQXdML._UF1000,1000_QL80_.jpg" alt="Chaat Masala Back">
+            </div>
+          </div>
+        </div>
+        <div class="product-content">
+          <h5>Chaat Masala</h5>
+          <p class="price">₹150</p>
+          <p class="desc">Tangy and zesty for snacks & fruits</p>
+          <div class="quantity-selector">
+            <label for="chaatMasalaSelect" class="form-label fw-medium">Choose Quantity:</label>
+            <select class="form-select" id="chaatMasalaSelect">
+              <option>100 gm - ₹140.00</option>
+              <option selected>250 gm - ₹270.00</option>
+              <option>500 gm - ₹500.00</option>
+              <option>1 kg - ₹950.00</option>
+            </select>
+          </div>
+          <button class="buy-btn">Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 5 -->
+      <div class="product-card">
+        <div class="flip-container">
+          <div class="flipper">
+            <div class="front">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4AEgkogU92bEiX-flsiFhcrx6EWX8-B5OvA&s" alt="Biryani Mix">
+            </div>
+            <div class="back">
+              <img src="https://m.media-amazon.com/images/I/81wbHxQXdML._UF1000,1000_QL80_.jpg" alt="Biryani Mix Back">
+            </div>
+          </div>
+        </div>
+        <div class="product-content">
+          <h5>Biryani Mix</h5>
+          <p class="price">₹250</p>
+          <p class="desc">Fragrant spice blend for biryanis</p>
+          <div class="quantity-selector">
+            <label for="biryaniMixSelect" class="form-label fw-medium">Choose Quantity:</label>
+            <select class="form-select" id="biryaniMixSelect">
+              <option>100 gm - ₹230.00</option>
+              <option selected>250 gm - ₹440.00</option>
+              <option>500 gm - ₹850.00</option>
+              <option>1 kg - ₹1650.00</option>
+            </select>
+          </div>
+          <button class="buy-btn">Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 6 -->
+      <div class="product-card">
+        <div class="flip-container">
+          <div class="flipper">
+            <div class="front">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPxs5ZyRAUguXu0WnPxcZfs-FLhhwoVlriGw&s" alt="Premium Meat Masala">
+            </div>
+            <div class="back">
+              <img src="https://m.media-amazon.com/images/I/81rr18LOHjL._UF1000,1000_QL80_.jpg" alt="Premium Meat Masala Back">
+            </div>
+          </div>
+        </div>
+        <div class="product-content">
+          <h5>Premium Meat Masala</h5>
+          <p class="price">₹350</p>
+          <p class="desc">Authentic and homemade masala</p>
+          <div class="quantity-selector">
+            <label for="premiumMeatSelect" class="form-label fw-medium">Choose Quantity:</label>
+            <select class="form-select" id="premiumMeatSelect">
+              <option>100 gm - ₹300.00</option>
+              <option selected>250 gm - ₹570.00</option>
+              <option>500 gm - ₹1100.00</option>
+              <option>1 kg - ₹2100.00</option>
+            </select>
+          </div>
+          <button class="buy-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="nav-btn nav-right"><i class="fas fa-chevron-right"></i></button>
+  </div>
+  
+  <!-- Categories Section -->
+  <div class="section-title">
+    <h1>Shop By Categories</h1>
+  </div>
+  
+  <div class="categories-container">
+    <button class="nav-btn1 nav-left1"><i class="fas fa-chevron-left"></i></button>
+    
+    <div class="categories-wrapper" id="categoriesWrapper">
+      <!-- Dry Masala -->
+      <div class="category-card">
+        <img src="https://i.pinimg.com/236x/f8/27/40/f8274041dc17291db8f1620367055060.jpg" alt="Dry Masala">
+        <h5>Dry Masala</h5>
+      </div>
+
+      <div class="category-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOVx7jCtyjzzRehYTo2bv86rsMX4V6iW0C9A&s" alt="Dry Masala">
+        <h5>Dry Masala</h5>
+      </div>
+
+      <!-- Blends -->
+      <div class="category-card">
+        <img src="https://keralaspicecart.com/wp-content/uploads/2020/10/biryani-masala-keralaspicecart-300x300.jpg" alt="Blends">
+        <h5>Blends</h5>
+      </div>
+
+      <div class="category-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1krzVdylIqr_YTVJ_RsqjWpPCjYhR-EqIK-n5INMRWHB0oK6jMgqHa4ovcT3CDCIZXA0&usqp=CAU" alt="Dry Masala">
+        <h5>Dry Masala</h5>
+      </div>
+
+      <!-- Pickles -->
+      <div class="category-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiSBlOPFpD8w3LST6UX4FTLNXP4HBDQ-w46g&s" alt="Pickles">
+        <h5>Pickles</h5>
+      </div>
+
+      <!-- Spice Powder -->
+      <div class="category-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqwjIfHXhRTchU7lEvTbtYwZFM7XW441CM7w&s" alt="Spice Powder">
+        <h5>Spice Powder</h5>
+      </div>
+      
+      <div class="category-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrfrwzhVZwI3lNGVDaIL5XPbkLcehf5nL-3Q&s" alt="Pickles">
+        <h5>Pickles</h5>
+      </div>
+      
+      <div class="category-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUJg40IrP0dK71J4QCNKGsUXSxzs12dQuaLg&s" alt="Spice Powder">
+        <h5>Spice Powder</h5>
+      </div>
+    </div>
+    
+    <button class="nav-btn1 nav-right1"><i class="fas fa-chevron-right"></i></button>
+  </div>
      
 
     <!-- Why Choose Us Section -->
@@ -877,10 +1174,10 @@
         </div>
 
         <div class="carousel-nav">
-          <button class="nav-btn" onclick="scrollCarousel(-1)">
+          <button class="nav-btn-3" onclick="scrollCarousel(-1)">
             <i class="fas fa-chevron-left"></i>
           </button>
-          <button class="nav-btn" onclick="scrollCarousel(1)">
+          <button class="nav-btn-3" onclick="scrollCarousel(1)">
             <i class="fas fa-chevron-right"></i>
           </button>
         </div>

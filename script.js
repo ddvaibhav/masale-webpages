@@ -241,3 +241,138 @@
     };
 
 
+    
+    // Carousel functionality
+    const carouselInner = document.querySelector('.carousel-inner');
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const indicators = document.querySelectorAll('.indicator');
+    
+    let currentIndex = 0;
+    const itemCount = carouselItems.length;
+    
+    function updateCarousel() {
+      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+      
+      // Update indicators
+      indicators.forEach((indicator, index) => {
+        indicator.classList.toggle('active', index === currentIndex);
+      });
+    }
+    
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % itemCount;
+      updateCarousel();
+    }
+    
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + itemCount) % itemCount;
+      updateCarousel();
+    }
+    
+    // Auto slide
+    let autoSlide = setInterval(nextSlide, 5000);
+    
+    // Reset auto slide on interaction
+    function resetAutoSlide() {
+      clearInterval(autoSlide);
+      autoSlide = setInterval(nextSlide, 5000);
+    }
+    
+    // Event listeners
+    prevBtn.addEventListener('click', () => {
+      prevSlide();
+      resetAutoSlide();
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      nextSlide();
+      resetAutoSlide();
+    });
+    
+    // Indicator click
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        currentIndex = index;
+        updateCarousel();
+        resetAutoSlide();
+      });
+    });
+    
+    // Product slider navigation
+    const sliderWrapper = document.getElementById('sliderWrapper');
+    const productCardWidth = 280 + 25; // Card width + gap
+    
+    document.querySelector('.nav-left').addEventListener('click', () => {
+      sliderWrapper.scrollBy({
+        left: -productCardWidth,
+        behavior: 'smooth'
+      });
+    });
+    
+    document.querySelector('.nav-right').addEventListener('click', () => {
+      sliderWrapper.scrollBy({
+        left: productCardWidth,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Categories slider navigation
+    const categoriesWrapper = document.getElementById('categoriesWrapper');
+    const categoryCardWidth = 200 + 25; // Card width + gap
+    
+    document.querySelector('.nav-left1').addEventListener('click', () => {
+      categoriesWrapper.scrollBy({
+        left: -categoryCardWidth,
+        behavior: 'smooth'
+      });
+    });
+    
+    document.querySelector('.nav-right1').addEventListener('click', () => {
+      categoriesWrapper.scrollBy({
+        left: categoryCardWidth,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Add to cart functionality
+    document.querySelectorAll('.buy-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const card = this.closest('.product-card');
+        const productName = card.querySelector('h5').textContent;
+        const quantitySelect = card.querySelector('.form-select');
+        const selectedOption = quantitySelect.options[quantitySelect.selectedIndex].text;
+        
+        // Show notification
+        const notification = document.createElement('div');
+        notification.textContent = `Added ${selectedOption} of ${productName} to cart!`;
+        notification.style.position = 'fixed';
+        notification.style.bottom = '20px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = 'var(--saffron-orange)';
+        notification.style.color = 'white';
+        notification.style.padding = '15px 25px';
+        notification.style.borderRadius = '10px';
+        notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+        notification.style.zIndex = '1000';
+        notification.style.transition = 'transform 0.3s ease';
+        notification.style.transform = 'translateY(100px)';
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+          notification.style.transform = 'translateY(0)';
+        }, 10);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+          notification.style.transform = 'translateY(100px)';
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 300);
+        }, 3000);
+      });
+    });
+
