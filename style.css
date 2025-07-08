@@ -1469,7 +1469,7 @@
         text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       }
 
-      .hero-subtitle {
+      .hero-subtitle-spice {
         font-size: 1.8rem;
         margin-bottom: 3rem;
         font-weight: 400;
@@ -2251,7 +2251,7 @@
       color: #ff9933;
     }
     
-    .hero-subtitle {
+    .hero-subtitle-header {
       font-weight: 300;
       opacity: 0.9;
       max-width: 750px;
