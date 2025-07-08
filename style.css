@@ -1,3 +1,8 @@
+body{
+  background-color: #f8f4e6;
+}
+
+
 /* Navbar animation */
 
         .navbar {
@@ -696,29 +701,6 @@
         font-size: 1.8rem;
       }
       
-      /* .button{
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: linear-gradient(135deg, var(--saffron-orange), var(--turmeric-yellow));
-        color: white;
-        border: none;
-        font-size: 24px;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        cursor: pointer;
-        z-index: 3;
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 20px rgba(255, 153, 51, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      } */
-      
       .nav-left, .nav-left1 {
         left: 5px;
       }
@@ -1052,20 +1034,78 @@
         font-weight: bold;
         text-align: center;
         }
+        .recipe-card {
+      background: white;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      transition: box-shadow 0.3s ease;
+    }
 
-        .recipe-image {
-        max-width:80%;
-        height: auto;
-        border-radius: 10px;
-        object-fit: cover;
-        }
+    .recipe-card:hover {
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
 
-        .fun-fact-item {
-        display: flex;
-        align-items: flex-start;
-        font-size: 1rem;
-        color: #333;
-        }
+    .recipe-image {
+      width: 100%;
+      height: 12rem;
+      object-fit: cover;
+    }
+
+    .recipe-image:hover  {
+      transform: scale(1.1);
+    }
+
+    .recipe-content {
+      padding: 1.5rem;
+    }
+
+    .recipe-title {
+      font-size: 50px;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .recipe-desc {
+      color: #6c757d;
+      margin-bottom: 1rem;
+    }
+
+    .recipe-btn {
+      background: linear-gradient(135deg, var(--saffron-orange), var(--turmeric-yellow));
+      color: white;
+      padding: 0.5rem 1.25rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .recipe-btn:hover {
+      background-color: #ffd8a8;
+    }
+
+    .viewrecipe-btn{
+      padding: 12px;
+      background: linear-gradient(135deg, var(--saffron-orange), var(--turmeric-yellow));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 153, 51, 0.3);
+    }
+    .viewrecipe-btn:hover {
+      background-color: #FFC72C;
+    }
+
+  
+
+
         /* Category  */
 
 
