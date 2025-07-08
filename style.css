@@ -1092,27 +1092,6 @@
             margin-bottom: 15px;
         }
 
-        h1 {
-            font-size: 2.8rem;
-            color: #5c3d0d;
-            margin-bottom: 10px;
-            position: relative;
-            display: inline-block;
-            font-weight: 700;
-        }
-
-        h1::after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 4px;
-            background: linear-gradient(to right, #FF9933, #FFC72C, #FF9933);
-            border-radius: 2px;
-        }
-
         .subtitle {
             font-size: 1.2rem;
             color: #7f5a2b;
