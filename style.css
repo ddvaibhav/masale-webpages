@@ -2080,10 +2080,6 @@
       --green-stock: #0a8f08;
     }
 
-    /* body {
-      background-color: var(--off-white);
-      font-family: 'Poppins', sans-serif;
-    } */
 
     .filter-title {
       font-weight: 600;
@@ -2257,6 +2253,8 @@
       max-width: 750px;
     }
     
+
+    /* Contact Us page */
     
     /* Contact Cards */
     .contact-card {
