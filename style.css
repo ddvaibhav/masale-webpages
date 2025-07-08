@@ -2,7 +2,6 @@ body{
   background-color: #f8f4e6;
 }
 
-
 /* Navbar animation */
 
         .navbar {
@@ -846,13 +845,14 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: start;
-  box-shadow: 0 0 35px rgba(0, 0, 0, 0.2);
+
 }
 
 .feature-bx:hover {
   transform: translateY(-10px);
  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
   background-color: #fdfdfd;
+  box-shadow: 0 0 15px #ff9933;
 }
 
 .feature-bx h4 {
@@ -870,7 +870,6 @@ body{
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px;
-       background-color: var(--bg-color);
 
         }
         
