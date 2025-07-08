@@ -1,0 +1,79 @@
+<!-- 📁 views/admin/all_orders.ejs -->
+
+
+<div class="d-flex" id="wrapper">
+
+  <!-- Sidebar -->
+  <%- include("sidebar") %>
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper" class="w-100">
+
+
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">All Orders</h2>
+        <button onclick="window.print()" class="btn btn-primary no-print">🖨️ Print</button>
+      </div>
+
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Customer</th>
+            <th>Mobile</th>
+            <th>Address</th>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (orders.length === 0) { %>
+            <tr><td colspan="11" class="text-center">No Orders Found</td></tr>
+          <% } else { %>
+            <% orders.forEach(function(order, i) { %>
+              <tr>
+                <td><%= i + 1 %></td>
+                <td><%= order.customer_name %></td>
+                <td><%= order.mobile %></td>
+                <td><%= order.address %></td>
+                <td><%= order.product_name %></td>
+                <td><%= order.quantity %></td>
+                <td>₹<%= order.price %></td>
+                <td>₹<%= order.total %></td>
+                <td><%= order.payment_method %></td>
+                <td>
+                  <span class="badge bg-<%= order.status === 'Completed' ? 'success' : order.status === 'Shipped' ? 'warning' : 'secondary' %>">
+                    <%= order.status %>
+                  </span>
+                </td>
+                <td><%= order.order_date.toLocaleString() %></td>
+              </tr>
+            <% }); %>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+  @media print {
+    .no-print, .sidebar, .topbar, #sidebarToggle {
+      display: none !important;
+    }
+    #page-content-wrapper {
+      margin-left: 0 !important;
+      width: 100% !important;
+    }
+  }
+</style>
+
+
