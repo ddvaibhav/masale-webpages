@@ -1,0 +1,80 @@
+
+  <style>
+    .main-content {
+      margin-left: 250px;
+      padding: 30px;
+    }
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+      }
+    }
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+    .table thead {
+      background-color: #f1f1f1;
+    }
+    .btn-add {
+      background-color: #3f37c9;
+      color: #fff;
+    }
+  </style>
+
+
+  <!-- Sidebar -->
+  <%- include("sidebar") %>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="page-header">
+      <h2><i class="bi bi-people me-2"></i> Users</h2>
+      <a href="/admin/add_user" class="btn btn-add"><i class="bi bi-plus-lg"></i> Add User</a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Gender</th>
+            <th>DOB</th>
+            <th>Address</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let i = 0; i < users.length; i++) { %>
+            <tr>
+              <td><%= i + 1 %></td>
+              <td><%= users[i].name %></td>
+              <td><%= users[i].email %></td>
+              <td><%= users[i].phone %></td>
+              <td><%= users[i].gender %></td>
+              <td><%= users[i].dob ? users[i].dob.toISOString().split("T")[0] : "N/A" %></td>
+              <td><%= users[i].address %></td>
+              <td>
+                <% if(users[i].status === 'Active') { %>
+                  <span class="badge bg-success">Active</span>
+                <% } else { %>
+                  <span class="badge bg-danger">Inactive</span>
+                <% } %>
+              </td>
+              <td>
+                <a href="/admin/edit_user/<%= users[i].id %>" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                <a href="/admin/delete_user/<%= users[i].id %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="bi bi-trash"></i></a>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>

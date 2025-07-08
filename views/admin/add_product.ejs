@@ -1,0 +1,104 @@
+<style>
+    .main-content {
+      margin-left: 250px;
+      padding: 30px;
+    }
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+      }
+    }
+    .form-control, .form-select {
+      margin-bottom: 15px;
+    }
+    .form-section {
+      background: #fff;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .btn-save {
+      background-color: #3f37c9;
+      color: #fff;
+    }
+  </style>
+
+
+  <!-- Sidebar -->
+  <%- include("sidebar") %>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h3 class="mb-4"><i class="bi bi-plus-circle me-2"></i>Add New Product</h3>
+
+    <form action="/admin/add_products" method="POST" enctype="multipart/form-data" class="form-section">
+      <div class="row">
+        <div class="col-md-6">
+          <label>Product Name</label>
+          <input type="text" name="name" class="form-control" required>
+
+          <label>Product Code / SKU</label>
+          <input type="text" name="code" class="form-control" required>
+
+          <label>Category</label>
+          <input type="text" name="category" class="form-control" required>
+
+          <label>Subcategory</label>
+          <input type="text" name="subcategory" class="form-control">
+
+          <label>Brand</label>
+          <input type="text" name="brand" class="form-control">
+          
+          <label>Unit (ex: 500g, 1kg)</label>
+          <input type="text" name="unit" class="form-control" required>
+
+          <label>Stock Quantity</label>
+          <input type="number" name="stock" class="form-control" required>
+        </div>
+
+        <div class="col-md-6">
+          <label>Cost Price (₹)</label>
+          <input type="number" name="cost_price" step="0.01" class="form-control" required>
+
+          <label>Selling Price (₹)</label>
+          <input type="number" name="selling_price" step="0.01" class="form-control" required>
+
+          <label>Discount (%)</label>
+          <input type="number" name="discount" class="form-control" value="0">
+
+          <label>GST (%)</label>
+          <input type="number" name="gst" class="form-control" value="5">
+
+          <label>Expiry Date</label>
+          <input type="date" name="expiry" class="form-control">
+
+          <label>Status</label>
+          <select name="status" class="form-select">
+            <option value="Active" selected>Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+
+          <label>Featured</label>
+          <select name="featured" class="form-select">
+            <option value="No" selected>No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Short Description</label>
+      <textarea name="short_desc" class="form-control" rows="2" required></textarea>
+
+      <label>Long Description</label>
+      <textarea name="long_desc" class="form-control" rows="4"></textarea>
+
+      <label>Product Image frant</label>
+      <input type="file" name="image1" accept="image/*" class="form-control" required>
+
+       <label>Product Image back</label>
+      <input type="file" name="image2" accept="image/*" class="form-control" required>
+
+      <button type="submit" class="btn btn-save mt-3"><i class="bi bi-check-circle me-1"></i>Save Product</button>
+    </form>
+  </div>
