@@ -1,537 +1,805 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recipe Video Slider</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- Animate.css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-
-  <style>
-    :root {
-      --turmeric-yellow: #FFC72C;
-      --saffron-orange: #FF9933;
-      --off-white: #FAF9F6;
-      --dark-brown: #3A2618;
-      --warm-beige: #f0e6d2;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Poppins', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      position: relative;
-      overflow-x: hidden;
-      background-color: var(--off-white); 
-    }
-    
-    
-    .background-layer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 10% 20%, rgba(255, 199, 44, 0.12) 0%, transparent 20%),
-                  radial-gradient(circle at 90% 80%, rgba(255, 153, 51, 0.12) 0%, transparent 20%);
-      z-index: 0;
-    }
-    
-    .container {
-      max-width: 1200px;
-      width: 100%;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .slider-container {
-      position: relative;
-      padding: 40px 0;
-      border-radius: 20px;
-    }
-    
-    .section-title {
-      text-align: center;
-      margin-bottom: 40px;
-      position: relative;
-      padding: 0 20px;
-    }
-    
-    .section-title h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--dark-brown);
-      margin: 0;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      position: relative;
-      display: inline-block;
-      padding-bottom: 15px;
-    }
-    
-    .section-title h1::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--saffron-orange), var(--turmeric-yellow));
-      border-radius: 2px;
-    }
-    
-    .slider-wrapper {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding: 10px 0;
-    }
-    
-    .slider-wrapper::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .card {
-      position: relative;
-      flex: 0 0 auto;
-      width: 250px;
-      height: 400px;
-      margin: 0 15px;
-      background: white;
-      border-radius: 20px;
-      scroll-snap-align: start;
-      overflow: hidden;
-      box-shadow: 0 12px 25px rgba(58, 38, 24, 0.25);
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                 box-shadow 0.4s ease;
-      transform-origin: center;
-      border: 3px solid transparent;
-    }
-    
-    .card:hover {
-      transform: translateY(-15px) scale(1.03);
-      /* box-shadow: 0 20px 40px rgba(255, 153, 51, 0.45); */
-      border-color: rgba(255, 153, 51, 0.4);
-    }
-    
-    .video-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      border-radius: 20px;
-    }
-    
-    .card video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.8s ease;
-    }
-    
-    .card:hover video {
-      transform: scale(1.08);
-    }
-    
-    .play-icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 30px;
-      color: white;
-      background: linear-gradient(135deg, var(--saffron-orange), var(--turmeric-yellow));
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      transition: all 0.4s ease;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-      border: 3px solid white;
-      opacity: 0.9;
-    }
-    
-    .card:hover .play-icon {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(1.2);
-    }
-    
-    .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: linear-gradient(135deg, var(--saffron-orange), var(--turmeric-yellow));
-      color: white;
-      border: none;
-      font-size: 24px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 3;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 20px rgba(255, 153, 51, 0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .nav-btn:hover {
-      transform: translateY(-50%) scale(1.12);
-      box-shadow: 0 10px 25px rgba(255, 153, 51, 0.6);
-    }
-    
-    .nav-left { 
-      left: -30px; 
-    }
-    
-    .nav-right { 
-      right: -30px; 
-    }
-    
-    .slider-indicators {
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;
-      gap: 10px;
-    }
-    
-    .indicator {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background-color: #d0c0a0;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .indicator.active {
-      background: linear-gradient(135deg, var(--saffron-orange), var(--turmeric-yellow));
-      transform: scale(1.3);
-    }
-    
-    .spice-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
-    }
-    
-    .spice-element {
-      position: absolute;
-      font-size: 4rem;
-      opacity: 0.1;
-      animation: float 8s infinite ease-in-out;
-    }
-    
-    .spice-1 { 
-      top: 10%; 
-      left: 5%; 
-      color: var(--saffron-orange);
-      animation-delay: 0s;
-    }
-    
-    .spice-2 { 
-      top: 20%; 
-      right: 8%; 
-      color: var(--turmeric-yellow);
-      animation-delay: 1s;
-    }
-    
-    .spice-3 { 
-      bottom: 15%; 
-      left: 12%; 
-      color: var(--saffron-orange);
-      animation-delay: 2s;
-    }
-    
-    .spice-4 { 
-      bottom: 25%; 
-      right: 15%; 
-      color: var(--turmeric-yellow);
-      animation-delay: 3s;
-    }
-    
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-25px) rotate(10deg);
-      }
-    }
-    
-    /* Mobile-specific styles */
-    @media (max-width: 768px) {
-      .slider-wrapper {
-        scroll-snap-type: x mandatory;
-        scroll-padding: 0 30px;
-      }
-      
-      .card {
-        width: calc(100vw - 60px);
-        scroll-snap-align: center;
-        margin: 0 30px;
-      }
-      
-      .nav-left {
-        left: 10px;
-      }
-      
-      .nav-right {
-        right: 10px;
-      }
-      
-      .section-title h1 {
-        font-size: 2.2rem;
-      }
-      
-      .card {
-        height: 380px;
-      }
-      
-      .nav-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-      }
-    }
-    
-    @media (max-width: 600px) {
-      .card {
-        width: calc(100vw - 40px);
-        margin: 0 20px;
-        height: 360px;
-      }
-      
-      .section-title h1 {
-        font-size: 1.8rem;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .card {
-        width: calc(100vw - 30px);
-        margin: 0 15px;
-        height: 340px;
-      }
-      
-      .nav-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-      }
-      
-      .section-title h1 {
-        font-size: 1.6rem;
-      }
-      
-      .section-title h1::after {
-        width: 80px;
-        height: 3px;
-      }
-    }
-  </style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Organic Masale</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Playfair+Display:wght@700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+      <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="See how our organic spices are carefully crafted from farm to kitchen">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f9f5e9;
+            color: #4a2c1d;
+            line-height: 1.6;
+        }
+        
+        .production-gallery {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Gallery Navigation */
+        .production-gallery__nav {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .production-gallery__nav-btn {
+            background: #f8f4e6;
+            border: 2px solid #d35400;
+            color: #6b4228;
+            padding: 12px 25px;
+            margin: 5px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .production-gallery__nav-btn--active, 
+        .production-gallery__nav-btn:hover {
+            background: #d35400;
+            color: #f8f4e6;
+        }
+        
+        /* Gallery Grid */
+        .production-gallery__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .production-gallery__item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(106, 67, 40, 0.15);
+            cursor: pointer;
+            height: 400px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+            background-size: cover;
+        }
+        
+        .production-gallery__item-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .production-gallery__item:hover {
+            transform: translateY(-8px);
+        }
+        
+        .production-gallery__item:hover .production-gallery__item-image {
+            transform: scale(1.1);
+        }
+        
+        .production-gallery__item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(74, 44, 29, 0.85);
+            padding: 20px;
+            color: #fff;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+        
+        .production-gallery__item:hover .production-gallery__item-overlay {
+            transform: translateY(0);
+        }
+        
+        .production-gallery__item-title {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .production-gallery__item-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .production-gallery__category-label {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff9933;
+            color: #4a2c1d;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        /* Gallery Info */
+        .production-gallery__info {
+            text-align: center;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+        }
+        
+        .production-gallery__info-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #6b4228;
+            margin-bottom: 20px;
+        }
+        
+        .production-gallery__info-text {
+            font-size: 1.1rem;
+            color: #7d5d3b;
+            margin-bottom: 25px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .production-gallery__grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .production-gallery__title {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .production-gallery__grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .production-gallery__title {
+                font-size: 2.3rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Background layer instead of body background -->
-  <div class="background-layer"></div>
-  
-  <!-- Spice overlay -->
-  <div class="spice-overlay">
-    <div class="spice-element spice-1">🌶️</div>
-    <div class="spice-element spice-2">🧅</div>
-    <div class="spice-element spice-3">🧄</div>
-    <div class="spice-element spice-4">🍋</div>
-  </div>
-  
-  <div class="container">
-    <div class="slider-container">
-      <div class="section-title">
-        <h2>Gallery</h2>
-      </div>
-    
-      <button class="nav-btn nav-left" onclick="scrollSlider(-1)">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      
-      <div class="slider-wrapper" id="sliderWrapper">
-        <!-- Card 1 -->
-        <div class="card" onmouseenter="playVideo(this)" onmouseleave="pauseVideo(this)">
-          <div class="video-container">
-            <video muted loop playsinline preload="metadata">
-              <source src="https://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
-            </video>
-            <div class="play-icon">
-              <i class="fas fa-play"></i>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Card 2 -->
-        <div class="card" onmouseenter="playVideo(this)" onmouseleave="pauseVideo(this)">
-          <div class="video-container">
-            <video muted loop playsinline preload="metadata">
-              <source src="https://media.w3.org/2010/05/bunny/movie.mp4" type="video/mp4">
-            </video>
-            <div class="play-icon">
-              <i class="fas fa-play"></i>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Card 3 -->
-        <div class="card" onmouseenter="playVideo(this)" onmouseleave="pauseVideo(this)">
-          <div class="video-container">
-            <video muted loop playsinline preload="metadata">
-              <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-            </video>
-            <div class="play-icon">
-              <i class="fas fa-play"></i>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Card 4 -->
-        <div class="card" onmouseenter="playVideo(this)" onmouseleave="pauseVideo(this)">
-          <div class="video-container">
-            <video muted loop playsinline preload="metadata">
-              <source src="https://media.w3.org/2010/05/video/movie_300.mp4" type="video/mp4">
-            </video>
-            <div class="play-icon">
-              <i class="fas fa-play"></i>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Card 5 -->
-        <div class="card" onmouseenter="playVideo(this)" onmouseleave="pauseVideo(this)">
-          <div class="video-container">
-            <video muted loop playsinline preload="metadata">
-              <source src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4" type="video/mp4">
-            </video>
-            <div class="play-icon">
-              <i class="fas fa-play"></i>
-            </div>
+
+     <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="img/masala_logo.png" alt="Organic Masale Logo" />
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="product.html">Product</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="gallery.html">Gallery</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Recipes.html">Recipes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="enquiry.html">Enquiry</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact_us.html">Contact Us</a>
+            </li>
+          </ul>
+
+          <div class="d-flex align-items-center gap-1">
+            <button
+              class="btn btn-login px-4 py-2 fw-semibold"
+              data-bs-toggle="modal"
+              data-bs-target="#loginModal"
+            >
+              <i class="bi bi-box-arrow-in-right me-2"></i> Login
+            </button>
+            <button
+              class="btn btn-signup px-4 py-2 fw-semibold"
+              data-bs-toggle="modal"
+              data-bs-target="#signupModal"
+            >
+              <i class="bi bi-person-plus me-2"></i> Sign Up
+            </button>
           </div>
         </div>
       </div>
-      
-      <button class="nav-btn nav-right" onclick="scrollSlider(1)">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-      
-      <div class="slider-indicators" id="sliderIndicators">
-        <!-- Indicators will be generated by JavaScript -->
+    </nav>
+
+    <!-- Login Modal -->
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content border-0 shadow-lg">
+          <div class="modal-header border-0 pb-0">
+            <div class="w-100 text-center">
+              <h3 class="modal-title fw-bold text-dark mb-2">Welcome Back</h3>
+              <p class="text-muted small">Sign in to access your account</p>
+            </div>
+            <button
+              type="button"
+              class="btn-close position-absolute end-0 me-3"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 py-4">
+            <form>
+              <div class="mb-3">
+                <label
+                  for="loginEmail"
+                  class="form-label small text-uppercase text-muted fw-bold"
+                  >Email Address</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="bi bi-envelope"></i
+                  ></span>
+                  <input
+                    type="email"
+                    class="form-control border-start-0 ps-1"
+                    id="loginEmail"
+                    placeholder="Enter Your Email"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="mb-4">
+                <label
+                  for="loginPassword"
+                  class="form-label small text-uppercase text-muted fw-bold"
+                  >Password</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="bi bi-lock text-muted"></i
+                  ></span>
+                  <input
+                    type="password"
+                    class="form-control border-start-0 ps-1"
+                    id="loginPassword"
+                    placeholder="••••••••"
+                    required
+                  />
+                  <button
+                    class="btn btn-sm bg-transparent border"
+                    type="button"
+                    id="togglePassword"
+                  >
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-signup">Login</button>
+              </div>
+              <div class="d-flex justify-content-center align-items-center">
+                <a href="#" class="small text-decoration-none"
+                  >Forgot password?</a
+                >
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer border-0 justify-content-center pt-0">
+            <p class="small text-muted mb-0">
+              Don't have an account?
+              <a
+                href="#"
+                class="text-decoration-none fw-bold"
+                data-bs-toggle="modal"
+                data-bs-target="#signupModal"
+                data-bs-dismiss="modal"
+                >Sign up</a
+              >
+            </p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    const slider = document.getElementById("sliderWrapper");
-    const indicatorsContainer = document.getElementById("sliderIndicators");
-    const cards = document.querySelectorAll('.card');
-    let cardWidth = 350; // Default width + margin
-    
-    // Create indicators based on number of cards
-    cards.forEach((_, index) => {
-      const indicator = document.createElement('div');
-      indicator.className = 'indicator';
-      if(index === 0) indicator.classList.add('active');
-      indicator.addEventListener('click', () => {
-        scrollToCard(index);
-      });
-      indicatorsContainer.appendChild(indicator);
-    });
-    
-    // Function to calculate current card width
-    function calculateCardWidth() {
-      if (cards.length > 0) {
-        const card = cards[0];
-        const style = window.getComputedStyle(card);
-        const width = card.offsetWidth;
-        const margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
-        return width + margin;
-      }
-      return 350; // Default value
-    }
-    
-    // Update card width on resize
-    window.addEventListener('resize', () => {
-      cardWidth = calculateCardWidth();
-    });
-    
-    // Initialize card width
-    cardWidth = calculateCardWidth();
-    
-    function scrollSlider(direction) {
-      slider.scrollBy({
-        left: direction * cardWidth,
-        behavior: 'smooth'
-      });
-      
-      // Update indicators after a delay to allow scroll to complete
-      setTimeout(updateIndicators, 300);
-    }
-    
-    function scrollToCard(index) {
-      slider.scrollTo({
-        left: index * cardWidth,
-        behavior: 'smooth'
-      });
-      
-      // Update active indicator immediately
-      document.querySelectorAll('.indicator').forEach((ind, i) => {
-        ind.classList.toggle('active', i === index);
-      });
-    }
-    
-    function updateIndicators() {
-      const scrollPos = slider.scrollLeft;
-      const currentIndex = Math.round(scrollPos / cardWidth);
-      
-      document.querySelectorAll('.indicator').forEach((ind, index) => {
-        ind.classList.toggle('active', index === currentIndex);
-      });
-    }
-    
-    // Update indicators on scroll
-    slider.addEventListener('scroll', updateIndicators);
-    
-    function playVideo(card) {
-      const video = card.querySelector("video");
-      video.play();
-    }
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content border-0 shadow-lg">
+          <div class="modal-header border-0 pb-0">
+            <div class="w-100 text-center">
+              <h3 class="modal-title fw-bold text-dark mb-1">Create Account</h3>
+              <p class="text-muted small">Join our community today</p>
+            </div>
+            <button
+              type="button"
+              class="btn-close position-absolute end-0 me-3"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 py-4">
+            <form>
+              <div class="mb-3">
+                <label
+                  for="signupName"
+                  class="form-label small text-uppercase text-muted fw-bold"
+                  >Full Name</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent"
+                    ><i class="bi bi-person text-muted"></i
+                  ></span>
+                  <input
+                    type="text"
+                    class="form-control border-start-0 ps-1"
+                    id="signupName"
+                    placeholder="Enter Your Name"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label
+                  for="signupmobile"
+                  class="form-label small text-uppercase text-muted fw-bold"
+                  >Mobile Number</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent"
+                    ><i class="bi bi-telephone text-muted"> </i
+                  ></span>
+                  <input
+                    type="number"
+                    class="form-control border-start-0 ps-1"
+                    id="signupmobile"
+                    placeholder="Enter Your Mobile"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label
+                  for="signupEmail"
+                  class="form-label small text-uppercase text-muted fw-bold"
+                  >Email Address</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent"
+                    ><i class="bi bi-envelope text-muted"></i
+                  ></span>
+                  <input
+                    type="email"
+                    class="form-control border-start-0 ps-1"
+                    id="signupEmail"
+                    placeholder="Enter Your Email"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label
+                  for="signupPassword"
+                  class="form-label small text-uppercase text-muted fw-bold"
+                  >Password</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent"
+                    ><i class="bi bi-lock text-muted"></i
+                  ></span>
+                  <input
+                    type="password"
+                    class="form-control border-start-0 ps-1"
+                    id="signupPassword"
+                    placeholder="••••••••"
+                    required
+                  />
+                  <button
+                    class="btn btn-sm bg-transparent border"
+                    type="button"
+                    id="toggleSignupPassword"
+                  >
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+                <div class="form-text small">
+                  Minimum 8 characters with numbers
+                </div>
+              </div>
+              <div class="d-grid mb-3">
+                <button
+                  type="submit"
+                  class="btn btn-signup py-2 fw-bold rounded-3"
+                >
+                  <i class="bi bi-person-plus me-2"></i> Create Account
+                </button>
+              </div>
+            </form>
+            <p class="small text-muted mb-0 text-center">
+              Already have an account?
+              <a
+                href="#"
+                class="text-decoration-none fw-bold"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+                data-bs-dismiss="modal"
+                >Sign in</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    function pauseVideo(card) {
-      const video = card.querySelector("video");
-      video.pause();
-      video.currentTime = 0;
-    }
-  </script>
+  <!-- Navbar End -->
+
+
+  <!-- Hero Section -->
+  <section class="hero-section-img">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-8">
+          <h1 class="hero-title display-4 fw-bold mb-4 animate__animated animate__fadeInDown">Our Production Journey</h1>
+          <p class="hero-subtitle lead mb-5 animate__animated animate__fadeInUp animate__delay-1s">
+            From farm to your kitchen - see how we craft premium organic spices with care
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+    
+    <!-- Gallery Navigation -->
+    <div class="production-gallery">
+        <div class="production-gallery__nav">
+            <button class="production-gallery__nav-btn production-gallery__nav-btn--active" data-filter="all">All</button>
+            <button class="production-gallery__nav-btn" data-filter="process">Making Process</button>
+            <button class="production-gallery__nav-btn" data-filter="factory">Our Factory</button>
+            <button class="production-gallery__nav-btn" data-filter="products">Spice Products</button>
+        </div>
+    </div>
+    
+    <!-- Gallery Section -->
+    <div class="production-gallery">
+        <div class="production-gallery__grid">
+            <!-- Making Process Images -->
+            <div class="production-gallery__item" data-category="process">
+                <div class="production-gallery__category-label">Making Process</div>
+                <img src="https://img.freepik.com/premium-photo/hands-holding-spices_191555-905.jpg?w=2000" alt="Harvesting organic spices" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Harvesting</h3>
+                    <p class="production-gallery__item-description">Our spices are hand-harvested at peak ripeness</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="process">
+                <div class="production-gallery__category-label">Making Process</div>
+                <img src="https://tse4.mm.bing.net/th/id/OIP.-cWi-FrZc0WOoQBqPWEN9QHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Drying spices in sunlight" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Sun Drying</h3>
+                    <p class="production-gallery__item-description">Traditional sun-drying method preserves natural oils</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="process">
+                <div class="production-gallery__category-label">Making Process</div>
+                <img src="https://img.freepik.com/premium-photo/woman-s-hand-holding-dried-ingredients_1018561-203.jpg" alt="Sorting spices by hand" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Hand Sorting</h3>
+                    <p class="production-gallery__item-description">Each spice is carefully sorted by our experts</p>
+                </div>
+            </div>
+            
+            <!-- Factory Images -->
+            <div class="production-gallery__item" data-category="factory">
+                <div class="production-gallery__category-label">Our Factory</div>
+                <img src="https://thumbs.dreamstime.com/b/hands-old-indian-woman-who-prepares-spices-illustration-elderly-277000380.jpg" alt="Organic Masale production facility" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Production Facility</h3>
+                    <p class="production-gallery__item-description">State-of-the-art facility maintaining traditional methods</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="factory">
+                <div class="production-gallery__category-label">Our Factory</div>
+                <img src="https://proresearchindia.com/wp-content/uploads/2024/01/Spice-Testing-L-19372184-916d-4e02-b680-bec8ef8876b7-1024x538.png" alt="Quality control at Organic Masale" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Quality Control</h3>
+                    <p class="production-gallery__item-description">Rigorous testing ensures premium quality</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="factory">
+                <div class="production-gallery__category-label">Our Factory</div>
+                <img src="https://tse1.mm.bing.net/th/id/OIP.gDnKNYuwY5nLEKCrPkLxNAHaHa?r=0&w=600&h=600&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Packaging area at Organic Masale" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Packaging</h3>
+                    <p class="production-gallery__item-description">Eco-friendly packaging that preserves freshness</p>
+                </div>
+            </div>
+            
+            <!-- Spice Products -->
+            <div class="production-gallery__item" data-category="products">
+                <div class="production-gallery__category-label">Spice Products</div>
+                <img src="https://tiimg.tistatic.com/fp/1/007/493/100-pure-and-natural-dried-turmeric-powder-431.jpg" alt="Organic Turmeric Powder" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Golden Turmeric</h3>
+                    <p class="production-gallery__item-description">Pure organic turmeric with vibrant color</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="products">
+                <div class="production-gallery__category-label">Spice Products</div>
+                <img src="https://wallpapers.com/images/hd/red-chili-powder-1000-x-1000-wallpaper-q0esnblmpdva1dcc.jpg" alt="Organic Red Chili Powder" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Red Chili Powder</h3>
+                    <p class="production-gallery__item-description">Fiery and vibrant, adding heat to dishes</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="products">
+                <div class="production-gallery__category-label">Spice Products</div>
+                <img src="https://renspantry.com/wp-content/uploads/2022/05/Cumin-Seeds-Rens-Pantry-4001-937x937.jpg" alt="Organic Cumin Seeds" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Cumin Seeds</h3>
+                    <p class="production-gallery__item-description">Warm, earthy flavor essential for seasoning</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="process">
+                <div class="production-gallery__category-label">Making Process</div>
+                <img src="https://img.freepik.com/premium-photo/molcajete-traditional-stone-mortar-pestle-used-grinding-spices-mexican-spices_921026-29083.jpg" alt="Grinding spices at Organic Masale" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Stone Grinding</h3>
+                    <p class="production-gallery__item-description">Traditional stone grinding preserves flavors</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="factory">
+                <div class="production-gallery__category-label">Our Factory</div>
+                <img src="https://culinarybite.com/images/large/optimal-spice-storage-wooden-shelf.webp" alt="Organic Masale storage facility" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Storage</h3>
+                    <p class="production-gallery__item-description">Climate-controlled storage for maximum freshness</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="products">
+                <div class="production-gallery__category-label">Spice Products</div>
+                <img src="https://cdn.britannica.com/96/235996-050-2E42C4CC/spices-spice-blend-garam-masala.jpg" alt="Organic Garam Masala" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Garam Masala</h3>
+                    <p class="production-gallery__item-description">Signature blend of 12 organic spices</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Gallery Info -->
+    <div class="production-gallery__info">
+        <div class="production-gallery">
+            <h2 class="production-gallery__info-title">Our Organic Commitment</h2>
+            <p class="production-gallery__info-text">At Organic Masale, we believe in preserving traditional methods while maintaining the highest quality standards. Our spices are sourced directly from certified organic farms and processed in our state-of-the-art facility to bring you the purest flavors of India.</p>
+            <p class="production-gallery__info-text">Every step of our production process - from harvesting to packaging - is carefully monitored to ensure we deliver spices with maximum aroma, flavor, and nutritional value.</p>
+        </div>
+    </div>
+
+
+      <footer class="footer">
+      <div class="rangoli-border"></div>
+
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <div class="quick-links">
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-home"></i>&nbsp;&nbsp; Home</a
+            >
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-pepper-hot"></i>&nbsp;&nbsp; Our Spices</a
+            >
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-book"></i>&nbsp;&nbsp; Recipes</a
+            >
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-info-circle"></i>&nbsp;&nbsp; About Us</a
+            >
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-blog"></i>&nbsp;&nbsp; Blog</a
+            >
+            <a href="#" class="sachet-link"
+              ><i class="fas fa-question-circle"></i>&nbsp; FAQ</a
+            >
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>Spice Market, Pune, Maharashtra</div>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-phone-alt"></i>
+              <div>+91 98765 43210</div>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <div>contact@masalabasket.com</div>
+            </div>
+            <div class="contact-item">
+              <i class="fab fa-whatsapp"></i>
+              <div>WhatsApp: +91 98765 43210</div>
+            </div>
+
+            <br />
+            <h3 style="font-size: medium">Social Links &nbsp;:</h3>
+            <div class="social-icons">
+              <div class="spice-jar">
+                <i class="fab fa-instagram"></i>
+              </div>
+              <div class="spice-jar">
+                <i class="fab fa-facebook-f"></i>
+              </div>
+              <div class="spice-jar">
+                <i class="fab fa-youtube"></i>
+              </div>
+              <div class="spice-jar">
+                <i class="fab fa-pinterest-p"></i>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-column">
+           <h3>Privacy & Policy</h3>
+           <p style="color: white; margin-bottom: 0.5rem; font-size: 1.0rem">
+             At Organic Masale, your privacy is our top priority. We are committed to protecting your personal information and ensuring a safe, transparent shopping experience.
+           </p>
+           <ul
+             style="
+               color: white;
+               line-height: 1.7;
+               font-size: 1rem;
+               padding-left: 1.2rem;
+               padding: 30px;
+             "
+           >
+             <li>We never sell or share your data with third parties.</li>
+             <li>All orders and payments are processed through secure, encrypted channels.</li>
+             <li>We only collect information necessary to fulfill your orders and improve our services.</li>
+             <li>For any privacy-related questions, email us at <a href="mailto:privacy@masalabasket.com" style="color: var(--turmeric); text-decoration: underline;">privacy@masalabasket.com</a>.</li>
+           </ul>
+           <p style="color: white; margin-top: 1.2rem; font-size: 1rem">
+             Read our full <a href="#" style="color: var(--turmeric); text-decoration: underline;">Privacy Policy</a> and <a href="#" style="color: var(--turmeric); text-decoration: underline;">Terms & Conditions</a> for more details.
+           </p>
+         </div>
+      </div>
+
+      <div class="footer-banner">
+        Handmade with <i class="fas fa-heart" style="color: #ff0000"></i> in
+        Maharashtra | © Organic Masale 2025 <i class="fas fa-mortar-pestle"></i>
+      </div>
+    </footer>
+
+<script src="script.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const galleryItems = document.querySelectorAll(".production-gallery__item");
+            const navButtons = document.querySelectorAll(".production-gallery__nav-btn");
+            
+            // Initial animation for gallery items
+            anime({
+                targets: galleryItems,
+                opacity: [0, 1],
+                translateY: [30, 0],
+                scale: [0.95, 1],
+                duration: 800,
+                delay: anime.stagger(100),
+                easing: "easeOutExpo"
+            });
+            
+            // Filter functionality
+            navButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    // Update active button
+                    navButtons.forEach(btn => btn.classList.remove("production-gallery__nav-btn--active"));
+                    button.classList.add("production-gallery__nav-btn--active");
+                    
+                    const filter = button.getAttribute("data-filter");
+                    
+                    galleryItems.forEach(item => {
+                        if (filter === "all" || item.getAttribute("data-category") === filter) {
+                            item.style.display = "block";
+                            // Add subtle animation when showing
+                            anime({
+                                targets: item,
+                                scale: [0.98, 1],
+                                opacity: [0, 1],
+                                duration: 400,
+                                easing: "easeOutExpo"
+                            });
+                        } else {
+                            item.style.display = "none";
+                        }
+                    });
+                });
+            });
+            
+            // Hover animation for gallery items
+            galleryItems.forEach(item => {
+                item.addEventListener("mouseenter", () => {
+                    anime({
+                        targets: item,
+                        scale: 1.02,
+                        duration: 300,
+                        easing: "easeOutQuad"
+                    });
+                });
+                
+                item.addEventListener("mouseleave", () => {
+                    anime({
+                        targets: item,
+                        scale: 1,
+                        duration: 400,
+                        easing: "easeOutQuad"
+                    });
+                });
+            });
+            
+            // Floating animation for spice icons
+            const spiceIcons = document.querySelectorAll(".production-gallery__spice-icon");
+            spiceIcons.forEach(icon => {
+                icon.style.transform = "translateY(0)";
+            });
+        });
+    </script>
 </body>
 </html>
