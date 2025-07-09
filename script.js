@@ -280,6 +280,13 @@
       autoSlide = setInterval(nextSlide, 5000);
     }
     
+
+
+
+
+
+
+    
     // Event listeners
     prevBtn.addEventListener('click', () => {
       prevSlide();
