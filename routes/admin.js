@@ -1,9 +1,33 @@
 var express = require("express");
 var router = express.Router();
-// var db = require("../conn");
 var exe = require("../conn.js");
 
-// ✅ Middleware
+router.get("/register",function (req, res) {
+    res.render("admin/register.ejs", { error: null });
+}) 
+
+router.post("/register_now", async function (req, res) {
+  var d = req.body;
+
+  var file_name = "";
+  if (req.files && req.files.image) {
+    file_name = new Date().getTime() + req.files.image.name;
+    req.files.image.mv("public/images/" + file_name);
+  } else {
+    file_name = "";
+  }
+
+  var sql = `INSERT INTO admin (name, mobile, email,image,password)
+             VALUES ('${d.name}', '${d.mobile}', '${d.email}', '${file_name}', '${d.password}')`;
+
+  await exe(sql);
+  res.redirect("/admin/login");
+});
+
+
+
+
+
 function verifylogin(req, res, next) {
     if (req.session.admin == undefined) {
         res.redirect("/admin/login");
@@ -12,15 +36,15 @@ function verifylogin(req, res, next) {
     }
 }
 
-// Login Page
+
 router.get("/login", function (req, res) {
     res.render("admin/login.ejs", { error: null });
 });
 
-// Login Process
+
 router.post("/login_process", async function (req, res) {
     var d = req.body;
-    var sql = `SELECT * FROM admin WHERE admin_email = ? AND admin_pass = ?`
+    var sql = `SELECT * FROM admin WHERE email = ? AND password = ?`
     var result = await exe(sql, [d.email, d.password]);
 
     if (result.length > 0) {
@@ -31,24 +55,26 @@ router.post("/login_process", async function (req, res) {
     }
 });
 
-// Dashboard Page (protected)
-router.get("/", verifylogin, function (req, res) {
-    res.render("admin/dashboard.ejs");
+
+router.get("/", verifylogin,async function (req, res) {
+var sql = `SELECT * FROM admin`;
+  var admin =  await exe(sql);
+    res.render("admin/dashboard.ejs",{admin: admin[0]});
 });
 
-// Profile Page (protected)
+
 router.get("/profile", verifylogin, function (req, res) {
     res.render("admin/profile.ejs", { admin: req.session.admin });
 });
 
-// Products Page (protected)
+
 router.get("/products", verifylogin, async function (req, res) {
     var sql = `SELECT * FROM products`;
     var products = await exe(sql);
     res.render("admin/products.ejs", { products });
 });
 
-// Add Product Page (protected)
+
 router.get("/add_product", verifylogin, function (req, res) {
     res.render("admin/add_product.ejs");
 });
@@ -57,26 +83,26 @@ router.get("/add_product", verifylogin, function (req, res) {
 
 
 
-// Add Product Process (protected)
+
 router.post("/add_products", verifylogin, async function (req, res) {
     var d = req.body;
  var file_name1 = "";
 var file_name2 = "";
 
-// जर image1 असेल
+
 if (req.files && req.files.image1) {
   file_name1 = Date.now() + "_1_" + req.files.image1.name;
   req.files.image1.mv("public/uploads/products/" + file_name1);
 } else {
-  file_name1 = ""; // किंवा DB मधून existing image1
+  file_name1 = "";
 }
 
-// जर image2 असेल
+
 if (req.files && req.files.image2) {
   file_name2 = Date.now() + "_2_" + req.files.image2.name;
   req.files.image2.mv("public/uploads/products/" + file_name2);
 } else {
-  file_name2 = ""; // किंवा DB मधून existing image2
+  file_name2 = ""; 
 }
 
 
@@ -150,11 +176,11 @@ router.post("/update_product", async function (req, res) {
   var d = req.body;
   var file_name = null;
 
-  // ✅ प्रथम जुनं image fetch कर
+ 
 var oldData = await exe(`SELECT frant_image FROM products WHERE id = ${d.id}`);
 var oldImage = oldData.length > 0 ? oldData[0].frant_image : "";
 
-  // ✅ image check करून file_name ठरव
+ 
 let file_name1 = "";
 let file_name2 = "";
 
@@ -165,7 +191,7 @@ if (req.files && req.files.image1 && req.files.image1.name) {
   file_name1 = req.body.oldImage1;
 }
 
-// image2 handle
+
 if (req.files && req.files.image2 && req.files.image2.name) {
   file_name2 = Date.now() + "_2_" + req.files.image2.name;
   await req.files.image2.mv("public/uploads/products/" + file_name2);
@@ -204,13 +230,13 @@ if (req.files && req.files.image2 && req.files.image2.name) {
   res.redirect("/admin/products");
 });
 
-// DELETE Product route
+
 router.get("/delete/:id", async function (req, res){
     var id = req.params.id;
 
     var q = `DELETE FROM products WHERE id = ${id}`;
     await exe(q);
-    res.redirect("/admin/products"); // Delete नंतर पुन्हा प्रोडक्ट यादीकडे
+    res.redirect("/admin/products"); 
 });
 
 
@@ -264,7 +290,7 @@ router.get("/delete_user/:id", async (req, res) => {
     res.redirect("/admin/users");
 });
 
-// 📁 routes/admin.js
+
 
 router.get("/all-orders", verifylogin, async function (req, res) {
   let orders = await exe("SELECT * FROM orders ORDER BY id DESC");
@@ -272,7 +298,7 @@ router.get("/all-orders", verifylogin, async function (req, res) {
 });
 
 
-// Logout
+
 router.get("/logout", (req, res) => {
     req.session.destroy(() => {
         res.redirect("/admin/login");

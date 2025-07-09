@@ -94,20 +94,22 @@
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <div class="user-actions">
-                        <button class="notification-btn">
-                            <i class="bi bi-bell"></i>
-                            <span class="badge">3</span>
-                        </button>
+                        
                        <div class="user-actions position-relative">
                         <button class="notification-btn">
                             <i class="bi bi-bell"></i>
                             <span class="badge">3</span>
                         </button>
                         <!-- User Dropdown Toggle Button -->
-                        <button class="user-btn dropdown-toggle" id="userDropdownToggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="user-avatar">A</div>
+                      <button class="user-btn dropdown-toggle" id="userDropdownToggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <% if (admin.image && admin.image !== "") { %>
+                          <img src="/images/<%= admin.image %>" class="rounded-circle" width="40" height="40" alt="Admin">
+                        <% } else { %>
+                            <div class="user-avatar">A</div>
+                        <% } %>
                         <span>Admin <i class="bi bi-chevron-down"></i></span>
                         </button>
+
 
                         <!-- Dropdown Menu -->
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownToggle">
