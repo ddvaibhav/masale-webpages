@@ -794,7 +794,8 @@ body{
 /* Background Image */
 .bg-image {
   height: 400px;
-  background: url('img/why_choose_img.jpg') center center/cover no-repeat;
+  background:
+   url('img/why_choose_img.jpg') center center/cover no-repeat;
 }
 
 /* Text over Background */
