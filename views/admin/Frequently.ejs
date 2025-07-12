@@ -1,0 +1,96 @@
+<%- include("navbar") %>
+
+<style>
+  .faq-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .faq-title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #5a3300;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .faq-item {
+    background: #fff;
+    border-left: 4px solid #fbbf24;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .faq-question {
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    color: #3b3b3b;
+  }
+
+  .faq-answer {
+    margin-top: 10px;
+    color: #444;
+    display: none;
+  }
+
+  .faq-item.active .faq-answer {
+    display: block;
+  }
+
+  .faq-item.active .faq-question::after {
+    content: "▲";
+    color: #f59e0b;
+  }
+
+  .faq-question::after {
+    content: "▼";
+    color: #aaa;
+  }
+
+  .update-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 16px;
+    font-size: 14px;
+    background-color: #d97706;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+</style>
+
+<div class="faq-container">
+  <div class="faq-title">
+    <i class="bi bi-question-circle-fill text-warning"></i> Frequently Asked Questions
+  </div>
+
+  <% for (var i = 0; i < result.length; i++) { %>
+    <div class="faq-item">
+      <div class="faq-question"><%= result[i].question %></div>
+      <div class="faq-answer">
+        <p><%= result[i].answer %></p>
+        <a href="/admin/edit_faq/<%= result[i].id %>" class="update-btn">Update</a>
+      </div>
+    </div>
+  <% } %>
+</div>
+
+<script>
+  const faqs = document.querySelectorAll(".faq-item");
+  faqs.forEach(faq => {
+    faq.querySelector(".faq-question").addEventListener("click", () => {
+      faq.classList.toggle("active");
+    });
+  });
+</script>
+
+<%- include("footer") %>

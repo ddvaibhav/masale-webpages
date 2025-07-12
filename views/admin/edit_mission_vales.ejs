@@ -1,0 +1,93 @@
+<%- include("navbar") %>
+
+<style>
+  body {
+    background-color: #fdfbf7;
+  }
+
+  .form-wrapper {
+    max-width: 600px;
+    margin: 60px auto;
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .form-wrapper h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    color: #444;
+  }
+
+  input[type="text"], textarea, input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 22px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #d97706;
+    box-shadow: 0 0 5px rgba(217, 119, 6, 0.3);
+  }
+
+  button {
+    background-color: #d97706;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #b45309;
+  }
+
+  img.preview {
+    max-width: 120px;
+    margin-top: 10px;
+    border-radius: 6px;
+  }
+</style>
+
+<div class="form-wrapper">
+  <h2>Edit Mission Value</h2>
+
+  <form action="/admin/our_mission_value" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<%=info[0].id%>">
+    <label>Title</label>
+    <input type="text" name="title" value="<%= info[0].heading %>" required>
+
+    <label>Description</label>
+    <textarea name="description" rows="4" required><%= info[0].description %></textarea>
+
+    <label>Current Image</label><br>
+    <img src="/images/<%= info[0].image %>" class="preview" alt="Current Image"><br><br>
+
+    <label>New Image (optional)</label>
+    <input type="file" name="image">
+
+    <div class="text-center mt-4">
+      <button type="submit">Update</button>
+    </div>
+  </form>
+</div>
+
+<%- include("footer") %>

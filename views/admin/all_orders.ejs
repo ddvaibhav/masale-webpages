@@ -1,7 +1,45 @@
 <%- include("navbar.ejs") %>
+<style>
 
-<div class="container mt-5">
+  .heading-banner {
+    background: linear-gradient(to right, #5b4d9c 0%, #5b4d9c 70%, #ffffff 100%);
+    position: relative;
+    color: white;
+    padding: 20px 30px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+
+  .heading-banner::before,
+  .heading-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background-color: #ffcc33;
+    transform: skewX(-45deg);
+  }
+
+  .heading-banner::before {
+    right: 90px;
+  }
+
+  .heading-banner::after {
+    right: 75px;
+  }
+
+</style>
+<div class="container heading-banner">
+
   <h2 class="mb-4 text-center">Order Management</h2>
+</div>
+<div class="container mt-5">
 
   <div class="table-responsive">
     <table id="orderTable" class="table table-bordered table-striped">

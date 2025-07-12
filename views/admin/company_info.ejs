@@ -1,0 +1,37 @@
+<%- include("navbar") %>
+
+<div class="main-content" style="min-height: 100vh; background-color: #fdfbf7;">
+  <div class="container py-5 px-4">
+
+    <h3 class="mb-4 fw-bold" style="color: #f58220;">All Company Info</h3>
+
+    <% for (var i = 0; i < company_info.length; i++) { %>
+      <div class="bg-white p-4 rounded-4 shadow-sm mb-4">
+        <!-- Heading -->
+        <h4 class="fw-bold text-uppercase mb-1" style="color: #f58220;">
+          <%= company_info[i].heading_frist %>
+        </h4>
+
+        <!-- Subheading -->
+        <h6 class="mb-3" style="font-weight: 500;">
+          <%= company_info[i].heading_second %>
+        </h6>
+
+        <!-- Paragraphs -->
+        <p class="mb-2" style="font-size: 15px; line-height: 1.7;"><%= company_info[i].p_frist %></p>
+        <p class="mb-2" style="font-size: 15px; line-height: 1.7;"><%= company_info[i].p_second %></p>
+        <p class="mb-3" style="font-size: 15px; line-height: 1.7;"><%= company_info[i].p_third %></p>
+
+        <!--  Update Button -->
+        <div class="text-end">
+          <a href="/admin/edit_company/<%= company_info[i].id %>" class="btn btn-sm btn-primary px-4">
+            <i class="bi bi-pencil me-1"></i> Update
+          </a>
+        </div>
+      </div>
+    <% } %>
+
+  </div>
+</div>
+<%- include("footer.ejs") %>
+

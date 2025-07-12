@@ -1,0 +1,38 @@
+<%- include("navbar") %>
+
+<style>
+.recipe-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.recipe-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+</style>
+
+<div class="container py-5">
+  <h2 class="mb-4">Our Special Recipes</h2>
+  <div class="row g-4">
+
+    <% for(let i = 0; i < result.length; i++) { %>
+      <div class="col-md-4">
+        <div class="recipe-card shadow rounded-4 overflow-hidden">
+          <img src="/images/<%= result[i].image %>" class="img-fluid w-100" alt="<%= result[i].title %>" style="height: 220px; object-fit: cover;">
+          <div class="p-3 bg-white">
+            <h5 class="fw-semibold mb-1"><%= result[i].title %></h5>
+            <p class="text-muted small"><%= result[i].description %></p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="text-muted small">
+                <i class="bi bi-clock me-1"></i> <%= result[i].duration %>
+              </span>
+              <a href="/admin/edit_recipe/<%= result[i].id %>" class="btn btn-warning btn-sm px-3 rounded-pill fw-semibold text-white shadow-sm">Update</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } %>
+
+  </div>
+</div>
+
+<%- include("footer") %>
