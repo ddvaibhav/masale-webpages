@@ -1,0 +1,120 @@
+<%- include("navbar.ejs") %>
+
+<div class="container my-5">
+  <h2 class="mb-4">Checkout</h2>
+
+  <% if (cart.length === 0) { %>
+    <div class="alert alert-info">Your cart is empty.</div>
+    <a href="/product" class="btn btn-warning">Continue Shopping</a>
+  <% } else { %>
+    <div class="row">
+      <div class="col-md-8">
+        <!-- Cart Items -->
+        <div class="card mb-4">
+          <div class="card-header bg-warning text-white">
+            <h5 class="mb-0">Your Cart</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <% let totalAmount = 0; %>
+            <% cart.forEach(item => { 
+                const itemTotal = item.price * item.quantity;
+                totalAmount += itemTotal;
+            %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="/uploads/<%= item.image %>" alt="<%= item.product_name %>" style="width: 60px; height: 60px; object-fit: cover;">
+                  <div>
+                    <strong><%= item.product_name %></strong><br>
+                    <small><%= item.weight %> – ₹<%= item.price %> × <%= item.quantity %></small>
+                  </div>
+                </div>
+                <span>₹<%= itemTotal %></span>
+              </li>
+            <% }) %>
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>Total:</strong>
+              <strong>₹<%= totalAmount %></strong>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Address / Billing Form -->
+     <form id="checkoutForm">
+  <h5 class="mb-3">Shipping Information</h5>
+  <input type="text" name="name" class="form-control mb-2" placeholder="Full Name" required>
+  <input type="tel" name="phone" class="form-control mb-2" placeholder="Mobile Number" pattern="[0-9]{10}" required>
+  <textarea name="address" class="form-control mb-3" rows="3" placeholder="Delivery Address" required></textarea>
+
+  <input type="hidden" name="total_amount" value="<%= totalAmount %>">
+  
+<% cart.forEach(item => { %>
+  <input type="hidden" name="products[]" value="<%= item.product_id %>_<%= item.price %>_<%= item.quantity %>">
+<% }) %>
+
+
+  <button type="submit" class="btn btn-success w-100">Pay with Razorpay</button>
+</form>
+
+      </div>
+
+      <div class="col-md-4">
+        <div class="card bg-light">
+          <div class="card-body">
+            <h5>Need Help?</h5>
+            <p>Call us at <strong>+91-XXXXXXXXXX</strong> or email <strong>support@example.com</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% } %>
+</div>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  document.getElementById("checkoutForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const amount = formData.get("total_amount");
+    const name = formData.get("name");
+    const phone = formData.get("phone");
+    const address = formData.get("address");
+    const product_id = formData.get("product_id");
+
+    const response = await fetch("/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount })
+    });
+
+    const data = await response.json();
+
+    const options = {
+      key: "rzp_test_06ydm2R5DTbang", // Replace with your Razorpay key
+      amount: amount * 100,
+      currency: "INR",
+      name: "Your Store",
+      description: "Order Payment",
+      order_id: data.orderId,
+      handler: function (response) {
+  const productInputs = document.querySelectorAll('input[name="products[]"]');
+  const products = Array.from(productInputs).map(input => input.value).join(',');
+
+  window.location.href = `/place_order?razorpay_payment_id=${response.razorpay_payment_id}&name=${name}&phone=${phone}&address=${address}&amount=${amount}&product_id=${product_id}&products=${encodeURIComponent(products)}`;
+},
+      prefill: {
+        name: name,
+        contact: phone
+      },
+      theme: {
+        color: "#3399cc"
+      }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+  });
+</script>
+
+<%- include("footer.ejs") %>

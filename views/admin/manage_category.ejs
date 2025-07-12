@@ -1,0 +1,105 @@
+<%- include("navbar.ejs") %>
+
+<style>
+  .heading-banner {
+    background: linear-gradient(to right, #5b4d9c 0%, #5b4d9c 70%, #ffffff 100%);
+    position: relative;
+    color: white;
+    padding: 20px 30px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+
+  .heading-banner::before,
+  .heading-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background-color: #ffcc33;
+    transform: skewX(-45deg);
+  }
+
+  .heading-banner::before {
+    right: 90px;
+  }
+
+  .heading-banner::after {
+    right: 75px;
+  }
+
+  .main-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+    margin-top: 20px;
+  }
+
+  .category-img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  .status-badge {
+    text-transform: capitalize;
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+</style>
+
+<!-- Header Banner -->
+<div class="container">
+  <div class="heading-banner">
+    Manage Category
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="container main-box">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="mb-0">Category List</h5>
+    <a href="/admin/add_category" class="btn btn-primary">+ Add New Category</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>#ID</th>
+          <th>Category Name</th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% category.forEach((cat, index) => { %>
+          <tr>
+            <td><%= cat.category_id %></td>
+            <td><%= cat.category_name %></td>
+            <td>
+              <img src="/uploads/<%= cat.category_image %>" class="category-img" alt="Category Image">
+            </td>
+           
+            <td>
+              <a href="/admin/edit_category/<%= cat.category_id %>" class="btn btn-sm btn-warning">
+                <i class="fa-solid fa-pen-to-square"></i></a>
+              <a href="/admin/delete-category/<%= cat.category_id %>" class="btn btn-sm btn-danger"
+                 onclick="return confirm('Are you sure to delete this category?')"><i class="fa-solid fa-trash"></i></a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("footer.ejs") %>

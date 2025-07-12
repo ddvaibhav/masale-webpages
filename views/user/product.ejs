@@ -1,0 +1,224 @@
+<%-include("navbar.ejs")%>
+<style>
+  /* ... your existing styles ... */
+  
+  /* Add this for the loading spinner */
+  .loading-spinner {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+  }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section-img">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-8">
+        <h1 class="hero-title display-4 fw-bold mb-4 animate__animated animate__fadeInDown">Products</h1>
+        <p class="hero-subtitle lead mb-5 animate__animated animate__fadeInUp animate__delay-1s">
+          “Pure Ingredients. Authentic Flavors.”
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container mt-5">
+  <div class="row">
+    <!-- Filter Sidebar -->
+    <div class="col-md-3 mb-4 mt-5 p-3">
+      <div class="filter-box mt-5">
+        <h5 class="text-dark section-title">Filters</h5>
+        <form method="GET" id="filterForm">
+          <div class="mb-3">
+            <div class="filter-title">Category</div>
+            <select class="form-select" name="category" id="categoryFilter">
+              <option value="">All Categories</option>
+              <% for(i of category){ %>
+                <option value="<%=i.category_id%>"><%=i.category_name%></option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <div class="filter-title">Weight</div>
+            <select class="form-select" name="weight" id="weightFilter">
+              <option value="">All Weights</option>
+              <% for(i of uniqueWeights){ %>
+                <option value="<%=i.id%>"><%=i.weight%></option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <div class="filter-title">Most Popular</div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="mostPopular" name="popular" value="1"
+                <%= typeof popular !== 'undefined' && popular == 1 ? 'checked' : '' %>>
+              <label class="form-check-label" for="mostPopular">
+                Show only popular items
+              </label>
+            </div>
+          </div>
+
+          <button class="btn btn-warning w-100" type="submit">Apply Filters</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="col-md-9">
+      <h4 class="section-title">Our Products</h4>
+   <div class="row" id="productGrid">
+  <% for (let i of product) { 
+    const matchingVariants = variants.filter(w => w.product_id == i.product_id);
+    const isInCart = cartProductIds.includes(i.product_id); // ✅ Define isInCart for this product
+  %>
+    <div class="col-sm-6 col-md-4 p-3 card_size">
+      <div class="product-card shadow-sm h-100">
+        <a href="/product_details/<%= i.product_id %>" class="text-decoration-none">
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front">
+                <img src="/uploads/<%= i.image %>" alt="Agri Masala">
+              </div>
+              <div class="flip-box-back">
+                <img src="/uploads/<%= i.image2 %>" alt="Back Side">
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <div class="p-3">
+          <div class="stock-status mb-1">
+            <% if (i.stockqty > 10) { %>
+              <span class="text-success">In stock!</span>
+            <% } else if (i.stockqty > 0) { %>
+              <span class="text-warning">Limited stock</span>
+            <% } else { %>
+              <span class="text-danger">Out of stock</span>
+            <% } %>
+          </div>
+
+          <div class="product-title mb-2 fw-bold"><%= i.product_name %></div>
+          <div class="product-title mb-2 text-muted">Category: <%= i.category_name %></div>
+
+          <select class="form-select variant-select mb-2" onchange="updatePrice(this)">
+            <% for (let v of matchingVariants) { %>
+              <option value="<%= v.price %>"><%= v.weight %> - ₹<%= v.price %></option>
+            <% } %>
+          </select>
+
+          <div class="price mb-3">₹<span class="price-value"><%= matchingVariants[0]?.price || "0.00" %></span></div>
+
+          <% if (req.session.user && req.session.user.user_id) { %>
+            <% if (isInCart) { %>
+              <button class="btn btn-secondary w-100" disabled>
+                <i class="fas fa-check-circle me-1"></i>Already in Cart
+              </button>
+            <% } else { %>
+              <a href="/product_details/<%= i.product_id %>" 
+                 class="btn btn-warning w-100 <%= i.stockqty <= 0 ? 'disabled' : '' %>">
+                Add to Cart
+              </a>
+            <% } %>
+          <% } else { %>
+            <button class="btn btn-outline-warning w-100" 
+                    onclick="alert('Please Login Or Sign Up')" 
+                    <%= i.stockqty <= 0 ? "disabled" : "" %>>
+              Add to Cart
+            </button>
+          <% } %>
+
+        </div>
+      </div>
+    </div>
+  <% } %>
+</div>
+
+
+          </div>
+    
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Loading spinner -->
+<div class="loading-spinner">
+  <div class="spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<br><br><br>
+
+
+<script>
+  // Function to update price when variant is selected
+  function updatePrice(selectElement) {
+    const priceValue = selectElement.value;
+    const priceElement = selectElement.closest('.product-card').querySelector('.price-value');
+    priceElement.textContent = priceValue;
+  }
+
+  // Function to handle form submission
+  document.getElementById("filterForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    // Show loading spinner
+    document.querySelector('.loading-spinner').style.display = 'block';
+    
+    // Get form data
+    const formData = new FormData(this);
+    
+    // Send AJAX request
+    fetch("/filter-products", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.text())
+    .then(html => {
+      // Replace the product grid with the new HTML
+      document.getElementById("productGrid").innerHTML = html;
+      // Hide loading spinner
+      document.querySelector('.loading-spinner').style.display = 'none';
+    })
+    .catch(error => {
+      console.error("Filter Error:", error);
+      document.querySelector('.loading-spinner').style.display = 'none';
+      alert("Error applying filters. Please try again.");
+    });
+  });
+
+  // Set selected values from query parameters
+  document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Set category filter
+    const category = urlParams.get('category');
+    if (category) {
+      document.getElementById('categoryFilter').value = category;
+    }
+    
+    // Set weight filter
+    const weight = urlParams.get('weight');
+    if (weight) {
+      document.getElementById('weightFilter').value = weight;
+    }
+    
+    // Set popular filter
+    const popular = urlParams.get('popular');
+    if (popular) {
+      document.getElementById('mostPopular').checked = true;
+    }
+  });
+</script>
+
+<%-include("footer.ejs")%>

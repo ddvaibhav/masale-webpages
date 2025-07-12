@@ -1,0 +1,153 @@
+
+    <%-include("navbar.ejs")%>
+
+    <!-- Hero Section -->
+    <section class="hero-section-img">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="hero-title display-4 fw-bold mb-4">Our Production Journey</h1>
+                    <p class="hero-subtitle lead mb-5">
+                        Farm to kitchen — crafting premium organic spices with care.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Gallery Navigation -->
+    <div class="production-gallery">
+        <div class="production-gallery__nav">
+            <button class="production-gallery__nav-btn production-gallery__nav-btn--active" data-filter="all">All</button>
+            <button class="production-gallery__nav-btn" data-filter="process">Making Process</button>
+            <button class="production-gallery__nav-btn" data-filter="factory">Our Factory</button>
+            <button class="production-gallery__nav-btn" data-filter="products">Spice Products</button>
+        </div>
+    </div>
+    
+    <!-- Gallery Section -->
+    <div class="production-gallery">
+        <div class="production-gallery__grid">
+            <!-- Making Process Images -->
+            <div class="production-gallery__item" data-category="process">
+                <div class="production-gallery__category-label">Making Process</div>
+                <img src="https://images.unsplash.com/photo-1506368249639-73a05d6f6488?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Harvesting organic spices" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Harvesting</h3>
+                    <p class="production-gallery__item-description">Our spices are hand-harvested at peak ripeness</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="process">
+                <div class="production-gallery__category-label">Making Process</div>
+                <img src="https://images.unsplash.com/photo-1564759077034-936b00a2d7fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Drying spices in sunlight" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Sun Drying</h3>
+                    <p class="production-gallery__item-description">Traditional sun-drying method preserves natural oils</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="process">
+                <div class="production-gallery__category-label">Making Process</div>
+                <img src="https://images.unsplash.com/photo-1556905055-8f358a7a4b2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Sorting spices by hand" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Hand Sorting</h3>
+                    <p class="production-gallery__item-description">Each spice is carefully sorted by our experts</p>
+                </div>
+            </div>
+            
+            <!-- Factory Images -->
+            <div class="production-gallery__item" data-category="factory">
+                <div class="production-gallery__category-label">Our Factory</div>
+                <img src="https://images.unsplash.com/photo-1556911220-ef412aea183c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Organic Masale production facility" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Production Facility</h3>
+                    <p class="production-gallery__item-description">State-of-the-art facility maintaining traditional methods</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="factory">
+                <div class="production-gallery__category-label">Our Factory</div>
+                <img src="https://images.unsplash.com/photo-1510629954389-c1e0da47d414?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Quality control at Organic Masale" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Quality Control</h3>
+                    <p class="production-gallery__item-description">Rigorous testing ensures premium quality</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="factory">
+                <div class="production-gallery__category-label">Our Factory</div>
+                <img src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Packaging area at Organic Masale" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Packaging</h3>
+                    <p class="production-gallery__item-description">Eco-friendly packaging that preserves freshness</p>
+                </div>
+            </div>
+            
+            <!-- Spice Products -->
+            <div class="production-gallery__item" data-category="products">
+                <div class="production-gallery__category-label">Spice Products</div>
+                <img src="https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Organic Turmeric Powder" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Golden Turmeric</h3>
+                    <p class="production-gallery__item-description">Pure organic turmeric with vibrant color</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="products">
+                <div class="production-gallery__category-label">Spice Products</div>
+                <img src="https://images.unsplash.com/photo-1605276373954-0c4a0dac5b12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Organic Red Chili Powder" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Red Chili Powder</h3>
+                    <p class="production-gallery__item-description">Fiery and vibrant, adding heat to dishes</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="products">
+                <div class="production-gallery__category-label">Spice Products</div>
+                <img src="https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Organic Cumin Seeds" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Cumin Seeds</h3>
+                    <p class="production-gallery__item-description">Warm, earthy flavor essential for seasoning</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="process">
+                <div class="production-gallery__category-label">Making Process</div>
+                <img src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Grinding spices at Organic Masale" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Stone Grinding</h3>
+                    <p class="production-gallery__item-description">Traditional stone grinding preserves flavors</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="factory">
+                <div class="production-gallery__category-label">Our Factory</div>
+                <img src="https://images.unsplash.com/photo-1556911220-ef412aea183c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Organic Masale storage facility" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Storage</h3>
+                    <p class="production-gallery__item-description">Climate-controlled storage for maximum freshness</p>
+                </div>
+            </div>
+            
+            <div class="production-gallery__item" data-category="products">
+                <div class="production-gallery__category-label">Spice Products</div>
+                <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Organic Garam Masala" class="production-gallery__item-image">
+                <div class="production-gallery__item-overlay">
+                    <h3 class="production-gallery__item-title">Garam Masala</h3>
+                    <p class="production-gallery__item-description">Signature blend of 12 organic spices</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Gallery Info -->
+    <div class="production-gallery__info">
+        <div class="production-gallery">
+            <h2 class="production-gallery__info-title">Our Organic Commitment</h2>
+            <p class="production-gallery__info-text">At Organic Masale, we believe in preserving traditional methods while maintaining the highest quality standards. Our spices are sourced directly from certified organic farms and processed in our state-of-the-art facility to bring you the purest flavors of India.</p>
+            <p class="production-gallery__info-text">Every step of our production process - from harvesting to packaging - is carefully monitored to ensure we deliver spices with maximum aroma, flavor, and nutritional value.</p>
+        </div>
+    </div>
+
+    <%-include("footer.ejs")%>

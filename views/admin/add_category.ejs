@@ -1,0 +1,96 @@
+<%- include("navbar.ejs") %>
+
+<!-- Custom CSS Styling -->
+<style>
+  .heading-banner {
+    background: linear-gradient(to right, #5b4d9c 0%, #5b4d9c 70%, #ffffff 100%);
+    position: relative;
+    color: white;
+    padding: 20px 30px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+
+  .heading-banner::before,
+  .heading-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background-color: #ffcc33;
+    transform: skewX(-45deg);
+  }
+
+  .heading-banner::before {
+    right: 90px;
+  }
+
+  .heading-banner::after {
+    right: 75px;
+  }
+
+  .form-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  .btn-primary {
+    background-color: #5b4d9c;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #483c7f;
+  }
+  /* .container{
+    box-shadow: 0px 0px 10px 0px black;
+  } */
+</style>
+
+<!-- Header Banner -->
+<div class="container">
+  <div class="heading-banner">
+    Add Category
+  </div>
+</div>
+
+ <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <h5 class="mb-0 text-center m-3">Add Category</h5>
+    <a href="/admin/manage_category" class="btn btn-primary">+ Manage Category</a>
+  </div>
+<!-- Form Section -->
+<div class="container">
+  <div class="form-section">
+    <form action="/admin/add_category" method="POST" enctype="multipart/form-data">
+      <div class="row mb-3">
+        <!-- Category Name -->
+        <div class="col-md-6">
+          <label for="category_name" class="form-label">Category Name</label>
+          <input type="text" class="form-control" id="category_name" name="category_name" required>
+        </div>
+
+        <!-- Category Image -->
+        <div class="col-md-6">
+          <label for="category_image" class="form-label">Category Image</label>
+          <input type="file" class="form-control" id="category_image" name="category_image" accept="image/*" required>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+       <div class="col-md-12 text-end">
+           <button type="submit" class="btn btn-primary">Add Category</button>
+       </div>
+    </form>
+  </div>
+</div>
+
+<%- include("footer.ejs") %>

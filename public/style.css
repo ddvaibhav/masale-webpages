@@ -1,0 +1,362 @@
+ :root {
+      --sidebar-bg: #524e81;
+      --sidebar-hover: #ffdd40;
+      --primary-color: #6c63ff;
+      --secondary-color: #ff6584;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #f8f9fa;
+      overflow-x: hidden;
+      /* padding-top: 60px; */
+    }
+
+    #sidebar {
+      width: 280px;
+      height: 100vh;
+      position: fixed;
+      background: var(--sidebar-bg);
+      transition: all 0.3s;
+      z-index: 1000;
+      box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    #main-content {
+      margin-left: 280px;
+      transition: all 0.3s;
+      background-color: #f5f7fb;
+      min-height: 100vh;
+    }
+    
+    .sidebar-collapsed {
+      margin-left: -280px !important;
+    }
+    .top-collapsed {
+      margin-left: 0 !important;
+    }
+    
+    .sidebar-link, .submenu-link {
+      border-radius: 6px;
+      margin: 0 8px;
+      transition: all 0.2s;
+      color: rgba(255, 255, 255, 0.85) !important;
+    }
+    
+    .sidebar-link:hover, .submenu-link:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: var(--sidebar-hover) !important;
+    }
+    
+    .sidebar-link i, .submenu-link i {
+      width: 24px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    
+    .topbar {
+      height: 80px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      background: white;
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 999;
+      transition: all 0.3s;
+    }
+    
+    /* Fixed: Adjust topbar position when sidebar is collapsed */
+    .top-collapsed .topbar {
+      left: 0;
+    }
+    
+    /* Submenu Animation */
+    .submenu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+    
+    .submenu.show {
+      max-height: 500px;
+    }
+    
+    .submenu .nav-link {
+      padding: 0.4rem 1.2rem;
+      border-radius: 4px;
+      margin: 4px 0;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    
+    .submenu.show .nav-link {
+      opacity: 1;
+      transform: translateX(0);
+      transition-delay: calc(0.1s * var(--i));
+    }
+    
+    .chevron-animate {
+      transition: transform 0.4s ease;
+    }
+    
+    .chevron-rotate {
+      transform: rotate(180deg);
+    }
+    
+    .dashboard-card {
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      border: none;
+    }
+    
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .stat-card {
+      border-left: 4px solid;
+      border-radius: 8px !important;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+    }
+    
+    .badge {
+      position: absolute;
+      /* top: 100px; */
+      /* right: -20px; */
+      /* left: 30px; */
+      margin-top: 10px;
+      margin-left: -30px;
+      font-size: 0.65rem;
+      padding: 50px 50px;
+    }
+    
+    .chart-container {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    
+    .recent-activity {
+      max-height: 350px;
+      overflow-y: auto;
+    }
+    
+    .activity-item {
+      border-left: 3px solid var(--sidebar-bg);
+      padding-left: 15px;
+      margin-bottom: 15px;
+      transition: all 0.3s;
+    }
+    
+    .activity-item:hover {
+      border-left-color: var(--primary-color);
+    }
+    
+    .activity-time {
+      font-size: 0.8rem;
+      color: #6c757d;
+    }
+    
+    .brand-icon {
+      background: rgba(255, 255, 255, 0.15);
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .progress-bar-animate {
+      transition: width 1s ease-in-out;
+    }
+    
+    .table-hover tbody tr {
+      transition: all 0.2s ease;
+    }
+    
+    .table-hover tbody tr:hover {
+      background-color: rgba(108, 99, 255, 0.05);
+    }
+    
+    .content-container {
+      padding-top: 20px;
+    }
+    
+    .sidebar-scroll-container {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 0 8px 16px;
+      margin-top: 8px;
+    }
+    
+    .sidebar-scroll-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .sidebar-scroll-container::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      margin: 8px 0;
+    }
+    
+    .sidebar-scroll-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 4px;
+    }
+    
+    .sidebar-scroll-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+    
+    .scroll-indicator {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: linear-gradient(to top, var(--sidebar-bg), transparent);
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding-bottom: 4px;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 100;
+    }
+    
+    .scroll-indicator.hidden {
+      opacity: 0;
+    }
+    
+    .scroll-indicator i {
+      color: rgba(255, 255, 255, 0.7);
+      animation: bounce 1.5s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    
+    @media (max-width: 768px) {
+      #sidebar {
+        margin-left: -280px;
+        z-index: 1001;
+      }
+      #main-content {
+        margin-left: 0 !important;
+      }
+      .sidebar-show {
+        margin-left: 0 !important;
+      }
+      .topbar {
+        left: 0;
+        z-index: 1000;
+      }
+      body {
+        padding-top: 60px;
+      }
+    }
+    
+    /* Dashboard stats styling */
+    .stats-container {
+      padding: 20px;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+    .stat-icon {
+      font-size: 2.5rem;
+      opacity: 0.7;
+    }
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+    .stat-title {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+    .stat-change {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .change-positive {
+      color: #28a745;
+    }
+    .change-negative {
+      color: #dc3545;
+    }
+    
+    /* Chart container */
+    .chart-card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .chart-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .chart-actions .btn {
+      padding: 5px 10px;
+      font-size: 0.85rem;
+    }
+    
+    /* Recent activity */
+    .recent-card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    .activity-content {
+      flex: 1;
+    }
+    .activity-message {
+      margin-bottom: 5px;
+    }
+    .activity-time {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }

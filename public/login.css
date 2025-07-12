@@ -1,0 +1,108 @@
+
+    
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ff9933, #185a9d);
+      background-repeat: no-repeat;
+      background-size: cover;
+      color: white;
+    }
+
+    .login-wrapper {
+      min-height: 100vh;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .description-panel {
+      padding: 40px;
+    }
+
+    .description-panel h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .description-panel p {
+      font-size: 1.1rem;
+      margin-top: 10px;
+      color: #e0f7fa;
+    }
+
+    .login-card {
+      background-color: #ffffff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      color: #000000;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .form-control {
+      background: #f8f9fa;
+      border: 1px solid #ced4da;
+      color: #000;
+      border-radius: 8px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #ff9933, #185a9d);
+      color: white;
+      font-weight: bold;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(to right, #e68a00, #144d8f);
+    }
+
+    .show-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    .position-relative {
+      position: relative;
+    }
+
+    .logo {
+      width: 300px;
+      height: auto;
+      margin: 0 auto 20px;
+      margin-bottom: -100px; /* original negative margin */
+    }
+
+    /* ✅ Mobile View Styling */
+    @media(max-width: 767px) {
+      .description-panel {
+        margin-top: 100px;
+        padding: 30px 15px;
+      }
+
+      .logo {
+        transform: translateY(40px);
+        margin-bottom: 2px; /* ✅ gap between logo and heading */
+      }
+
+      .login-card {
+        padding: 30px 20px;
+        margin: 30px 10px;
+      }
+
+      .description-panel h1 {
+        font-size: 2rem;
+      }
+
+      .description-panel p {
+        font-size: 1rem;
+      }
+    }

@@ -1,0 +1,51 @@
+<% for(let i of product) { 
+     const matchingVariants = variants.filter(w => w.product_id == i.product_id);
+%>
+  <div class="col-sm-6 col-md-4 p-3">
+    <a href="/product_details/<%=i.product_id%>" class="text-decoration-none">
+    <div class="product-card shadow-sm">
+      <div class="flip-box">
+        <div class="flip-box-inner">
+          <div class="flip-box-front">
+            <img src="/uploads/<%=i.image%>" alt="Agri Masala">
+          </div>
+          <div class="flip-box-back">
+            <img src="/uploads/<%=i.image2%>" alt="Back Side">
+          </div>
+        </div>
+      </div>
+      <div class="p-3">
+        <div class="stock-status mb-1">
+          <% if (i.stockqty > 10) { %>
+            <span class="text-success">In stock!</span>
+          <% } else if (i.stockqty > 0) { %>
+            <span class="text-warning">Limited stock</span>
+          <% } else { %>
+            <span class="text-danger">Out of stock</span>
+          <% } %>
+        </div>
+
+        <div class="product-title mb-2"><%= i.product_name %></div>
+        <div class="product-title mb-2"><%= i.category_name %></div>
+  </a>
+        <select class="form-select variant-select mb-2" onchange="updatePrice(this)">
+          <% for (let v of matchingVariants) { %>
+            <option value="<%= v.price %>"><%= v.weight %> - ₹<%= v.price %></option>
+          <% } %>
+        </select>
+
+        <div class="price mb-3">₹<span class="price-value"><%= matchingVariants[0]?.price || "0.00" %></span></div>
+
+        <% if (req?.session?.user) { %>
+          <a href="/add_tocart" class="btn add-to-cart-btn w-100" <%= i.stockqty <= 0 ? "disabled" : "" %>>Add to Cart</a>
+        <% } else { %>
+          <button class="btn add-to-cart-btn w-100" onclick="alert('Please Login Or Sign Up')" <%= i.stockqty <= 0 ? "disabled" : "" %>>
+            Add to Cart
+          </button>
+        <% } %>
+
+      </div>
+    </div>
+  
+  </div>
+<% } %>

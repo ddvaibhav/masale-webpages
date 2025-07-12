@@ -1,0 +1,83 @@
+<%- include("navbar.ejs") %>
+
+<style>
+  .form-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  .heading-banner {
+    background: linear-gradient(to right, #5b4d9c, #8674e1);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 6px;
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 20px;
+  }
+</style>
+
+<!-- Heading -->
+<div class="container">
+  <div class="heading-banner">Add Weight & Price</div>
+</div>
+
+<!-- Form -->
+<div class="container form-box">
+  <form action="/add-weight-price" method="POST">
+    <!-- Product Dropdown -->
+    <div class="mb-3">
+      <label class="form-label">Select Product</label>
+      <select name="product_id" class="form-select" required>
+        <option value="">-- Select Product --</option>
+        <% productList.forEach(p => { %>
+          <option value="<%= p.product_id %>"><%= p.product_name %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <!-- Weight-Price Rows -->
+    <div id="variantContainer">
+      <div class="row g-3 mb-3 variant-row">
+        <div class="col-md-5">
+          <input type="text" name="weight[]" class="form-control" placeholder="Weight (e.g. 100gm)" required>
+        </div>
+        <div class="col-md-5">
+          <input type="number" step="0.01" name="price[]" class="form-control" placeholder="Price (e.g. 120.00)" required>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-danger w-100 remove-row">X</button>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary mb-3" id="addVariant">+ Add More</button>
+
+    <div class="text-end">
+      <button type="submit" class="btn btn-primary">Save Variants</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.getElementById("addVariant").addEventListener("click", function () {
+    const row = document.querySelector(".variant-row").cloneNode(true);
+    row.querySelectorAll("input").forEach(input => input.value = "");
+    document.getElementById("variantContainer").appendChild(row);
+  });
+
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("remove-row")) {
+      const rows = document.querySelectorAll(".variant-row");
+      if (rows.length > 1) {
+        e.target.closest(".variant-row").remove();
+      }
+    }
+  });
+</script>
+
+<%- include("footer.ejs") %>

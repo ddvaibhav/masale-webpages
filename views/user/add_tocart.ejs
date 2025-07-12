@@ -1,0 +1,102 @@
+<%- include("navbar.ejs") %>
+
+<style>
+  .cart-container {
+    padding: 60px 0;
+    background: #fdfaf6;
+  }
+
+  .cart-title {
+    font-weight: 700;
+    color: #333;
+  }
+
+  .cart-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  }
+
+  .cart-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .cart-summary {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  }
+
+  .btn-remove {
+    color: red;
+    border: none;
+    background: none;
+    font-weight: 600;
+  }
+
+  .btn-checkout {
+    background: #ffc107;
+    color: #000;
+    font-weight: 600;
+  }
+
+  .btn-checkout:hover {
+    background: #e0a800;
+  }
+</style>
+
+<section class="cart-container">
+  <div class="container">
+    <h2 class="cart-title mb-4">🛒 Your Cart</h2>
+
+    <div class="row">
+      <!-- Cart Items -->
+      <div class="col-md-8">
+        <% if (cart && cart.length > 0) { %>
+          <% let total = 0; %>
+          <% for (let item of cart) { 
+              const itemTotal = item.price * item.quantity;
+              total += itemTotal;
+          %>
+            <div class="cart-item d-flex align-items-center gap-4">
+              <img src="/uploads/<%= item.image %>" alt="Product" />
+              <div class="flex-grow-1">
+                <h5 class="mb-1"><%= item.product_name %> (<%= item.weight %>)</h5>
+                <p class="mb-1 text-muted">₹<%= item.price %> × <%= item.quantity %></p>
+                <p class="mb-1 fw-bold text-dark">Total: ₹<%= itemTotal %></p>
+              </div>
+           
+              <a href="/remove_cart/<%= item.cart_id %>" onclick="return confirm('Are you sure you want to remove this item?');" class="btn-remove text-decoration-none">
+  Remove
+</a>
+
+            </div>
+          <% } %>
+        <% } else { %>
+          <div class="alert alert-info">
+            Your cart is empty.
+          </div>
+        <% } %>
+      </div>
+
+      <!-- Summary -->
+      <div class="col-md-4">
+        <% if (cart && cart.length > 0) { %>
+          <div class="cart-summary">
+            <h5 class="mb-3">Order Summary</h5>
+            <p class="mb-2">Items: <strong><%= cart.length %></strong></p>
+            <a href="/checkout" class="btn btn-checkout w-100 mt-3">Proceed to Checkout</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include("footer.ejs") %>

@@ -1,0 +1,81 @@
+<%- include("navbar.ejs") %>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+
+<div class="container my-5">
+  <h2 class="mb-4 text-center text-uppercase">My Orders</h2>
+
+  <% if (orders.length === 0) { %>
+    <div class="alert alert-info text-center">You haven't placed any orders yet.</div>
+    <div class="text-center">
+      <a href="/product" class="btn btn-warning">Start Shopping</a>
+    </div>
+  <% } else { %>
+    <div class="table-responsive">
+      <table id="orderTable" class="table table-bordered table-hover align-middle">
+        <thead class="table-dark text-center">
+          <tr>
+            <th>#</th>
+            <th>Order ID</th>
+            <th>Products</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Order Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% let count = 1; %>
+          <% orders.forEach(order => { %>
+            <tr>
+              <td class="text-center"><%= count++ %></td>
+              <td class="text-center">#ORD<%= order.order_id %></td>
+              <td>
+                <% const items = groupedItems[order.order_id] || []; %>
+                <% items.forEach(p => { %>
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <img src="/uploads/<%= p.image %>" style="width: 40px; height: 40px; object-fit: cover;" />
+                    <div>
+                      <strong><%= p.product_name %></strong><br>
+                      <small>₹<%= p.price %> × <%= p.quantity %></small>
+                    </div>
+                  </div>
+                <% }) %>
+              </td>
+              <td class="text-center">₹<%= order.total_amount.toFixed(2) %></td>
+              <td class="text-center">
+                <% if (order.order_status === 'Pending') { %>
+                  <span class="badge bg-warning text-dark">Pending</span>
+                <% } else if (order.order_status === 'Shipped') { %>
+                  <span class="badge bg-info text-dark">Shipped</span>
+                <% } else if (order.order_status === 'Completed') { %>
+                  <span class="badge bg-success">Completed</span>
+                <% } else { %>
+                  <span class="badge bg-secondary"><%= order.order_status %></span>
+                <% } %>
+              </td>
+              <td class="text-center"><%= new Date(order.created_at).toLocaleDateString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
+
+<!-- jQuery + DataTables -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#orderTable').DataTable({
+      pageLength: 5,
+      lengthMenu: [5, 10, 25, 50],
+      order: [[5, 'desc']],
+    });
+  });
+</script>
+
+<%- include("footer.ejs") %>

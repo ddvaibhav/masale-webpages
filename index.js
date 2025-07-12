@@ -1,30 +1,37 @@
 var express = require("express");
-var session = require("express-session");
 var bodyparser = require("body-parser");
-var fileUpload = require("express-fileupload");
-var path = require("path");
-
+var upload = require("express-fileupload");
+var session = require("express-session");
+var admin_route = require("./routes/admin.js");
+var accountsroute = require("./routes/accounts");
+var userroute = require("./routes/user");
 var app = express();
+app.use(express.static("public/"));
 
-// Middleware setup
-app.use(bodyparser.urlencoded({ extended: true }));
-app.use(express.static("public"));
-app.use(fileUpload());
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
+app.use(bodyparser.urlencoded({extended:true}));
 app.use(session({
-  secret: "mysecretkey",
-  resave: false,
-  saveUninitialized: true
-}));
+    secret:"kjdjdjdjdded",
+    resave:true,
+    saveUninitialized:true
+}))
 
-// Routes
-const adminRoutes = require("./routes/admin");
-const userRoutes = require("./routes/user");
+app.use(upload());
 
-app.use("/admin", adminRoutes);
-app.use("/", userRoutes);
+app.use(function (req, res, next) {
+  res.locals.admin = req.session.admin;
+  next();
+});
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
 
 
+app.use("/",userroute);
+app.use("/admin", admin_route); 
+app.use("/accounts",accountsroute);
 
-// Server start
 app.listen(1000);

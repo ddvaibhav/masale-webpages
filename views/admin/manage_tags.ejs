@@ -1,0 +1,97 @@
+<%- include("navbar.ejs") %>
+
+<style>
+  .heading-banner {
+    background: linear-gradient(to right, #5b4d9c 0%, #5b4d9c 70%, #ffffff 100%);
+    position: relative;
+    color: white;
+    padding: 20px 30px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+
+  .heading-banner::before,
+  .heading-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background-color: #ffcc33;
+    transform: skewX(-45deg);
+  }
+
+  .heading-banner::before {
+    right: 90px;
+  }
+
+  .heading-banner::after {
+    right: 75px;
+  }
+
+  .main-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+    margin-top: 20px;
+  }
+
+  .status-badge {
+    text-transform: capitalize;
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+</style>
+
+<!-- Banner Header -->
+<div class="container">
+  <div class="heading-banner">
+    Manage Tags
+  </div>
+</div>
+
+<!-- Tag Table -->
+<div class="container main-box">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="mb-0">Tag List</h5>
+    <a href="/admin/add_tags" class="btn btn-primary">+ Add New Tag</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>#ID</th>
+          <th>Tag Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% tag.forEach((tag, index) => { %>
+          <tr>
+            <td><%= index+1 %></td>
+            <td><%= tag.tag_name %></td>
+          
+            <td>
+              <a href="/admin/edit_tag/<%= tag.tag_id %>" class="btn btn-sm btn-warning">
+                <i class="fa-solid fa-pen-to-square"></i></a>
+              </a>
+              <a href="/admin/delete_tag/<%= tag.tag_id %>" class="btn btn-sm btn-danger" 
+                onclick="return confirm('Are you sure to delete this tag?')">
+                <i class="fa-solid fa-trash"></i></a>
+            </a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("footer.ejs") %>
