@@ -126,8 +126,10 @@ router.get("/product", async function(req, res) {
 
 
 
-router.get("/gallery",function(req,res){
-    res.render("user/gallery.ejs");
+router.get("/gallery",async function(req,res){
+    var data = await exe("SELECT * FROM gallery");
+    var obj = {"data":data};
+    res.render("user/gallery.ejs",obj);
 });
 router.get("/recipes",function(req,res){
     res.render("user/recipes.ejs");
