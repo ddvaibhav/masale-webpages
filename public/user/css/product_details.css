@@ -8,13 +8,6 @@
       --earth-brown: #5D4037;
     }
 
-    body {
-      background-color: var(--off-white);
-      font-family: 'Poppins', sans-serif;
-      color: #333;
-      padding: 20px;
-    }
-
     .container {
       max-width: 1200px;
       margin: 0 auto;
