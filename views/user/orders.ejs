@@ -1,81 +1,154 @@
 <%- include("navbar.ejs") %>
 
-<!-- DataTables CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+<style>
+  .order-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .order-product {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: flex-start;
+  }
+
+  .order-product img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+
+  .order-status {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .rate-link {
+    font-weight: 600;
+    color: #007bff;
+    display: inline-block;
+    margin-top: 5px;
+  }
+
+  .no-orders {
+    text-align: center;
+    padding: 50px 0;
+  }
+
+  .text-strike {
+    text-decoration: line-through;
+    color: #888;
+  }
+
+  .cancel-order-form {
+    margin-top: 10px;
+  }
+</style>
 
 <div class="container my-5">
   <h2 class="mb-4 text-center text-uppercase">My Orders</h2>
 
   <% if (orders.length === 0) { %>
-    <div class="alert alert-info text-center">You haven't placed any orders yet.</div>
-    <div class="text-center">
+    <div class="no-orders">
+      <div class="alert alert-info">You haven't placed any orders yet.</div>
       <a href="/product" class="btn btn-warning">Start Shopping</a>
     </div>
   <% } else { %>
-    <div class="table-responsive">
-      <table id="orderTable" class="table table-bordered table-hover align-middle">
-        <thead class="table-dark text-center">
-          <tr>
-            <th>#</th>
-            <th>Order ID</th>
-            <th>Products</th>
-            <th>Total Amount</th>
-            <th>Status</th>
-            <th>Order Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% let count = 1; %>
-          <% orders.forEach(order => { %>
-            <tr>
-              <td class="text-center"><%= count++ %></td>
-              <td class="text-center">#ORD<%= order.order_id %></td>
-              <td>
-                <% const items = groupedItems[order.order_id] || []; %>
-                <% items.forEach(p => { %>
-                  <div class="d-flex align-items-center gap-2 mb-1">
-                    <img src="/uploads/<%= p.image %>" style="width: 40px; height: 40px; object-fit: cover;" />
-                    <div>
-                      <strong><%= p.product_name %></strong><br>
-                      <small>₹<%= p.price %> × <%= p.quantity %></small>
-                    </div>
-                  </div>
-                <% }) %>
-              </td>
-              <td class="text-center">₹<%= order.total_amount.toFixed(2) %></td>
-              <td class="text-center">
-                <% if (order.order_status === 'Pending') { %>
-                  <span class="badge bg-warning text-dark">Pending</span>
-                <% } else if (order.order_status === 'Shipped') { %>
-                  <span class="badge bg-info text-dark">Shipped</span>
-                <% } else if (order.order_status === 'Completed') { %>
-                  <span class="badge bg-success">Completed</span>
-                <% } else { %>
-                  <span class="badge bg-secondary"><%= order.order_status %></span>
-                <% } %>
-              </td>
-              <td class="text-center"><%= new Date(order.created_at).toLocaleDateString() %></td>
-            </tr>
-          <% }) %>
-        </tbody>
-      </table>
+    <div class="row">
+      <% orders.forEach(order => {
+        const items = groupedItems[order.order_id] || [];
+        const status = order.order_status.toLowerCase().trim();
+      %>
+        <div class="col-12">
+          <div class="order-card">
+            <a href="/order_details/<%= order.order_id %>" class="text-dark text-decoration-none">
+              <% items.forEach(item => {
+                const itemTotal = item.discount_price * item.quantity;
+                const totalSavings = (item.price - item.discount_price) * item.quantity;
+              %>
+              <div class="order-product">
+                <img src="/uploads/<%= item.image %>" alt="Product Image" />
+                <div class="flex-grow-1">
+                  <h6><%= item.product_name %></h6>
+                  <small>
+                    <span class="text-strike">₹<%= item.price %></span>
+                    <span class="text-success fw-semibold"> ₹<%= item.discount_price %></span>
+                    × <%= item.quantity %>
+                  </small><br>
+                  <small class="text-muted">You saved ₹<%= totalSavings.toFixed(2) %></small>
+                  <p class="fw-bold text-dark mt-2">Total: ₹<%= itemTotal.toFixed(2) %></p>
+
+                  <% if (status === 'completed') { %>
+                    <div><a href="/product_details/<%= item.product_id %>" class="rate-link">Review Product</a></div>
+                  <% } %>
+                </div>
+                <div class="text-end">
+                  <p class="fw-bold text-dark">₹<%= itemTotal.toFixed(2) %></p>
+                </div>
+              </div>
+              <% if (items.length > 1 && item !== items[items.length - 1]) { %>
+                <hr class="my-2">
+              <% } %>
+              <% }) %>
+            </a>
+
+            <!-- Order Status -->
+            <% if (status === 'completed') { %>
+              <div class="order-status text-success mt-2">
+                <i class="fas fa-check-circle"></i> Delivered on 
+                <%= new Date(order.date_at || order.created_at).toLocaleDateString('en-IN', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric'
+                }) %>
+                <br>
+                <small class="text-muted">Your item has been delivered</small>
+              </div>
+            <% } else if (status === 'shipped') { %>
+              <div class="order-status text-info mt-2">
+                <i class="fas fa-truck"></i> Shipped on 
+                <%= new Date(order.date_at || order.created_at).toLocaleDateString('en-IN', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric'
+                }) %>
+                <br>
+                <small class="text-muted">Your order is on the way</small>
+              </div>
+            <% } else if (status === 'cancelled') { %>
+              <div class="order-status text-danger mt-2">
+                <i class="fas fa-times-circle"></i> Cancelled on 
+                <%= new Date(order.date_at || order.created_at).toLocaleDateString('en-IN', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric'
+                }) %>
+              </div>
+            <% } else { %>
+              <div class="order-status text-warning mt-2">
+                <i class="fas fa-hourglass-half"></i> <%= order.order_status %>
+              </div>
+            <% } %>
+
+            <!-- Cancel Button if status is pending -->
+            <% if (status === 'pending') { %>
+              <form class="cancel-order-form" method="POST" action="/cancel_order/<%= order.order_id %>" onsubmit="return confirm('Are you sure you want to cancel this order?');">
+                <button class="btn btn-danger btn-sm" type="submit">Cancel Order</button>
+              </form>
+            <% } %>
+          </div>
+        </div>
+      <% }) %>
     </div>
   <% } %>
 </div>
 
-<!-- jQuery + DataTables -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
-<script>
-  $(document).ready(function () {
-    $('#orderTable').DataTable({
-      pageLength: 5,
-      lengthMenu: [5, 10, 25, 50],
-      order: [[5, 'desc']],
-    });
-  });
-</script>
-
+<!-- FontAwesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <%- include("footer.ejs") %>

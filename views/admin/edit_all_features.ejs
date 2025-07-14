@@ -1,0 +1,34 @@
+<%- include("navbar") %>
+
+<div class="main-content" style="margin-left:250px; padding:40px;">
+  <h2>Edit Feature</h2>
+
+  <form action="/admin/update" method="POST" enctype="multipart/form-data" style="max-width:500px;">
+
+    <!-- Hidden Values -->
+    <input type="hidden" name="id" value="<%= data.id %>">
+    <input type="hidden" name="old_image" value="<%= data.image %>">
+
+    <!-- Old Image Preview -->
+    <label>Current Image</label><br>
+    <img src="/uploads/<%= data.image %>" width="80" height="80" style="border-radius:50%; object-fit:cover; margin-bottom:15px;"><br>
+
+    <!-- Upload New Image -->
+    <label>New Image (optional)</label>
+    <input type="file" name="image" class="form-control" style="margin-bottom:15px;"><br>
+
+    <!-- Title -->
+    <label>Title</label>
+    <input type="text" name="title" value="<%= data.title %>" class="form-control" style="margin-bottom:15px;" required><br>
+
+    <!-- Description -->
+    <label>Description</label>
+    <textarea name="description" class="form-control" rows="4" required><%= data.description %></textarea><br><br>
+
+    <button type="submit" style="padding: 10px 20px; background: orange; color: white; border: none; border-radius: 5px;">
+      Update Feature
+    </button>
+  </form>
+</div>
+
+<%- include("footer") %>

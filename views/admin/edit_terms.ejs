@@ -1,0 +1,76 @@
+<%- include("navbar") %>
+
+<style>
+  body {
+    background-color: #fdfbf7;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .terms-container {
+    margin-left: 250px;
+    padding: 40px 20px;
+  }
+
+  .terms-card {
+    max-width: 600px;
+    margin: auto;
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .terms-card h2 {
+    text-align: center;
+    color: #5a3300;
+    margin-bottom: 25px;
+  }
+
+  .form-label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+  }
+
+  .form-input, .form-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+
+  .update-btn {
+    background-color: #d97706;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    font-size: 16px;
+  }
+</style>
+
+<div class="terms-container">
+  <div class="terms-card">
+    <h2>Update Terms & Condition</h2>
+    <form action="/admin/update_terms" method="POST">
+      <input type="hidden" name="id" value="<%= result.id %>">
+
+      <label class="form-label">Title</label>
+      <input type="text" name="title" class="form-input" value="<%= result.title %>" required>
+
+      <label class="form-label">Description</label>
+      <textarea name="description" rows="5" class="form-textarea" required><%= result.description %></textarea>
+
+      <button type="submit" class="update-btn">Update</button>
+    </form>
+  </div>
+</div>
+
+<%- include("footer") %>

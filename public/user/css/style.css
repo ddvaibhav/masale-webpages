@@ -132,6 +132,7 @@ body{
       color: var(--dark-brown);
       overflow-x: hidden;
     }
+<<<<<<< HEAD
     
     /* Hero Carousel container (optional, keep if you want custom height/width) */
 .hero-container {
@@ -157,34 +158,99 @@ body{
 /* Removed all other custom carousel styles to use Bootstrap defaults */
 
 
+=======
+
+  /* Custom styles to enhance Bootstrap carousel */
+  #heroCarousel {
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  }
+  
+  .carousel-item {
+    height: 80vh;
+  }
+  
+  .carousel-item img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .carousel-caption {
+    background: rgba(58, 38, 24, 0.7);
+    border-radius: 15px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    bottom: 100px;
+  }
+  
+  .carousel-caption h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  }
+  
+  .btn-warning {
+    background: linear-gradient(135deg, #FF9933, #FFCC66);
+    color: white;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 8px 20px rgba(255, 153, 51, 0.4);
+    transition: all 0.3s ease;
+  }
+  
+  .btn-warning:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(255, 153, 51, 0.6);
+    color: white;
+  }
+  
+  .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .carousel-indicators .active {
+    background-color: #FF9933;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .carousel-item {
+      height: 60vh;
+    }
+    
+>>>>>>> 2ac2e39598c10e01639e025b6118ce51b6aecc25
     .carousel-caption {
-      position: absolute;
-      bottom: 100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(58, 38, 24, 0.7);
-      border-radius: 15px;
-      padding: 20px;
-      max-width: 500px;
-      text-align: center;
-      color: var(--off-white);
+      bottom: 50px;
+      padding: 15px;
     }
     
     .carousel-caption h2 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-      margin-bottom: 15px;
+      font-size: 2rem;
     }
     
-    .order-btn-container {
-      position: absolute;
+    .btn-warning {
+      padding: 8px 20px;
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .carousel-item {
+      height: 50vh;
+    }
+    
+    .carousel-caption {
       bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
+      padding: 10px;
     }
     
+<<<<<<< HEAD
     .btn.order-btn {
       background: linear-gradient(135deg, var(--saffron-orange), var(--turmeric-yellow));
       color: white;
@@ -202,6 +268,13 @@ body{
       transform: translateY(-3px);
       box-shadow: 0 12px 25px rgba(255, 153, 51, 0.6);
     }
+=======
+    .carousel-caption h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+>>>>>>> 2ac2e39598c10e01639e025b6118ce51b6aecc25
     
     /* Section Titles */
     .section-title-reel {
@@ -722,8 +795,10 @@ body{
 /* Background Image */
 .bg-image {
   height: 400px;
-  background:
-   url('/images/why_choose_img.jpg') center center/cover no-repeat;
+  background:url('/images/why_choose_img.jpg');
+  background-repeat:no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
 }
 
 /* Text over Background */
@@ -2405,6 +2480,8 @@ body{
         padding: 1.5rem !important;
       }
     }
+
+    
 
 
 

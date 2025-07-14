@@ -1,0 +1,103 @@
+<%- include("navbar") %>
+
+<style>
+  .story-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px;
+    background-color: #fefaf4;
+    gap: 40px;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .story-text {
+    flex: 1 1 400px;
+  }
+
+  .story-text h2 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #d97706;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .story-text h2::after {
+    content: "";
+    width: 60px;
+    height: 4px;
+    background: #f59e0b;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+  }
+
+  .story-text p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .story-image {
+    flex: 1 1 300px;
+    text-align: center;
+  }
+
+  .story-image img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+
+  .update-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    background-color: #0d6efd;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .update-btn:hover {
+    background-color: #0b5ed7;
+  }
+
+  @media (max-width: 768px) {
+    .story-section {
+      flex-direction: column;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .update-btn {
+      position: static;
+      margin-top: 20px;
+    }
+  }
+</style>
+
+<% for (var i = 0; i < our_story.length; i++) { %>
+  <div class="story-section">
+    <div class="story-text">
+      <h2><%= our_story[i].hiadding %></h2>
+      <p><%= our_story[i].p_frist %></p>
+      <p><%= our_story[i].p_second %></p>
+      <p><%= our_story[i].p_third %></p>
+    </div>
+    <div class="story-image">
+      <img src="/images/<%= our_story[i].image %>" alt="Story Image">
+    </div>
+    <!--  Update Button -->
+    <a href="/admin/edit_our_story/<%= our_story[i].id %>" class="update-btn">Update</a>
+  </div>
+<% } %>
+
+<%- include("footer") %>

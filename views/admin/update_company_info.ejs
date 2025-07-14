@@ -1,0 +1,41 @@
+<%- include("navbar") %>
+
+<div class="main-content" style="min-height: 100vh; background-color: #fdfbf7;">
+  <div class="container py-5 px-4">
+
+    <form action="/admin/update_company" method="post" class="bg-white p-5 rounded-4 shadow-sm">
+      <input type="hidden" name="id" value="<%= info[0].id %>">
+
+      <h3 class="mb-4 fw-bold text-orange" style="color: #f58220;">Edit Company Info</h3>
+
+      <div class="mb-3">
+        <label>Heading First</label>
+        <input type="text" name="heading_frist" class="form-control" value="<%= info[0].heading_frist %>">
+      </div>
+
+      <div class="mb-3">
+        <label>Heading Second</label>
+        <input type="text" name="heading_second" class="form-control" value="<%= info[0].heading_second %>">
+      </div>
+
+      <div class="mb-3">
+        <label>Paragraph First</label>
+        <textarea name="p_frist" class="form-control" rows="3"><%= info[0].p_frist %></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label>Paragraph Second</label>
+        <textarea name="p_second" class="form-control" rows="3"><%= info[0].p_second %></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label>Paragraph Third</label>
+        <textarea name="p_third" class="form-control" rows="3"><%= info[0].p_third %></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary px-4">Update</button>
+    </form>
+
+  </div>
+</div>
+<%- include("footer.ejs") %>

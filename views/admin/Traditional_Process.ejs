@@ -1,0 +1,110 @@
+<%- include("navbar") %>
+
+<style>
+  body {
+    background-color: #fff7ea;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .process-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 40px;
+    color: #d97706;
+    position: relative;
+  }
+
+  .process-title span {
+    color: #1e3a8a;
+    background-color: #e2e8f0;
+    padding: 0 10px;
+    border-radius: 5px;
+  }
+
+  .process-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin: 50px auto;
+    max-width: 1200px;
+  }
+
+  .process-card {
+    width: 300px;
+    text-align: center;
+    position: relative;
+  }
+
+  .process-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .step-number {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #d97706;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-weight: bold;
+    line-height: 35px;
+    font-size: 16px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  }
+
+  .process-title-text {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0 10px;
+    color: #3b2f2f;
+  }
+
+  .process-desc {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+
+  .update-btn {
+    background-color: #d97706;
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .update-btn:hover {
+    background-color: #b45309;
+  }
+</style>
+
+<h2 class="process-title">The <span>Traditional Process</span></h2>
+
+<div class="process-container">
+  <% for (let i = 0; i < result.length; i++) { %>
+    <div class="process-card">
+      <div class="step-number"><%= i + 1 %></div>
+      <img src="/images/<%= result[i].image %>" alt="Step Image">
+      <div class="process-title-text"><%= result[i].title %></div>
+      <div class="process-desc"><%= result[i].description %></div>
+      <a href="/admin/update_process/<%= result[i].id %>" class="update-btn">Update</a>
+    </div>
+  <% } %>
+</div>
+
+<%- include("footer") %>
