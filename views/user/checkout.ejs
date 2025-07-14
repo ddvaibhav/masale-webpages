@@ -17,7 +17,7 @@
           <ul class="list-group list-group-flush">
             <% let totalAmount = 0; %>
             <% cart.forEach(item => { 
-                const itemTotal = item.price * item.quantity;
+                const itemTotal = item.discount_price * item.quantity;
                 totalAmount += itemTotal;
             %>
               <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -25,7 +25,13 @@
                   <img src="/uploads/<%= item.image %>" alt="<%= item.product_name %>" style="width: 60px; height: 60px; object-fit: cover;">
                   <div>
                     <strong><%= item.product_name %></strong><br>
-                    <small><%= item.weight %> – ₹<%= item.price %> × <%= item.quantity %></small>
+                  <small>
+  <%= item.weight %> –
+  <span class="text-muted text-decoration-line-through">₹<%= item.price %></span>
+  <span class="text-success fw-bold">₹<%= item.discount_price %></span>
+  × <%= item.quantity %>
+</small>
+
                   </div>
                 </div>
                 <span>₹<%= itemTotal %></span>
@@ -39,21 +45,54 @@
         </div>
 
         <!-- Address / Billing Form -->
-     <form id="checkoutForm">
+    <form id="checkoutForm">
   <h5 class="mb-3">Shipping Information</h5>
+
   <input type="text" name="name" class="form-control mb-2" placeholder="Full Name" required>
+  <input type="email" name="email" class="form-control mb-2" placeholder="Email Address" required>
   <input type="tel" name="phone" class="form-control mb-2" placeholder="Mobile Number" pattern="[0-9]{10}" required>
-  <textarea name="address" class="form-control mb-3" rows="3" placeholder="Delivery Address" required></textarea>
+  <textarea name="address" class="form-control mb-2" rows="2" placeholder="Street Address / Flat No." required></textarea>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <input type="text" name="city" class="form-control mb-2" placeholder="City" required>
+    </div>
+    <div class="col-md-6">
+      <input type="text" name="state" class="form-control mb-2" placeholder="State" required>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <input type="text" name="pincode" class="form-control mb-2" placeholder="Pincode" required>
+    </div>
+    <div class="col-md-6">
+      <input type="text" name="country" class="form-control mb-2" placeholder="Country" required>
+    </div>
+  </div>
+
+  <textarea name="notes" class="form-control mb-3" rows="2" placeholder="Landmark / Additional Notes (optional)"></textarea>
 
   <input type="hidden" name="total_amount" value="<%= totalAmount %>">
-  
-<% cart.forEach(item => { %>
-  <input type="hidden" name="products[]" value="<%= item.product_id %>_<%= item.price %>_<%= item.quantity %>">
-<% }) %>
 
+  <% cart.forEach(item => { %>
+    <input type="hidden" name="products[]" value="<%= item.product_id %>_<%= item.price %>_<%= item.discount_price %>_<%= item.quantity %>">
+  <% }) %>
 
-  <button type="submit" class="btn btn-success w-100">Pay with Razorpay</button>
+  <h5 class="mb-3">Select Payment Method</h5>
+<div class="form-check mb-2">
+  <input class="form-check-input" type="radio" name="payment_method" id="razorpayOption" value="razorpay" checked>
+  <label class="form-check-label" for="razorpayOption">Pay Online (Razorpay)</label>
+</div>
+<div class="form-check mb-3">
+  <input class="form-check-input" type="radio" name="payment_method" id="codOption" value="cod">
+  <label class="form-check-label" for="codOption">Cash on Delivery</label>
+</div>
+
+<button type="submit" class="btn btn-success w-100">Proceed to Payment</button>
+
 </form>
+
 
       </div>
 
@@ -71,6 +110,7 @@
 
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
   document.getElementById("checkoutForm").addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -79,42 +119,55 @@
     const amount = formData.get("total_amount");
     const name = formData.get("name");
     const phone = formData.get("phone");
+    const email = formData.get("email");
     const address = formData.get("address");
-    const product_id = formData.get("product_id");
+    const pincode = formData.get("pincode");
+    const state = formData.get("state");
+    const city = formData.get("city");
+    const landmark = formData.get("notes");
+    const payment_method = formData.get("payment_method");
 
-    const response = await fetch("/create-order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount })
-    });
+    const productInputs = document.querySelectorAll('input[name="products[]"]');
+    const products = Array.from(productInputs).map(input => input.value).join(',');
 
-    const data = await response.json();
+    if (payment_method === "cod") {
+      // COD Selected – Just redirect
+      window.location.href = `/place_order?razorpay_payment_id=COD_${Date.now()}&name=${encodeURIComponent(name)}&phone=${phone}&email=${encodeURIComponent(email)}&pincode=${pincode}&state=${encodeURIComponent(state)}&city=${encodeURIComponent(city)}&landmark=${encodeURIComponent(landmark)}&address=${encodeURIComponent(address)}&amount=${amount}&products=${encodeURIComponent(products)}&payment_method=cod`;
+    } else {
+      // Razorpay Selected – Create order & open payment gateway
+      const response = await fetch("/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount })
+      });
 
-    const options = {
-      key: "rzp_test_06ydm2R5DTbang", // Replace with your Razorpay key
-      amount: amount * 100,
-      currency: "INR",
-      name: "Your Store",
-      description: "Order Payment",
-      order_id: data.orderId,
-      handler: function (response) {
-  const productInputs = document.querySelectorAll('input[name="products[]"]');
-  const products = Array.from(productInputs).map(input => input.value).join(',');
+      const data = await response.json();
 
-  window.location.href = `/place_order?razorpay_payment_id=${response.razorpay_payment_id}&name=${name}&phone=${phone}&address=${address}&amount=${amount}&product_id=${product_id}&products=${encodeURIComponent(products)}`;
-},
-      prefill: {
-        name: name,
-        contact: phone
-      },
-      theme: {
-        color: "#3399cc"
-      }
-    };
+      const options = {
+        key: "rzp_test_06ydm2R5DTbang", // Replace with live key in production
+        amount: amount * 100,
+        currency: "INR",
+        name: "Your Store",
+        description: "Order Payment",
+        order_id: data.orderId,
+        handler: function (response) {
+          window.location.href = `/place_order?razorpay_payment_id=${response.razorpay_payment_id}&name=${encodeURIComponent(name)}&phone=${phone}&email=${encodeURIComponent(email)}&pincode=${pincode}&state=${encodeURIComponent(state)}&city=${encodeURIComponent(city)}&landmark=${encodeURIComponent(landmark)}&address=${encodeURIComponent(address)}&amount=${amount}&products=${encodeURIComponent(products)}&payment_method=razorpay`;
+        },
+        prefill: {
+          name: name,
+          email: email,
+          contact: phone
+        },
+        theme: {
+          color: "#3399cc"
+        }
+      };
 
-    const rzp = new Razorpay(options);
-    rzp.open();
+      const rzp = new Razorpay(options);
+      rzp.open();
+    }
   });
 </script>
+
 
 <%- include("footer.ejs") %>

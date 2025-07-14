@@ -1,0 +1,78 @@
+<%- include("navbar") %>
+
+<style>
+  .terms-box {
+    background: #fff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    margin: 30px auto;
+    max-width: 900px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .terms-box h2 {
+    font-size: 28px;
+    color: #5a3300;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .terms-box hr {
+    border: 1px solid #fbbf24;
+    margin-bottom: 30px;
+  }
+
+  .terms-box h4 {
+    color: #d97706;
+    margin-top: 20px;
+    font-size: 20px;
+  }
+
+  .terms-box p {
+    color: #333;
+    font-size: 15px;
+    margin-top: 5px;
+  }
+
+  .update-btn {
+    background: #d97706;
+    color: white;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 10px;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .contact-box {
+    background-color: #fff7dc;
+    padding: 15px 20px;
+    border-left: 4px solid orange;
+    margin-top: 25px;
+    font-size: 15px;
+  }
+
+  .contact-box b {
+    font-weight: bold;
+  }
+</style>
+
+<div class="terms-box">
+  <h2><i class="bi bi-flag-fill text-warning"></i> Terms & Conditions</h2>
+  <hr>
+
+  <% for (var i = 0; i < result.length; i++) { %>
+    <h4><%= i + 1 %>. <%= result[i].title %></h4>
+    <p><%= result[i].description %></p>
+    <a href="/admin/update_terms/<%= result[i].id %>" class="update-btn">Update</a>
+  <% } %>
+
+  <div class="contact-box">
+    <p>For queries or legal matters, email us at <b>Masale@gmail.com</b>.</p>
+  </div>
+</div>
+
+<%- include("footer") %>

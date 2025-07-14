@@ -1,0 +1,108 @@
+<%- include("navbar") %>
+
+<style>
+  body {
+    background-color: #f9fafb;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #d97706;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .section-title::after {
+    content: "";
+    width: 80px;
+    height: 4px;
+    background-color: #d97706;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+  }
+
+  .card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding-bottom: 60px;
+  }
+
+  .mission-card {
+    background: white;
+    width: 300px;
+    padding: 30px 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: transform 0.2s ease;
+    position: relative;
+  }
+
+  .mission-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .mission-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+  }
+
+  .mission-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4b2e19;
+    margin-bottom: 10px;
+  }
+
+  .mission-desc {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .update-btn {
+    background-color: #d97706;
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .update-btn:hover {
+    background-color: #b45309;
+  }
+</style>
+
+<div class="container">
+  <h2 class="section-title">Our Mission & Values</h2>
+
+  <div class="card-container">
+    <% for (var i = 0; i < info.length; i++) { %>
+      <div class="mission-card">
+        <img src="/images/<%= info[i].image %>" alt="Icon" class="mission-icon">
+        <div class="mission-title"><%= info[i].heading %></div>
+        <div class="mission-desc"><%= info[i].description %></div>
+
+        <!-- Update Button -->
+        <a href="/admin/update_mission/<%= info[i].id %>" class="update-btn">Update</a>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include("footer") %>

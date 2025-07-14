@@ -1,0 +1,92 @@
+<%- include("navbar") %>
+
+<style>
+  body {
+    background-color: #fdfbf7;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .form-box {
+    max-width: 600px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
+
+  .form-box h2 {
+    text-align: center;
+    color: #d97706;
+    margin-bottom: 30px;
+    font-weight: bold;
+  }
+
+  label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    color: #333;
+  }
+
+  input[type="text"], textarea, input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  img.preview {
+    width: 120px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  button {
+    background-color: #d97706;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #b45309;
+  }
+</style>
+
+<div class="form-box">
+  <h2>Edit Traditional Step</h2>
+
+  <form action="/admin/edit_Tranditional_process" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<%= result[0].id %>">
+    <label>Title</label>
+    <input type="text" name="title" value="<%= result[0].title %>" required>
+
+    <label>Description</label>
+    <textarea name="description" rows="5" required><%= result[0].description %></textarea>
+
+    <label>Current Image</label><br>
+    <img src="/images/<%= result[0].image %>" class="preview" alt="Image"><br>
+
+    <label>New Image (optional)</label>
+    <input type="file" name="image">
+
+    <div style="text-align: center;">
+      <button type="submit">Update</button>
+    </div>
+  </form>
+</div>
+
+<%- include("footer") %>

@@ -11,6 +11,7 @@
     transform: translate(-50%, -50%);
     z-index: 1000;
   }
+
   @media (max-width: 768px) {
   .container, .row {
     padding-left: 0 !important;
@@ -27,8 +28,13 @@
   .section-title {
     text-align: center;
   }
+  .discount-badge {
+  top: 10px;
+  left: 10px;
+  font-size: 0.85rem;
+  z-index: 10;
 }
-
+  }
 </style>
 
 <!-- Hero Section -->
@@ -100,6 +106,12 @@
       <div class="product-card shadow-sm h-100">
         <a href="/product_details/<%= i.product_id %>" class="text-decoration-none">
           <div class="flip-box">
+
+             <% if (i.discount > 0) { %>
+    <div class="discount-badge position-absolute bg-danger text-white px-2 py-1 rounded">
+      <%= i.discount %>% OFF
+    </div>
+  <% } %>
             <div class="flip-box-inner">
               <div class="flip-box-front">
                 <img src="/uploads/<%= i.image %>" alt="Agri Masala">

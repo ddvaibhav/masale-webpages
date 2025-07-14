@@ -33,6 +33,342 @@ router.post("/update_profile", async function (req, res) {
   res.redirect("/admin/profile");
 });
 
+router.get("/Spice_Story", async function (req, res) {
+  var sql = "SELECT * FROM spice_story";
+  var result = await exe(sql);
+  res.render("admin/Spice_Story.ejs", { result });
+});
+
+
+router.get("/edit_spicy_story/:id", async function(req, res){
+   var id = req.params.id;
+   var result = await exe("SELECT * FROM spice_story WHERE id = ?", [id]);
+   res.render("admin/edit_spicy_story.ejs", { result: result });
+});
+
+
+router.post("/update_Spice_Story",async function(req,res){
+   var d = req.body;
+
+  var sql = `UPDATE spice_story SET title = ?, subheading = ?, description = ? WHERE id = ?`;
+  await exe(sql, [d.title, d.subheading, d.description, d.id]);
+
+  var oldData = await exe("SELECT image FROM spice_story WHERE id = ?", [d.id]);
+  var oldImage = oldData.length > 0 ? oldData[0].image : "";
+  let file_name = "";
+
+  if (req.files && req.files.image) {
+    file_name = new Date().getTime() + "_" + req.files.image.name;
+    await req.files.image.mv("public/images/" + file_name);
+  } else {
+    file_name = oldImage;
+  }
+
+  var sql2 = `UPDATE spice_story SET image = ? WHERE id = ?`;
+  await exe(sql2, [file_name, d.id]);
+
+  res.redirect("/admin/Spice_Story");
+});
+
+// reciepi
+router.get("/recipe", async function(req, res) {
+  var sql = "SELECT * FROM recipe";
+  var result = await exe(sql);
+  res.render("admin/Recipe.ejs", {result});
+});
+
+router.get("/edit_recipe/:id", async function(req, res) {
+  let id = req.params.id;
+  let sql = "SELECT * FROM recipe WHERE id = ?";
+  let result = await exe(sql, [id]);
+  res.render("admin/edit_recipe.ejs", { result });
+});
+
+router.post("/update_recipe", async function(req, res) {
+  let d = req.body;
+
+  let sql = `UPDATE recipe SET title = ?, description = ?, duration = ? WHERE id = ?`;
+  await exe(sql, [d.title, d.description, d.duration, d.id]);
+
+
+  let oldData = await exe("SELECT image FROM recipe WHERE id = ?", [d.id]);
+  let oldImage = oldData.length > 0 ? oldData[0].image : "";
+  let file_name = "";
+
+  if (req.files && req.files.image) {
+    file_name = new Date().getTime() + "_" + req.files.image.name;
+    await req.files.image.mv("public/images/" + file_name);
+  } else {
+    file_name = oldImage;
+  }
+
+  await exe("UPDATE recipe SET image = ? WHERE id = ?", [file_name, d.id]);
+
+  res.redirect("/admin/recipe");
+});
+
+// features
+
+router.get("/features", async function(req, res){
+  var data = await exe("SELECT * FROM features");
+  res.render("admin/features.ejs", {data});
+});
+
+
+
+router.get("/edit/:id", async function (req, res){
+  var sql ="SELECT * FROM features WHERE id=?";
+  var data = await exe(sql,[req.params.id]);
+  res.render("admin/edit_all_features.ejs", { data: data[0] });
+});
+
+router.post("/update", async function (req, res) {
+  try {
+    let d = req.body;
+    let file_name = "";
+
+    if (req.files && req.files.image) {
+      let image = req.files.image;
+      file_name = new Date().getTime() + "_" + image.name;
+      await image.mv("public/images/" + file_name);
+    } else {
+      let oldfile = "SELECT * FROM features WHERE id = ?";
+      let result = await exe(oldfile, [d.id]);
+      if (result.length > 0) {
+        file_name = result[0].image; 
+       }
+    }
+
+    let update_sql = `UPDATE features SET title = ?, description = ?, image = ? WHERE id = ?`;
+    await exe(update_sql, [d.title, d.description, file_name, d.id]);
+
+    res.redirect("/admin/features");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong!");
+  }
+});
+
+
+// company info
+
+
+router.get("/company_info",async function(req,res){
+  var sql = `select * from company_info`;
+  var company_info = await exe(sql);
+  res.render("admin/company_info.ejs",{company_info})
+});
+
+
+router.get("/edit_company/:cid",async function(req,res){
+  var id = req.params.cid;
+  var sql = `select * from  company_info where id = ? `;
+  var info = await exe(sql,[id]);
+  res.render("admin/update_company_info.ejs",{info})
+})
+
+router.post("/update_company",async function(req,res){
+  var d = req.body;
+var sql = `UPDATE company_info SET
+    heading_frist = ?,
+    heading_second = ?,
+    p_frist = ?,
+    p_second = ?,
+    p_third = ?
+    WHERE id = ?`;
+    var resut = await exe(sql, [
+    d.heading_frist,
+    d.heading_second,
+    d.p_frist,
+    d.p_second,
+    d.p_third,
+    d.id
+]);
+    res.redirect("/admin/company_info")
+});
+
+router.get("/our_story", async function (req, res) {
+    var sql = "SELECT * FROM  our_story ";
+    var our_story = await exe(sql);
+  
+    res.render("admin/our_story.ejs",{our_story});
+});
+
+
+
+router.get("/edit_our_story/:sid",async function(req,res){
+  var id = req.params.sid;
+  var sql = `SELECT * FROM our_story where id = ? `;
+  var date = await exe(sql,[id]);
+  res.render("admin/edit_our_story.ejs",{date})
+})
+
+router.post("/update_our_story", async function(req, res) {
+    var d = req.body;
+
+    var sql = `UPDATE our_story SET
+        hiadding = ?,
+        p_frist = ?,
+        p_second = ?,
+        p_third = ?
+    WHERE id = ?`;
+
+    var result = await exe(sql, [
+        d.hiadding,
+        d.p_frist,
+        d.p_second,
+        d.p_third,
+        d.id
+    ]);
+
+
+    var oldData = await exe("SELECT image FROM our_story WHERE id = ?", [d.id]);
+    var oldImage = oldData.length > 0 ? oldData[0].image : "";
+
+    if (req.files) {
+        file_name = new Date().getTime() + req.files.image.name;
+        req.files.image.mv("public/images/" + file_name);
+    } else {
+        file_name = oldImage;  
+    }
+
+    var sql2 = `UPDATE our_story SET
+        image = ? 
+    WHERE id = ?`;
+
+    var result2 = await exe(sql2, [file_name, d.id]);
+
+    res.redirect("/admin/our_story");
+});
+
+// our mission
+router.get("/add_mission_value", async function(req,res){
+  var sql = `select * from mission_values`;
+  var info = await exe(sql);
+  res.render("admin/our_mission_values.ejs",{info})
+});
+
+router.get("/process_steps", async function (req, res) {
+  var sql = "SELECT * FROM process_steps";
+  var result = await exe(sql);
+  res.render("admin/Traditional_Process.ejs", { result });
+});
+
+router.get("/terms_conditions", async function (req, res) {
+  var sql = "SELECT * FROM terms_conditions";
+  var result = await exe(sql);
+  res.render("admin/terms_conditions.ejs", { result });
+});
+
+
+
+router.get("/update_terms/:id", async function (req, res) {
+  var id = req.params.id;
+  var sql = "SELECT * FROM terms_conditions WHERE id = ?";
+  var result = await exe(sql, [id]);
+  res.render("admin/edit_terms.ejs", { result: result[0] });
+});
+
+router.post("/update_terms", async function (req, res) {
+  var d = req.body;
+
+  var sql = `UPDATE terms_conditions SET title = ?, description = ? WHERE id = ?`;
+  await exe(sql, [d.title, d.description, d.id]);
+
+  res.redirect("/admin/terms_conditions");
+});
+
+router.get("/Frequently", async function (req, res) {
+  var sql = "SELECT * FROM faqs";
+  var result = await exe(sql);
+  res.render("admin/Frequently.ejs", { result });
+});
+
+
+
+router.get("/edit_faq/:id", async function (req, res) {
+  var id = req.params.id;
+  var sql = "SELECT * FROM faqs WHERE id = ?";
+  var result = await exe(sql, [id]);
+  res.render("admin/edit_faq.ejs", { result });
+});
+
+router.post("/update_faq", async function (req, res) {
+  var d = req.body;
+  var sql = "UPDATE faqs SET question = ?, answer = ? WHERE id = ?";
+   var result = await exe(sql, [d.question, d.answer, d.id]);
+  res.redirect("/admin/Frequently");
+
+});
+
+router.get("/update_process/:pid", async function (req, res) {
+  var id = req.params.pid;
+  var sql = "SELECT * FROM process_steps WHERE  id = ? ";
+  var result = await exe(sql,[id]);
+  res.render("admin/edit_Traditional_Process.ejs", { result });
+});
+
+router.post("/edit_Tranditional_process", async function (req, res) {
+  var d = req.body;
+
+  var sql = `UPDATE process_steps SET title = ?, description = ? WHERE id = ?`;
+  await exe(sql, [d.title, d.description, d.id]);
+
+  var oldData = await exe("SELECT image FROM process_steps WHERE id = ?", [d.id]);
+  var oldImage = oldData.length > 0 ? oldData[0].image : "";
+  let file_name = "";
+
+  if (req.files && req.files.image) {
+    file_name = new Date().getTime() + "_" + req.files.image.name;
+    await req.files.image.mv("public/images/" + file_name);
+  } else {
+    file_name = oldImage;
+  }
+
+  var sql2 = `UPDATE process_steps SET image = ? WHERE id = ?`;
+  await exe(sql2, [file_name, d.id]);
+
+  res.redirect("/admin/process_steps");
+});
+
+router.get("/update_mission/:mid",async function(req,res){
+  var id = req.params.mid;
+  var sql = `select * from mission_values where id = ? `;
+  var info = await exe(sql,[id]);
+  res.render("admin/edit_mission_vales.ejs",{info})
+})
+
+router.post("/our_mission_value", async function(req, res) {
+    var d = req.body;
+
+ 
+    var sql = `UPDATE mission_values SET
+        heading = ?,
+        description = ?
+    WHERE id = ?`;
+
+    await exe(sql, [d.title, d.description, d.id]);
+
+ 
+    var oldData = await exe("SELECT image FROM mission_values WHERE id = ?", [d.id]);
+    var oldImage = oldData.length > 0 ? oldData[0].image : "";
+    let file_name = "";
+
+  
+    if (req.files && req.files.image) {
+        file_name = new Date().getTime() + req.files.image.name;
+        await req.files.image.mv("public/images/" + file_name);
+    } else {
+        file_name = oldImage;
+    }
+
+    var sql2 = `UPDATE mission_values SET image = ? WHERE id = ?`;
+    await exe(sql2, [file_name, d.id]);
+
+    res.redirect("/admin/add_mission_value");
+});
+
+
 router.get("/add_category",function(req,res){
   res.render("admin/add_category.ejs");
 });
@@ -151,9 +487,9 @@ router.post("/add-product", async (req, res) => {
 
     // Insert product
    const productRes = await exe(
-  `INSERT INTO product (product_name, category_id, ingredients, image, image2, detail, \`usage\`, health_benifits, stockqty)
-   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-  [d.product_name, d.category_id, d.ingredients, imageName, image2, d.detail, d.usage, d.health_benifits, d.stockqty]
+  `INSERT INTO product (product_name, category_id, ingredients, image, image2, detail, \`usage\`, health_benifits, stockqty,discount)
+   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)`,
+  [d.product_name, d.category_id, d.ingredients, imageName, image2, d.detail, d.usage, d.health_benifits, d.stockqty,d.discount]
 );
 
     const product_id = productRes.insertId;
@@ -362,13 +698,14 @@ router.get("/delete_product/:id",async function(req,res){
 
 router.get("/all_orders", async (req, res) => {
   try {
-    const orders = await exe(`
-      SELECT o.order_id, o.total_amount, o.order_status, o.created_at AS order_date,
-             u.name AS user_name, u.email AS user_email
-      FROM orders o
-      JOIN user_registration u ON o.user_id = u.user_id
-      ORDER BY o.created_at DESC
-    `);
+   const orders = await exe(`
+  SELECT o.order_id, o.total_amount, o.order_status, o.created_at AS order_date, o.date_at,
+         u.name AS user_name, u.email AS user_email
+  FROM orders o
+  JOIN user_registration u ON o.user_id = u.user_id
+  ORDER BY o.created_at DESC
+`);
+
 
     res.render("admin/all_orders.ejs", { orders });
   } catch (error) {
@@ -376,6 +713,37 @@ router.get("/all_orders", async (req, res) => {
     res.send("Something went wrong");
   }
 });
+
+router.post("/all_orders", async (req, res) => {
+  const { order_id, order_status } = req.body;
+
+  try {
+    let query = `UPDATE orders SET order_status = ?`;
+    let params = [order_status];
+
+    // फक्त Shipped, Completed, Cancelled साठीच date_at update करायची
+    if (
+      order_status === "Shipped" ||
+      order_status === "Completed" ||
+      order_status === "Cancelled"
+    ) {
+      query += `, date_at = NOW()`;
+    } else {
+      query += `, date_at = NULL`; // जर पुन्हा Pending किंवा काही अनोळखी status आला, तर clear करा
+    }
+
+    query += ` WHERE order_id = ?`;
+    params.push(order_id);
+
+    await exe(query, params);
+    res.redirect("/admin/all_orders");
+  } catch (error) {
+    console.error("Order status update error:", error);
+    res.send("Something went wrong");
+  }
+});
+
+
 
 router.get("/gallery",async function(req,res){
   var sql = `SELECT * FROM gallery`; 

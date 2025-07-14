@@ -243,69 +243,61 @@
 
     
     // Carousel functionality
-    const carouselInner = document.querySelector('.carousel-inner');
-    const carouselItems = document.querySelectorAll('.carousel-item');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    const indicators = document.querySelectorAll('.indicator');
-    
-    let currentIndex = 0;
-    const itemCount = carouselItems.length;
-    
-    function updateCarousel() {
-      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-      
-      // Update indicators
-      indicators.forEach((indicator, index) => {
-        indicator.classList.toggle('active', index === currentIndex);
-      });
-    }
-    
-    function nextSlide() {
-      currentIndex = (currentIndex + 1) % itemCount;
-      updateCarousel();
-    }
-    
-    function prevSlide() {
-      currentIndex = (currentIndex - 1 + itemCount) % itemCount;
-      updateCarousel();
-    }
-    
-    // Auto slide
-    let autoSlide = setInterval(nextSlide, 5000);
-    
-    // Reset auto slide on interaction
-    function resetAutoSlide() {
-      clearInterval(autoSlide);
-      autoSlide = setInterval(nextSlide, 5000);
-    }
-    
-
-
-
-
-
-
-    
-    // Event listeners
-    prevBtn.addEventListener('click', () => {
-      prevSlide();
-      resetAutoSlide();
-    });
-    
-    nextBtn.addEventListener('click', () => {
-      nextSlide();
-      resetAutoSlide();
-    });
-    
-    // Indicator click
-    indicators.forEach((indicator, index) => {
-      indicator.addEventListener('click', () => {
-        currentIndex = index;
-        updateCarousel();
-        resetAutoSlide();
-      });
-    });
+    // const carouselInner = document.querySelector('.carousel-inner');
+    // const carouselItems = document.querySelectorAll('.carousel-item');
+    // const prevBtn = document.querySelector('.prev-btn');
+    // const nextBtn = document.querySelector('.next-btn');
+    // const indicators = document.querySelectorAll('.indicator');
+    // 
+    // let currentIndex = 0;
+    // const itemCount = carouselItems.length;
+    // 
+    // function updateCarousel() {
+    //   carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+    //   // Update indicators
+    //   indicators.forEach((indicator, index) => {
+    //     indicator.classList.toggle('active', index === currentIndex);
+    //   });
+    // }
+    // 
+    // function nextSlide() {
+    //   currentIndex = (currentIndex + 1) % itemCount;
+    //   updateCarousel();
+    // }
+    // 
+    // function prevSlide() {
+    //   currentIndex = (currentIndex - 1 + itemCount) % itemCount;
+    //   updateCarousel();
+    // }
+    // 
+    // // Auto slide
+    // let autoSlide = setInterval(nextSlide, 5000);
+    // 
+    // // Reset auto slide on interaction
+    // function resetAutoSlide() {
+    //   clearInterval(autoSlide);
+    //   autoSlide = setInterval(nextSlide, 5000);
+    // }
+    // 
+    // // Event listeners
+    // prevBtn.addEventListener('click', () => {
+    //   prevSlide();
+    //   resetAutoSlide();
+    // });
+    // 
+    // nextBtn.addEventListener('click', () => {
+    //   nextSlide();
+    //   resetAutoSlide();
+    // });
+    // 
+    // // Indicator click
+    // indicators.forEach((indicator, index) => {
+    //   indicator.addEventListener('click', () => {
+    //     currentIndex = index;
+    //     updateCarousel();
+    //     resetAutoSlide();
+    //   });
+    // });
     
     // Product slider navigation
     const sliderWrapper = document.getElementById('sliderWrapper');

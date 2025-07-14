@@ -148,10 +148,12 @@ router.get("/category_product/:id",function(req,res){
 router.get("/product_details/:id", async function (req, res) {
   const id = req.params.id;
 
-  // Fetch single product
-  const product = await exe(`SELECT * FROM product WHERE status = 'active' AND product_id = ?`, [id]);
+  const product = await exe(`
+  SELECT product_id, product_name, image, image2, detail, \`usage\`, health_benifits, ingredients, discount 
+  FROM product 
+  WHERE status = 'active' AND product_id = ?
+`, [id]);
 
-  // Fetch product variants
   const variants = await exe(`
     SELECT id, weight, price 
     FROM product_price_variants 
@@ -160,9 +162,10 @@ router.get("/product_details/:id", async function (req, res) {
 
   res.render("user/product_details.ejs", {
     product: product[0],
-    variants // ✅ send as "variants"
+    variants
   });
 });
+
 
 router.post("/filter-products", async (req, res) => {
   const { category, weight, popular } = req.body;
@@ -204,7 +207,7 @@ router.post("/add_tocart", async (req, res) => {
   const userId = req.session.user?.user_id;
   if (!userId) return res.send("Please Login Or SignUp");
 
-  const { product_id, weight_id, price, quantity } = req.body;
+  const { product_id, weight_id, price, quantity, discount_price } = req.body;
 
   try {
     // Check if already in cart
@@ -220,14 +223,15 @@ router.post("/add_tocart", async (req, res) => {
         [quantity, existing[0].cart_id]
       );
     } else {
-      // ✅ INSERT new product into cart
+      // ✅ INSERT new product into cart including discount_price
       await exe(
-        "INSERT INTO cart (user_id, product_id, weight_id, price, quantity, status) VALUES (?, ?, ?, ?, ?, 'active')",
-        [userId, product_id, weight_id, price, quantity]
+        `INSERT INTO cart (user_id, product_id, weight_id, price, discount_price, quantity, status) 
+         VALUES (?, ?, ?, ?, ?, ?, 'active')`,
+        [userId, product_id, weight_id, price, discount_price, quantity]
       );
     }
 
-    res.redirect("/add_tocart"); // or use `/product_details/${product_id}` if needed
+    res.redirect(`/add_tocart`); // Redirect to product page or cart
   } catch (error) {
     console.error("Add to cart error:", error);
     res.send("Something went wrong while adding to cart");
@@ -236,17 +240,26 @@ router.post("/add_tocart", async (req, res) => {
 
 
 
+
 router.get("/add_tocart", async (req, res) => {
   const userId = req.session.user?.user_id;
   if (!userId) return res.redirect("/");
 
   const cartItems = await exe(`
-    SELECT c.cart_id, p.product_name, p.image, w.weight, c.price, c.quantity
-    FROM cart c
-    JOIN product p ON p.product_id = c.product_id
-    JOIN product_price_variants w ON w.id = c.weight_id
-    WHERE c.status = 'active' AND c.user_id = ?
-  `, [userId]);
+  SELECT 
+    c.cart_id, 
+    p.product_name, 
+    p.image, 
+    w.weight, 
+    c.price, 
+    c.discount_price, 
+    c.quantity
+  FROM cart c
+  JOIN product p ON p.product_id = c.product_id
+  JOIN product_price_variants w ON w.id = c.weight_id
+  WHERE c.status = 'active' AND c.user_id = ?
+`, [userId]);
+
 
   res.render("user/add_tocart.ejs", { cart: cartItems });
 });
@@ -263,12 +276,13 @@ router.get("/checkout", async function(req, res) {
   if (!userId) return res.redirect("/");
 
   const cart = await exe(`
-  SELECT c.cart_id, p.product_id, p.product_name, p.image, w.weight, c.price, c.quantity
+  SELECT c.cart_id, p.product_id, p.product_name, p.image, w.weight, c.price, c.discount_price, c.quantity
   FROM cart c
   JOIN product p ON p.product_id = c.product_id
   JOIN product_price_variants w ON w.id = c.weight_id
   WHERE c.user_id = ? AND c.status = 'active'
 `, [userId]);
+
 
 
   res.render("user/checkout.ejs", { cart });
@@ -295,45 +309,96 @@ router.post("/create-order", async (req, res) => {
 
 
 router.get("/place_order", async (req, res) => {
-  const { razorpay_payment_id, name, phone, address, amount, products } = req.query;
-  const userId = req.session.user?.user_id;
+  const {
+    razorpay_payment_id,
+    name,
+    phone,
+    email,
+    pincode,
+    state,
+    city,
+    landmark,
+    address,
+    amount, // This will be overridden below with calculated discount total
+    products,
+    payment_method
+  } = req.query;
 
+  const userId = req.session.user?.user_id;
   if (!razorpay_payment_id || !products) return res.send("Payment failed");
 
-  const productList = decodeURIComponent(products).split(","); // ["1_100_2", "3_50_1"]
-  const firstProductId = productList[0].split("_")[0];
+  const productList = decodeURIComponent(products).split(","); // ["1_100_90_2", "3_200_180_1"]
+  const [firstProductId, firstPrice, firstDiscountPrice] = productList[0].split("_");
 
-  // Calculate total quantity
   let totalQuantity = 0;
+  let totalDiscountAmount = 0;
+  let totalSavings = 0;
+
   productList.forEach(item => {
-    const [, , quantity] = item.split("_");
-    totalQuantity += parseInt(quantity);
+    const [_, price, discount_price, qty] = item.split("_");
+    const quantity = parseInt(qty) || 0;
+    const originalPrice = parseFloat(price) || 0;
+    const discountPrice = parseFloat(discount_price) || 0;
+
+    totalQuantity += quantity;
+    totalDiscountAmount += discountPrice * quantity;
+    totalSavings += (originalPrice - discountPrice) * quantity;
   });
 
-  // Insert main order
+  // Insert order
   const orderResult = await exe(`
-    INSERT INTO orders (user_id, payment_id, product_id, name, phone, address, total_amount, quantity)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-    [userId, razorpay_payment_id, firstProductId, name, phone, address, amount, totalQuantity]
+    INSERT INTO orders 
+    (user_id, payment_id, product_id, name, phone, email, pincode, state, city, landmark, address, total_amount, quantity, price, discount_price, payment_method)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      userId,
+      razorpay_payment_id,
+      firstProductId,
+      name,
+      phone,
+      email,
+      pincode,
+      state,
+      city,
+      landmark,
+      address,
+      totalDiscountAmount,     // ✅ using discount price total
+      totalQuantity,
+      parseFloat(firstPrice),
+      parseFloat(firstDiscountPrice),
+      payment_method
+    ]
   );
 
   const order_id = orderResult.insertId;
 
-  // Insert each item into order_items
+  // Insert order items
   for (const item of productList) {
-    const [product_id, price, quantity] = item.split("_");
+    const [product_id, price, discount_price, quantity] = item.split("_");
+
     await exe(`
-      INSERT INTO order_items (order_id, product_id, price, quantity)
-      VALUES (?, ?, ?, ?)`,
-      [order_id, product_id, price, quantity]
+      INSERT INTO order_items (order_id, product_id, price, discount_price, quantity)
+      VALUES (?, ?, ?, ?, ?)`,
+      [
+        order_id,
+        product_id,
+        parseFloat(price) || 0,
+        parseFloat(discount_price) || 0,
+        quantity
+      ]
     );
   }
 
-  // Clear cart
+  // Clear user cart
   await exe(`DELETE FROM cart WHERE user_id = ?`, [userId]);
 
-  res.render("user/order_success.ejs", { paymentId: razorpay_payment_id });
+  // Render success page
+  res.render("user/order_success.ejs", {
+    paymentId: razorpay_payment_id
+  });
 });
+
+
 
 
 
@@ -343,15 +408,24 @@ router.get("/order_success",function(req,res){
   res.render("user/order_success.ejs");
 });
 
+router.post("/cancel_order/:id", async (req, res) => {
+  const id = req.params.id;
+  await exe("UPDATE orders SET order_status = 'Cancelled' WHERE order_id = ?", [id]);
+  res.redirect("/orders");
+});
+
+
 router.get("/orders", async function (req, res) {
   const userId = req.session.user?.user_id;
   if (!userId) return res.redirect("/");
 
-  const orders = await exe(`
-    SELECT * FROM orders 
-    WHERE user_id = ? 
-    ORDER BY created_at DESC
-  `, [userId]);
+ const orders = await exe(`
+  SELECT order_id, order_status, created_at, date_at 
+  FROM orders 
+  WHERE user_id = ? 
+  ORDER BY created_at DESC
+`, [userId]);
+
 
   const orderIds = orders.map(o => o.order_id);
 
@@ -376,6 +450,35 @@ router.get("/orders", async function (req, res) {
     orders,
     groupedItems
   });
+});
+
+router.get("/order_details/:id", async (req, res) => {
+  const userId = req.session.user?.user_id;
+  if (!userId) return res.redirect("/");
+
+  const orderId = req.params.id;
+
+  // Get order
+ const [order] = await exe(`
+  SELECT order_id, order_status, name, phone, email, address, landmark, city, state, pincode,
+         quantity, total_amount, payment_method, payment_id,
+         created_at,date_at
+  FROM orders 
+  WHERE order_id = ? AND user_id = ?
+`, [orderId, userId]);
+
+
+  if (!order) return res.send("Order not found or unauthorized");
+
+  // Get items
+  const items = await exe(`
+    SELECT oi.*, p.product_name, p.image 
+    FROM order_items oi
+    JOIN product p ON p.product_id = oi.product_id
+    WHERE oi.order_id = ?
+  `, [orderId]);
+
+  res.render("user/order_details.ejs", { order, items });
 });
 
  

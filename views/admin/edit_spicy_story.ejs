@@ -1,0 +1,38 @@
+<%- include("navbar") %>
+<div class="container py-5">
+  <div class="card shadow-lg rounded-4 p-4" style="max-width: 700px; margin: auto;">
+    <h3 class="mb-4 text-center text-primary">Edit Masala Product</h3>
+    
+    <form action="/admin/update_Spice_Story" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="id" value="<%= result[0].id %>">
+      <div class="mb-3">
+        <label for="title" class="form-label">Masala Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="<%= result[0].title %>" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="subheading" class="form-label">Subheading</label>
+        <input type="text" class="form-control" id="subheading" name="subheading" value="<%= result[0].subheading %>" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3" required><%= result[0].description %></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Change Image</label>
+        <input class="form-control" type="file" id="image" name="image">
+        <small class="text-muted">Current Image: <%= result[0].image %></small>
+        <br>
+        <img src="/images/<%= result[0].image %>?v=<%= Math.random() %>" alt="Current Image" class="img-fluid mt-2 rounded shadow" style="max-height: 150px;">
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success px-4">Update</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+<%- include("footer") %>

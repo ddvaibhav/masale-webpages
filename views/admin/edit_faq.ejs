@@ -1,0 +1,83 @@
+<%- include("navbar") %>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fdfbf7;
+  }
+
+  .faq-page-wrapper {
+    padding: 100px 20px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+  }
+
+  .faq-form-card {
+    max-width: 600px;
+    width: 100%;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .faq-form-title {
+    text-align: center;
+    color: #5a3300;
+    margin-bottom: 25px;
+    font-weight: 600;
+    font-size: 24px;
+  }
+
+  .faq-form-label {
+    font-weight: bold;
+    display: block;
+    margin-top: 12px;
+    color: #333;
+    font-size: 15px;
+  }
+
+  .faq-form-input,
+  .faq-form-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+
+  .faq-form-button {
+    background-color: #d97706;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 25px;
+    width: 100%;
+    font-size: 16px;
+  }
+</style>
+
+<div class="faq-page-wrapper">
+  <div class="faq-form-card">
+    <h2 class="faq-form-title">Update FAQ</h2>
+    <form action="/admin/update_faq" method="POST">
+      <input type="hidden" name="id" value="<%= result[0].id %>">
+
+      <label class="faq-form-label">Question</label>
+      <input type="text" name="question" class="faq-form-input" value="<%= result[0].question %>" required>
+
+      <label class="faq-form-label">Answer</label>
+      <textarea name="answer" rows="5" class="faq-form-textarea" required><%= result[0].answer %></textarea>
+
+      <button type="submit" class="faq-form-button">Update</button>
+    </form>
+  </div>
+</div>
+
+<%- include("footer") %>

@@ -1,4 +1,5 @@
 <%- include("navbar.ejs") %>
+<br><br><br>
 
 <style>
   .cart-container {
@@ -49,6 +50,11 @@
   .btn-checkout:hover {
     background: #e0a800;
   }
+
+  .text-strike {
+    text-decoration: line-through;
+    color: #888;
+  }
 </style>
 
 <section class="cart-container">
@@ -59,23 +65,31 @@
       <!-- Cart Items -->
       <div class="col-md-8">
         <% if (cart && cart.length > 0) { %>
-          <% let total = 0; %>
+          <% let total = 0; let totalSavings = 0; %>
           <% for (let item of cart) { 
-              const itemTotal = item.price * item.quantity;
+              const itemTotal = item.discount_price * item.quantity;
               total += itemTotal;
+
+              const itemSavings = (item.price - item.discount_price) * item.quantity;
+              totalSavings += itemSavings;
           %>
             <div class="cart-item d-flex align-items-center gap-4">
               <img src="/uploads/<%= item.image %>" alt="Product" />
               <div class="flex-grow-1">
                 <h5 class="mb-1"><%= item.product_name %> (<%= item.weight %>)</h5>
-                <p class="mb-1 text-muted">₹<%= item.price %> × <%= item.quantity %></p>
-                <p class="mb-1 fw-bold text-dark">Total: ₹<%= itemTotal %></p>
+                <p class="mb-1">
+                  <span class="text-strike">₹<%= item.price %></span>
+                  <span class="fw-semibold ms-2 text-success">₹<%= item.discount_price %> × <%= item.quantity %></span>
+                </p>
+                <p class="mb-1 fw-bold text-dark">Item Total: ₹<%= itemTotal.toFixed(2) %></p>
+                <% if (item.price > item.discount_price) { %>
+                  <small class="text-muted">You saved ₹<%= (item.price - item.discount_price) * item.quantity %></small>
+                <% } %>
               </div>
-           
-              <a href="/remove_cart/<%= item.cart_id %>" onclick="return confirm('Are you sure you want to remove this item?');" class="btn-remove text-decoration-none">
-  Remove
-</a>
 
+              <a href="/remove_cart/<%= item.cart_id %>" onclick="return confirm('Are you sure you want to remove this item?');" class="btn-remove text-decoration-none">
+                Remove
+              </a>
             </div>
           <% } %>
         <% } else { %>
@@ -86,17 +100,28 @@
       </div>
 
       <!-- Summary -->
-      <div class="col-md-4">
-        <% if (cart && cart.length > 0) { %>
-          <div class="cart-summary">
-            <h5 class="mb-3">Order Summary</h5>
-            <p class="mb-2">Items: <strong><%= cart.length %></strong></p>
-            <a href="/checkout" class="btn btn-checkout w-100 mt-3">Proceed to Checkout</a>
-          </div>
-        <% } %>
-      </div>
+     <!-- Summary -->
+<div class="col-md-4">
+  <% if (cart && cart.length > 0) { 
+       let total = 0;
+       let totalSavings = 0;
+       for (let item of cart) {
+         total += item.discount_price * item.quantity;
+         totalSavings += (item.price - item.discount_price) * item.quantity;
+       }
+  %>
+    <div class="cart-summary">
+      <h5 class="mb-3">Order Summary</h5>
+      <p class="mb-2">Items: <strong><%= cart.length %></strong></p>
+      <p class="mb-2">Total: <strong>₹<%= total.toFixed(2) %></strong></p>
+      <% if (totalSavings > 0) { %>
+        <p class="mb-2 text-success">You saved: <strong>₹<%= totalSavings.toFixed(2) %></strong></p>
+      <% } %>
+      <a href="/checkout" class="btn btn-checkout w-100 mt-3">Proceed to Checkout</a>
     </div>
-  </div>
+  <% } %>
+</div>
+
 </section>
 
 <%- include("footer.ejs") %>

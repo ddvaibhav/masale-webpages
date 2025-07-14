@@ -1,0 +1,67 @@
+<%- include("navbar") %>
+
+<style>
+.simple-card {
+  width: 320px;
+  background: #fff8f2;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(139, 69, 19, 0.25);
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.simple-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.simple-card .card-body {
+  padding: 15px;
+}
+
+.simple-card h5 {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.simple-card p {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.simple-card .btn {
+  width: 100%;
+  border-radius: 8px;
+}
+
+@media print {
+  .navbar, .btn, footer {
+    display: none !important;
+  }
+}
+</style>
+
+<div class="container mt-5">
+  <h2 class="mb-4">Masala Products</h2>
+  <div class="row g-4 justify-content-center">
+
+    <% for(let i = 0; i < result.length; i++) { %>
+      <div class="col-md-4 col-sm-6">
+        <div class="simple-card">
+          <img src="/images/<%= result[i].image %>?v=<%= result[i].id %>" alt="<%= result[i].title %>">
+          <div class="card-body text-center">
+            <h5><%= result[i].title %></h5>
+            <p class="text-muted"><%= result[i].subheading %></p>
+            <p><%= result[i].description %></p>
+            <a href="/admin/edit_spicy_story/<%= result[i].id %>" class="btn btn-primary btn-sm">Update</a>
+          </div>
+        </div>
+      </div>
+    <% } %>
+
+  </div>
+</div>
+
+<%- include("footer") %>
