@@ -52,34 +52,74 @@
           <th>Total Amount</th>
           <th>Status</th>
           <th>Date</th>
+          <th>Change </th>
+          <th>Change </th>
+          <th>Date At</th>
+          <!-- <th>Change Status</th> -->
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <% let count = 1; %>
-        <% for (let order of orders) { %>
-          <tr>
-            <td><%= count++ %></td>
-            <td><%= order.order_id %></td>
-            <td><%= order.user_name %></td>
-            <td><%= order.user_email %></td>
-            <td>₹<%= order.total_amount.toFixed(2) %></td>
-            <td>
-              <% if (order.status === 'Pending') { %>
-                <span class="badge bg-warning text-dark">Pending</span>
-              <% } else if (order.status === 'Completed') { %>
-                <span class="badge bg-success">Completed</span>
-              <% } else { %>
-                <span class="badge bg-secondary"><%= order.order_status %></span>
-              <% } %>
-            </td>
-            <td><%= order.order_date.toLocaleDateString() %></td>
-            <td>
-              <a href="/admin/orders/view/<%= order.order_id %>" class="btn btn-sm btn-primary">View</a>
-              <a href="/admin/orders/delete/<%= order.order_id %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
-            </td>
-          </tr>
-        <% } %>
+      <% let count = 1; %>
+<% for (let order of orders) { %>
+  <tr>
+    <td><%= count++ %></td>
+    <td><%= order.order_id %></td>
+    <td><%= order.user_name %></td>
+    <td><%= order.user_email %></td>
+    <td>₹<%= order.total_amount.toFixed(2) %></td>
+
+    <!-- Status Badge -->
+    <td>
+      <% 
+        const status = order.order_status.toLowerCase().trim(); 
+        let badgeClass = 'bg-secondary';
+        if (status === 'pending') badgeClass = 'bg-warning text-dark';
+        else if (status === 'shipped') badgeClass = 'bg-info text-dark';
+        else if (status === 'completed') badgeClass = 'bg-success';
+        else if (status === 'cancelled') badgeClass = 'bg-danger';
+      %>
+
+      <span class="badge <%= badgeClass %>"><%= order.order_status %></span>
+    </td>
+
+    <!-- Order Created Date -->
+    <td><%= order.order_date.toLocaleDateString('en-IN') %></td>
+
+    <!-- Form to Change Status -->
+    <td colspan="2">
+      <form action="/admin/all_orders" method="POST">
+        <input type="hidden" name="order_id" value="<%= order.order_id %>">
+        <select name="order_status" onchange="this.form.submit()" class="form-select form-select-sm">
+          <option value="Pending" <%= order.order_status === 'Pending' ? 'selected' : '' %>>Pending</option>
+          <option value="Shipped" <%= order.order_status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+          <option value="Completed" <%= order.order_status === 'Completed' ? 'selected' : '' %>>Completed</option>
+          <option value="Cancelled" <%= order.order_status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+        </select>
+      </form>
+    </td>
+
+    <!-- ✅ This is the Date At Column -->
+    <td>
+      <% if (order.date_at) { %>
+        <%= new Date(order.date_at).toLocaleDateString('en-IN', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }) %>
+      <% } else { %>
+        <span class="text-muted">—</span>
+      <% } %>
+    </td>
+
+    <!-- Actions -->
+    <td>
+      <a href="/admin/orders/view/<%= order.order_id %>" class="btn btn-sm btn-primary">View</a>
+      <a href="/admin/orders/delete/<%= order.order_id %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+    </td>
+  </tr>
+<% } %>
+
       </tbody>
     </table>
   </div>

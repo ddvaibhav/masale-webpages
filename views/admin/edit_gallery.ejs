@@ -1,0 +1,97 @@
+<%- include("navbar.ejs") %>
+
+<!-- Custom CSS Styling -->
+<style>
+  .heading-banner {
+    background: linear-gradient(to right, #5b4d9c 0%, #5b4d9c 70%, #ffffff 100%);
+    position: relative;
+    color: white;
+    padding: 20px 30px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+
+  .heading-banner::before,
+  .heading-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background-color: #ffcc33;
+    transform: skewX(-45deg);
+  }
+
+  .heading-banner::before {
+    right: 90px;
+  }
+
+  .heading-banner::after {
+    right: 75px;
+  }
+
+  .form-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  .btn-primary {
+    background-color: #5b4d9c;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #483c7f;
+  }
+</style>
+
+<!-- Header Banner -->
+<div class="container">
+  <div class="heading-banner">
+    Add Gallery
+  </div>
+</div>
+
+<!-- Form Section -->
+<div class="container">
+  <div class="form-section">
+    <form action="/admin/update_gallery" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="gallery_id" value="<%= gallery.gallery_id %>">
+      <div class="row mb-3">
+        <!-- Gallery Name -->
+        <div class="col-md-6">
+          <label class="form-label">Gallery Name</label>
+          <input type="text" class="form-control" name="gallery_name" value="<%= gallery.gallery_name %>" required>
+        </div>
+
+        <!-- Gallery Headline -->
+        <div class="col-md-6">
+          <label class="form-label">Gallery Headline</label>
+          <input type="text" class="form-control" name="gallery_headline" value="<%= gallery.gallery_headline %>" required>
+        </div>
+
+        <!-- Gallery Image -->
+        <div class="col-md-6">
+          <label class="form-label">Gallery Image</label>
+          <img src="/uploads/<%= gallery.gallery_image %>" width="100px">
+          <input type="file" class="form-control" name="gallery_image" value="<%= gallery.gallery_headline %>" required>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-end">
+        <button type="submit" class="btn btn-primary">Update Gallery</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include("footer.ejs") %>

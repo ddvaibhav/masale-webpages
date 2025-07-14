@@ -698,13 +698,14 @@ router.get("/delete_product/:id",async function(req,res){
 
 router.get("/all_orders", async (req, res) => {
   try {
-    const orders = await exe(`
-      SELECT o.order_id, o.total_amount, o.order_status, o.created_at AS order_date,
-             u.name AS user_name, u.email AS user_email
-      FROM orders o
-      JOIN user_registration u ON o.user_id = u.user_id
-      ORDER BY o.created_at DESC
-    `);
+   const orders = await exe(`
+  SELECT o.order_id, o.total_amount, o.order_status, o.created_at AS order_date, o.date_at,
+         u.name AS user_name, u.email AS user_email
+  FROM orders o
+  JOIN user_registration u ON o.user_id = u.user_id
+  ORDER BY o.created_at DESC
+`);
+
 
     res.render("admin/all_orders.ejs", { orders });
   } catch (error) {
@@ -713,6 +714,97 @@ router.get("/all_orders", async (req, res) => {
   }
 });
 
+router.post("/all_orders", async (req, res) => {
+  const { order_id, order_status } = req.body;
+
+  try {
+    let query = `UPDATE orders SET order_status = ?`;
+    let params = [order_status];
+
+    // फक्त Shipped, Completed, Cancelled साठीच date_at update करायची
+    if (
+      order_status === "Shipped" ||
+      order_status === "Completed" ||
+      order_status === "Cancelled"
+    ) {
+      query += `, date_at = NOW()`;
+    } else {
+      query += `, date_at = NULL`; // जर पुन्हा Pending किंवा काही अनोळखी status आला, तर clear करा
+    }
+
+    query += ` WHERE order_id = ?`;
+    params.push(order_id);
+
+    await exe(query, params);
+    res.redirect("/admin/all_orders");
+  } catch (error) {
+    console.error("Order status update error:", error);
+    res.send("Something went wrong");
+  }
+});
+
+
+
+router.get("/gallery",async function(req,res){
+  var sql = `SELECT * FROM gallery`; 
+  var data = await exe(sql)
+  res.render("admin/gallery.ejs",{"gallery":data})
+})
+
+router.post("/save_gallery",async function(req,res){
+ 
+  if(req.files && req.files.gallery_image){
+    req.body.gallery_image = new Date().getTime()+req.files.gallery_image.name;
+    req.files.gallery_image.mv("public/uploads/"+req.body.gallery_image)
+  }
+   var d= req.body;
+  var sql = `INSERT INTO gallery (gallery_name,gallery_headline,gallery_image)VALUES(?,?,?)`;
+  var data = await exe(sql,[d.gallery_name,d.gallery_headline,d.gallery_image]);
+
+  // res.send(req.body);
+  // console.log(req.files)
+  res.redirect("/admin/gallery")
+})
+
+
+router.get("/delete_gallery/:id",async function(req,res){
+  var id = req.params.id
+  var sql = `DELETE FROM gallery WHERE gallery_id ='${id}'`;
+  var data = await exe(sql)
+
+  res.redirect("/admin/gallery")
+})
+
+router.get("/edit_gallery/:id", async function(req, res) {
+  var id = req.params.id;
+  var sql = `SELECT * FROM gallery WHERE gallery_id = ?`;
+  var data = await exe(sql, [id]);
+  res.render("admin/edit_gallery.ejs", { gallery: data[0] });
+});
+
+
+router.post("/update_gallery",async function(req,res){
+  
+
+  if(req.files && req.files.gallery_image){
+    req.body.gallery_image = new Date().getTime()+req.files.gallery_image.name;
+    req.files.gallery_image.mv("public/uploads/"+req.body.gallery_image)
+  }
+
+  var d= req.body;
+
+  var sql = `UPDATE gallery
+               SET
+                  gallery_name=?,
+                  gallery_headline=?,
+                  gallery_image=?
+                WHERE 
+                  gallery_id =?`
+  var data = await exe(sql,[d.gallery_name,d.gallery_headline,d.gallery_image,d.gallery_id])
+
+res.redirect("/admin/gallery")
+
+});
 
 
 
