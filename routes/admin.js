@@ -745,66 +745,110 @@ router.post("/all_orders", async (req, res) => {
 
 
 
-router.get("/gallery",async function(req,res){
-  var sql = `SELECT * FROM gallery`; 
-  var data = await exe(sql)
-  res.render("admin/gallery.ejs",{"gallery":data})
-})
+router.get("/gallery", async function (req, res) {
+  // Fetch gallery items with their category info
+  const gallerySql = `SELECT * FROM gallery`;
+  const galleryData = await exe(gallerySql);
 
-router.post("/save_gallery",async function(req,res){
- 
-  if(req.files && req.files.gallery_image){
-    req.body.gallery_image = new Date().getTime()+req.files.gallery_image.name;
-    req.files.gallery_image.mv("public/uploads/"+req.body.gallery_image)
+  // Fetch all categories for the dropdown
+  const categorySql = `SELECT * FROM gallery_category`;
+  const categories = await exe(categorySql);
+
+  res.render("admin/gallery.ejs", { gallery: galleryData, categories });
+});
+
+router.post("/save_gallery", async function (req, res) {
+  if (req.files && req.files.gallery_image) {
+    req.body.gallery_image = new Date().getTime() + req.files.gallery_image.name;
+    req.files.gallery_image.mv("public/uploads/" + req.body.gallery_image);
   }
-   var d= req.body;
-  var sql = `INSERT INTO gallery (gallery_name,gallery_headline,gallery_image)VALUES(?,?,?)`;
-  var data = await exe(sql,[d.gallery_name,d.gallery_headline,d.gallery_image]);
+  var d = req.body;
+  // Now insert gallery_category_id as well
+  var sql = `INSERT INTO gallery (gallery_category_id, gallery_name, gallery_headline, gallery_image) VALUES (?, ?, ?, ?)`;
+  await exe(sql, [d.gallery_category_id, d.gallery_name, d.gallery_headline, d.gallery_image]);
 
-  // res.send(req.body);
-  // console.log(req.files)
-  res.redirect("/admin/gallery")
-})
+  res.redirect("/admin/gallery");
+});
 
+router.get("/delete_gallery/:id", async function (req, res) {
+  var id = req.params.id;
+  var sql = `DELETE FROM gallery WHERE gallery_id = ?`;
+  await exe(sql, [id]);
+  res.redirect("/admin/gallery");
+});
 
-router.get("/delete_gallery/:id",async function(req,res){
-  var id = req.params.id
-  var sql = `DELETE FROM gallery WHERE gallery_id ='${id}'`;
-  var data = await exe(sql)
-
-  res.redirect("/admin/gallery")
-})
-
-router.get("/edit_gallery/:id", async function(req, res) {
+router.get("/edit_gallery/:id", async function (req, res) {
   var id = req.params.id;
   var sql = `SELECT * FROM gallery WHERE gallery_id = ?`;
   var data = await exe(sql, [id]);
-  res.render("admin/edit_gallery.ejs", { gallery: data[0] });
+
+  // Fetch all categories for the dropdown in edit form
+  const categorySql = `SELECT * FROM gallery_category`;
+  const categories = await exe(categorySql);
+
+  res.render("admin/edit_gallery.ejs", { gallery: data[0], categories });
 });
 
-
-router.post("/update_gallery",async function(req,res){
-  
-
-  if(req.files && req.files.gallery_image){
-    req.body.gallery_image = new Date().getTime()+req.files.gallery_image.name;
-    req.files.gallery_image.mv("public/uploads/"+req.body.gallery_image)
+router.post("/update_gallery", async function (req, res) {
+  if (req.files && req.files.gallery_image) {
+    req.body.gallery_image = new Date().getTime() + req.files.gallery_image.name;
+    req.files.gallery_image.mv("public/uploads/" + req.body.gallery_image);
   }
 
-  var d= req.body;
+  var d = req.body;
 
+  // Update gallery_category_id as well
   var sql = `UPDATE gallery
                SET
-                  gallery_name=?,
-                  gallery_headline=?,
-                  gallery_image=?
+                  gallery_category_id = ?,
+                  gallery_name = ?,
+                  gallery_headline = ?,
+                  gallery_image = ?
                 WHERE 
-                  gallery_id =?`
-  var data = await exe(sql,[d.gallery_name,d.gallery_headline,d.gallery_image,d.gallery_id])
+                  gallery_id = ?`;
+  await exe(sql, [d.gallery_category_id, d.gallery_name, d.gallery_headline, d.gallery_image, d.gallery_id]);
 
-res.redirect("/admin/gallery")
-
+  res.redirect("/admin/gallery");
 });
+
+
+router.get("/gallery_category",async function(req,res){
+  var sql = `SELECT * FROM gallery_category`;
+  var data = await exe(sql)
+  res.render("admin/gallery_category.ejs",{"categories":data})
+})
+
+router.post("/save_gallery_category",async function(req,res){
+  var d = req.body;
+  var sql = `INSERT INTO gallery_category (gallery_category_name) VALUES(?)`;
+  var data = await exe(sql,[d.gallery_category_name])
+  res.redirect("/admin/gallery_category")
+})
+
+
+router.get("/edit_gallery_category/:id",async function(req,res){
+  var id = req.params.id;
+  var sql = `SELECT * FROM gallery_category WHERE gallery_category_id =?`;
+  var data = await exe(sql,[id])
+  res.render("admin/edit_gallery_category.ejs",{"category":data[0]})
+})
+
+router.post("/update_gallery_category",function(req,res){
+  var d = req.body;
+  var sql = `UPDATE gallery_category SET gallery_category_name =? WHERE gallery_category_id =?`;
+  var data = exe(sql,[d.gallery_category_name,d.gallery_category_id])
+  res.send(req.body)
+  // res.redirect("/admin/gallery_category")
+  })
+  
+router.get("/delete_gallery_category/:id",async function(req,res){
+  var id = req.params.id;
+  var sql = `DELETE FROM gallery_category WHERE gallery_category_id =?`;
+  var data = await exe(sql,[id])
+  res.redirect("/admin/gallery_category")
+})
+
+
 
 
 
