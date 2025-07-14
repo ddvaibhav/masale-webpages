@@ -11,13 +11,30 @@
     transform: translate(-50%, -50%);
     z-index: 1000;
   }
+
+  @media (max-width: 768px) {
+  .container, .row {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .card_size {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .section-title {
+    text-align: center;
+  }
   .discount-badge {
   top: 10px;
   left: 10px;
   font-size: 0.85rem;
   z-index: 10;
 }
-
+  }
 </style>
 
 <!-- Hero Section -->
