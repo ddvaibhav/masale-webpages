@@ -337,3 +337,11 @@ function updatePrice(selectElement) {
   priceDiv.textContent = selectedPrice;
 }
 
+// popular product select dyanmic price
+
+  function updatePrice(selectElement) {
+    const selectedPrice = parseFloat(selectElement.value).toFixed(2);
+    const productId = selectElement.getAttribute('data-product-id');
+    const priceDisplay = document.getElementById('priceDisplay_' + productId);
+    priceDisplay.innerText = `₹${selectedPrice}`;
+  }
