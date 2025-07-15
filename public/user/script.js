@@ -1,3 +1,4 @@
+// Navbar Javascript
 
 window.addEventListener('scroll', function () {
   const navbar = document.querySelector('.navbar');
@@ -38,8 +39,12 @@ AOS.init();
 
 
 
+
+
 // Initialize GSAP animations
 gsap.registerPlugin(ScrollTrigger);
+
+
 
 // Mouse move parallax effect
 document.addEventListener("mousemove", (e) => {
@@ -225,61 +230,103 @@ window.onload = function () {
 
 
 
+// // Carousel functionality
+// const carouselInner = document.querySelector('.carousel-inner');
+// const carouselItems = document.querySelectorAll('.carousel-item');
+// const prevBtn = document.querySelector('.prev-btn');
+// const nextBtn = document.querySelector('.next-btn');
+// const indicators = document.querySelectorAll('.indicator');
+
+// let currentIndex = 0;
+// const itemCount = carouselItems.length;
+
+// function updateCarousel() {
+//   carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+//   // Update indicators
+//   indicators.forEach((indicator, index) => {
+//     indicator.classList.toggle('active', index === currentIndex);
+//   });
+// }
+
+// function nextSlide() {
+//   currentIndex = (currentIndex + 1) % itemCount;
+//   updateCarousel();
+// }
+
+// function prevSlide() {
+//   currentIndex = (currentIndex - 1 + itemCount) % itemCount;
+//   updateCarousel();
+// }
+
+// // Auto slide
+// let autoSlide = setInterval(nextSlide, 5000);
+
+// // Reset auto slide on interaction
+// function resetAutoSlide() {
+//   clearInterval(autoSlide);
+//   autoSlide = setInterval(nextSlide, 5000);
+// }
 
 
 
 
+// // Event listeners
+// prevBtn.addEventListener('click', () => {
+//   prevSlide();
+//   resetAutoSlide();
+// });
 
-// Event listeners
-prevBtn.addEventListener('click', () => {
-  prevSlide();
-  resetAutoSlide();
-});
+// nextBtn.addEventListener('click', () => {
+//   nextSlide();
+//   resetAutoSlide();
+// });
 
-nextBtn.addEventListener('click', () => {
-  nextSlide();
-  resetAutoSlide();
-});
+// // Indicator click
+// indicators.forEach((indicator, index) => {
+//   indicator.addEventListener('click', () => {
+//     currentIndex = index;
+//     updateCarousel();
+//     resetAutoSlide();
+//   });
+// });
 
-// Indicator click
-indicators.forEach((indicator, index) => {
-  indicator.addEventListener('click', () => {
-    currentIndex = index;
-    updateCarousel();
-    resetAutoSlide();
+
+// product slider 
+
+document.addEventListener('DOMContentLoaded', function () {
+  const sliderWrapper = document.getElementById('productsliderWrapper');
+  const productCardWidth = 280 + 25; // Card width + gap
+
+  document.querySelector('.product-slider__nav-left').addEventListener('click', () => {
+    sliderWrapper.scrollBy({
+      left: -productCardWidth,
+      behavior: 'smooth'
+    });
+  });
+
+  document.querySelector('.product-slider__nav-right').addEventListener('click', () => {
+    sliderWrapper.scrollBy({
+      left: productCardWidth,
+      behavior: 'smooth'
+    });
   });
 });
 
-// Product slider navigation
-const sliderWrapper = document.getElementById('sliderWrapper');
-const productCardWidth = 280 + 25; // Card width + gap
 
-document.querySelector('.nav-left').addEventListener('click', () => {
-  sliderWrapper.scrollBy({
-    left: -productCardWidth,
-    behavior: 'smooth'
-  });
-});
-
-document.querySelector('.nav-right').addEventListener('click', () => {
-  sliderWrapper.scrollBy({
-    left: productCardWidth,
-    behavior: 'smooth'
-  });
-});
 
 // Categories slider navigation
 const categoriesWrapper = document.getElementById('categoriesWrapper');
 const categoryCardWidth = 200 + 25; // Card width + gap
 
-document.querySelector('.nav-left1').addEventListener('click', () => {
+document.querySelector('.category-slider__nav-left').addEventListener('click', () => {
   categoriesWrapper.scrollBy({
     left: -categoryCardWidth,
     behavior: 'smooth'
   });
 });
 
-document.querySelector('.nav-right1').addEventListener('click', () => {
+document.querySelector('.category-slider__nav-right').addEventListener('click', () => {
   categoriesWrapper.scrollBy({
     left: categoryCardWidth,
     behavior: 'smooth'
@@ -390,6 +437,9 @@ function updatePrice(selectElement) {
   const priceDiv = selectElement.closest(".p-3").querySelector(".price-value");
   priceDiv.textContent = selectedPrice;
 }
+
+
+
 
 // popular product select dyanmic price
 
