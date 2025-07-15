@@ -469,7 +469,7 @@ router.get("/place_order", async (req, res) => {
       city,
       landmark,
       address,
-      totalDiscountAmount,     
+      totalDiscountAmount,     // ✅ using discount price total
       totalQuantity,
       parseFloat(firstPrice),
       parseFloat(firstDiscountPrice),

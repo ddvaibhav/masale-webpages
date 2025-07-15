@@ -1,67 +1,131 @@
 <%- include("navbar") %>
 
 <style>
-.simple-card {
-  width: 320px;
-  background: #fff8f2;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(139, 69, 19, 0.25);
-  overflow: hidden;
-  transition: all 0.3s ease-in-out;
-}
-
-.simple-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.simple-card .card-body {
-  padding: 15px;
-}
-
-.simple-card h5 {
-  margin-bottom: 5px;
-  font-weight: 600;
-}
-
-.simple-card p {
-  margin-bottom: 10px;
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.simple-card .btn {
-  width: 100%;
-  border-radius: 8px;
-}
-
-@media print {
-  .navbar, .btn, footer {
-    display: none !important;
+  body {
+    background-color: #fdfbf7;
+    font-family: 'Segoe UI', sans-serif;
   }
-}
+
+  .section-heading {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    background-color: #5b4d9c;
+    padding: 16px 30px;
+    margin: 50px auto 30px;
+    border-radius: 12px;
+    max-width: 600px;
+    box-shadow: 0 5px 15px rgba(91, 77, 156, 0.25);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    padding: 0 20px 40px;
+  }
+
+  .spice-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(91, 77, 156, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+  }
+
+  .spice-card:hover {
+    box-shadow: 0 10px 30px rgba(91, 77, 156, 0.15);
+    transform: translateY(-4px);
+  }
+
+  .spice-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+  }
+
+  .card-body {
+    padding: 16px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card-body h5 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #5b4d9c;
+    margin-bottom: 5px;
+  }
+
+  .card-body small {
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .card-body p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    flex-grow: 1;
+  }
+
+  .meta-info {
+    font-size: 12px;
+    color: #777;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .update-btn {
+    background-color: #5b4d9c;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .update-btn:hover {
+    background-color: #403373;
+  }
 </style>
 
-<div class="container mt-5">
-  <h2 class="mb-4">Masala Products</h2>
-  <div class="row g-4 justify-content-center">
+<div class="section-heading">Spice Stories</div>
 
-    <% for(let i = 0; i < result.length; i++) { %>
-      <div class="col-md-4 col-sm-6">
-        <div class="simple-card">
-          <img src="/images/<%= result[i].image %>?v=<%= result[i].id %>" alt="<%= result[i].title %>">
-          <div class="card-body text-center">
-            <h5><%= result[i].title %></h5>
-            <p class="text-muted"><%= result[i].subheading %></p>
-            <p><%= result[i].description %></p>
-            <a href="/admin/edit_spicy_story/<%= result[i].id %>" class="btn btn-primary btn-sm">Update</a>
-          </div>
+<div class="card-grid">
+  <% for (let i = 0; i < result.length; i++) { %>
+    <div class="spice-card">
+      <img src="/images/<%= result[i].image %>" alt="<%= result[i].title %>">
+      <div class="card-body">
+        <div>
+          <h5><%= result[i].title %></h5>
+          <small><%= result[i].subheading %></small>
+          <p><%= result[i].description %></p>
         </div>
+        <div class="meta-info">
+          <span>👁️ <%= result[i].views %></span>
+          <span>👍 <%= result[i].likes %></span>
+          <span>💬 <%= result[i].comments %></span>
+        </div>
+        <a href="/admin/edit_spicy_story/<%= result[i].id %>" class="update-btn">Update</a>
       </div>
-    <% } %>
-
-  </div>
+    </div>
+  <% } %>
 </div>
 
 <%- include("footer") %>

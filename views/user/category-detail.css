@@ -1,0 +1,136 @@
+ /* Product Page CSS */
+    :root {
+      --turmeric-yellow: #FFD700;
+      --saffron-orange: #FF6F00;
+      --saffron-brown: #A74F00;
+      --off-white: #FAF9F6;
+      --text-dark: #333;
+      --border-color: #eee;
+      --hover-yellow: #FFC400;
+      --green-stock: #0a8f08;
+    }
+    .filter-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--saffron-orange);
+    }
+
+    .filter-box {
+      background-color: #fff;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .product-card {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background: #fff;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .product-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--text-dark);
+    }
+
+    .product-title:hover {
+      color: var(--saffron-brown);
+    }
+
+    .price {
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: var(--saffron-orange);
+    }
+
+    .add-to-cart-btn {
+      background-color: var(--turmeric-yellow);
+      color: #000;
+      font-weight: 600;
+      border: none;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: var(--hover-yellow);
+    }
+
+    .variant-select {
+      font-size: 0.9rem;
+    }
+
+    .section-title {
+      font-weight: 700;
+      color: var(--saffron-brown);
+      margin-bottom: 1.5rem;
+    }
+
+    .stock-status {
+      color: var(--green-stock);
+      font-weight: 500;
+    }
+
+    /* Flip Image */
+    .flip-box {
+      background-color: transparent;
+      width: 100%;
+      height: 250px;
+      perspective: 1000px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      overflow: hidden;
+    }
+
+    .flip-box-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .flip-box:hover .flip-box-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-box-front, .flip-box-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+    }
+
+    .flip-box-front img,
+    .flip-box-back img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .flip-box-back {
+      transform: rotateY(180deg);
+    }
+
+    @media (max-width: 768px) {
+      .flip-box {
+        height: 200px;
+      }
+    }
+.discount-badge {
+      position: absolute;
+      top:5px;
+      left:15%;
+      transform: translateX(-50%);
+      background-color: #8b0000;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      z-index: 2;
+    }
