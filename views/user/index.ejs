@@ -623,18 +623,5 @@
     </div>
   </section>
 
-<script>
-  function updatePrice(selectElement) {
-    const selectedPrice = selectElement.value;
-    const productId = selectElement.getAttribute("data-product-id");
-    const priceDisplay = document.getElementById("priceDisplay_" + productId);
-    
-    if (priceDisplay && selectedPrice) {
-      priceDisplay.innerText = "₹" + parseFloat(selectedPrice).toFixed(2);
-    } else {
-      console.warn("Price element not found for product ID:", productId);
-    }
-  }
-</script>
 
   <%-include("footer.ejs")%>
