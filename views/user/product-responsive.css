@@ -1,0 +1,50 @@
+@media (max-width: 768px) {
+  .container, .row {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .card_size {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .product-card {
+    padding: 10px;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 1.3rem;
+  }
+
+  .discount-badge {
+    font-size: 0.75rem;
+    top: 8px;
+    left: 8px;
+  }
+
+  .product-title {
+    font-size: 1rem;
+  }
+
+  .price {
+    font-size: 1rem;
+  }
+
+  .flip-box img {
+    width: 100%;
+    height: auto;
+  }
+
+  .variant-select {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+  }
+}
