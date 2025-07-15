@@ -473,7 +473,7 @@ router.post("/add-product", async (req, res) => {
   try {
     const d = req.body;
     
-    // Validate image upload
+   
     if (!req.files || !req.files.image) {
       throw new Error("No image uploaded");
     }
@@ -506,8 +506,7 @@ router.post("/add-product", async (req, res) => {
       );
     }
 
-    // Handle weight/price variants - FIXED
-    // Get all values for weight and price
+   
     const weights = d.weight ? 
           (Array.isArray(d.weight) ? d.weight : [d.weight]) : 
           [];
@@ -575,32 +574,32 @@ router.get("/edit_product/:id", async function (req, res) {
   try {
     const productId = req.params.id;
 
-    // Get product info
-    const productResult = await exe("SELECT * FROM product WHERE product_id = ?", [productId]);
+    
+    const productResult = await exe("SELECT * FROM product WHERE status = 'active' AND product_id = ?", [productId]);
     if (productResult.length === 0) return res.status(404).send("Product not found");
     const product = productResult[0];
 
-    // Get tags selected for this product
+    
     const tagRows = await exe("SELECT tag_id FROM product_tags WHERE product_id = ?", [productId]);
     const tagsArray = tagRows.map(row => row.tag_id);
 
-    // Get weight-price variants for this product
+    
     const variantsArray = await exe("SELECT id, weight, price FROM product_price_variants WHERE product_id = ?", [productId]);
 
-    // Get all active categories & tags
+    
     const categories = await exe("SELECT * FROM category WHERE status = 'active'");
     const tags = await exe("SELECT * FROM tags WHERE status = 'active'");
 
-    // Pass to template
+
     res.render("admin/edit_product.ejs", {
-      product: {
-        ...product,
-        tagsArray,
-        variantsArray
-      },
-      category: categories,
-      tags: tags
-    });
+  product: {
+    ...product,
+    tagsArray
+  },
+  category: categories,
+  tags: tags,
+  variants: variantsArray 
+});
 
   } catch (err) {
     console.error("Error loading edit form:", err);
@@ -645,44 +644,55 @@ if (req.files && req.files.image2) {
 
 // Update query
 await exe(
-  `UPDATE product SET product_name=?, category_id=?, ingredients=?, image=?, image2=?, detail=?, \`usage\`=?, health_benifits=?, stockqty=? WHERE product_id=?`,
-  [d.product_name, d.category_id, d.ingredients, imageName, imageName2, d.detail, d.usage, d.health_benifits, d.stockqty, productId]
+  `UPDATE product SET product_name=?, category_id=?, ingredients=?, image=?, image2=?, detail=?, \`usage\`=?, health_benifits=?, stockqty=?, discount=? WHERE product_id=?`,
+  [d.product_name, d.category_id, d.ingredients, imageName, imageName2, d.detail, d.usage, d.health_benifits, d.stockqty, d.discount || 0, productId]
 );
 
 
 
-    // ======== TAGS ==========
-    // Remove old tags
-    await exe("DELETE FROM product_tags WHERE product_id = ?", [productId]);
 
-    // Insert new tags
+   await exe("DELETE FROM product_tags WHERE product_id = ?", [productId]);
     const tags = d.tags ? (Array.isArray(d.tags) ? d.tags : [d.tags]) : [];
     for (let tag of tags) {
       await exe("INSERT INTO product_tags (product_id, tag_id) VALUES (?, ?)", [productId, tag]);
     }
 
-    // ======== VARIANTS ==========
-    // Remove old variants
-    await exe("DELETE FROM product_price_variants WHERE product_id = ?", [productId]);
 
-    // Insert updated variants
-    const weights = d.weight ? (Array.isArray(d.weight) ? d.weight : [d.weight]) : [];
-    const prices = d.price ? (Array.isArray(d.price) ? d.price : [d.price]) : [];
+    const weights = d['weight[]'] || [];
+    const prices = d['price[]'] || [];
 
-    if (weights.length !== prices.length) {
+    // Convert to arrays if they're not already
+    const weightArray = Array.isArray(weights) ? weights : [weights];
+    const priceArray = Array.isArray(prices) ? prices : [prices];
+
+    // Validate input
+    if (weightArray.length !== priceArray.length) {
       throw new Error("Each weight must have a matching price");
     }
 
-    for (let i = 0; i < weights.length; i++) {
-      if (weights[i] && prices[i]) {
-        await exe(
-          "INSERT INTO product_price_variants (product_id, weight, price) VALUES (?, ?, ?)",
-          [productId, weights[i], prices[i]]
-        );
+    // Remove old variants
+    await exe("DELETE FROM product_price_variants WHERE product_id = ?", [productId]);
+
+    // Insert new variants
+    for (let i = 0; i < weightArray.length; i++) {
+      const weight = weightArray[i];
+      const price = parseFloat(priceArray[i]);
+      
+      if (!weight || isNaN(price)) {
+        throw new Error(`Invalid variant at index ${i}: weight=${weight}, price=${priceArray[i]}`);
       }
+
+      await exe(
+        "INSERT INTO product_price_variants (product_id, weight, price) VALUES (?, ?, ?)",
+        [productId, weight, price]
+      );
     }
 
-    res.redirect("/admin/manage_products"); // Redirect as needed
+
+
+// res.send()
+
+    res.redirect("/admin/manage_products"); 
   } catch (err) {
     console.error("Product Update Error:", err);
     res.status(500).send("Error: " + err.message);

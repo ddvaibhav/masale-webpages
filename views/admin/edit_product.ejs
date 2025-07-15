@@ -36,6 +36,7 @@
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
   }
+
   .form-control, .form-select {
     border-radius: 6px;
     border: 1px solid #ccc;
@@ -63,6 +64,7 @@
   <div class="form-box">
     <form action="/admin/update-product/<%= product.product_id %>" method="POST" enctype="multipart/form-data">
       <div class="row g-3">
+
         <!-- Product Name -->
         <div class="col-md-6">
           <label class="form-label">Product Name</label>
@@ -86,13 +88,9 @@
           <div class="d-flex flex-wrap gap-2">
             <% tags.forEach(tag => { %>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox"
-                       id="tag_<%= tag.tag_id %>" name="tags"
-                       value="<%= tag.tag_id %>"
-                       <%= product.tagsArray.includes(tag.tag_id) ? "checked" : "" %>>
-                <label class="form-check-label" for="tag_<%= tag.tag_id %>">
-                  <%= tag.tag_name %>
-                </label>
+                <input class="form-check-input" type="checkbox" name="tags" value="<%= tag.tag_id %>"
+                  id="tag_<%= tag.tag_id %>" <%= product.tagsArray.includes(tag.tag_id) ? "checked" : "" %>>
+                <label class="form-check-label" for="tag_<%= tag.tag_id %>"><%= tag.tag_name %></label>
               </div>
             <% }) %>
           </div>
@@ -103,16 +101,19 @@
           <label class="form-label">Ingredients</label>
           <textarea name="ingredients" class="form-control" rows="3" required><%= product.ingredients %></textarea>
         </div>
+
         <div class="col-md-6">
           <label class="form-label">Details</label>
           <textarea name="detail" class="form-control" rows="3" required><%= product.detail %></textarea>
         </div>
+
         <div class="col-md-6">
           <label class="form-label">Usage</label>
           <textarea name="usage" class="form-control" rows="3" required><%= product.usage %></textarea>
         </div>
+
         <div class="col-md-6">
-          <label class="form-label">Health Benifits</label>
+          <label class="form-label">Health Benefits</label>
           <textarea name="health_benifits" class="form-control" rows="3" required><%= product.health_benifits %></textarea>
         </div>
 
@@ -122,7 +123,13 @@
           <input type="number" name="stockqty" class="form-control" value="<%= product.stockqty %>" required>
         </div>
 
-        <!-- Product Image -->
+        <!-- Discount -->
+        <div class="col-md-6">
+          <label class="form-label">Product Discount</label>
+          <input type="number" name="discount" class="form-control" value="<%= product.discount %>" required>
+        </div>
+
+        <!-- Images -->
         <div class="col-md-6">
           <label class="form-label">Product Front Image</label>
           <input type="file" name="image" class="form-control" accept="image/*">
@@ -130,71 +137,72 @@
             <img src="/uploads/<%= product.image %>" class="product-preview" />
           <% } %>
         </div>
+
         <div class="col-md-6">
           <label class="form-label">Product Back Image</label>
-          <input type="file" name="image" class="form-control" accept="image/*">
-          <% if (product.image) { %>
+          <input type="file" name="image2" class="form-control" accept="image/*">
+          <% if (product.image2) { %>
             <img src="/uploads/<%= product.image2 %>" class="product-preview" />
           <% } %>
         </div>
 
-        <!-- Weight & Price Variants -->
-        <div class="col-md-12">
-          <label class="form-label">Weight & Price</label>
-          <div id="variantContainer">
-            <% if (product.variantsArray.length > 0) { %>
-  <% product.variantsArray.forEach((v, i) => { %>
-    <div class="row g-2 variant-row mb-2">
-      <div class="col-md-5">
-        <input type="text" name="weight" value="<%= v.weight %>" class="form-control" required>
-      </div>
-      <div class="col-md-5">
-        <input type="number" name="price" value="<%= v.price %>" class="form-control" step="0.01" required>
-      </div>
-      <div class="col-md-2">
-        <button type="button" class="btn btn-danger w-100 remove-variant">X</button>
-        <input type="hidden" name="variant_id" value="<%= v.id %>">
-      </div>
-    </div>
-  <% }) %>
-<% } else { %>
-  <!-- Show a blank variant row if no variants exist -->
-  <div class="row g-2 variant-row mb-2">
-    <div class="col-md-5">
-      <input type="text" name="weight" class="form-control" placeholder="e.g. 100gm" required>
-    </div>
-    <div class="col-md-5">
-      <input type="number" name="price" class="form-control" placeholder="Price" step="0.01" required>
-    </div>
-    <div class="col-md-2">
-      <button type="button" class="btn btn-danger w-100 remove-variant">X</button>
-    </div>
-  </div>
-<% } %>
-
+        <!-- Variants -->
+   <div class="col-md-12">
+  <label class="form-label">Weight & Price</label>
+  <div id="variantContainer">
+    <% if (variants && variants.length > 0) { %>
+      <% variants.forEach((v, index) => { %>
+        <div class="row g-2 variant-row mb-2">
+          <div class="col-md-5">
+            <input type="text" name="weight[]" class="form-control" placeholder="e.g. 100gm" value="<%= v.weight %>" required>
           </div>
-          <button type="button" id="addVariant" class="btn btn-secondary mt-2">+ Add More</button>
+          <div class="col-md-5">
+            <input type="number" step="0.01" name="price[]" class="form-control" placeholder="Price" value="<%= v.price %>" required>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-danger w-100 remove-variant">X</button>
+          </div>
         </div>
+      <% }) %>
+    <% } else { %>
+      <!-- Always include at least one row -->
+      <div class="row g-2 variant-row mb-2">
+        <div class="col-md-5">
+          <input type="text" name="weight[]" class="form-control" placeholder="e.g. 100gm" required>
+        </div>
+        <div class="col-md-5">
+          <input type="number" step="0.01" name="price[]" class="form-control" placeholder="Price" required>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-danger w-100 remove-variant">X</button>
+        </div>
+      </div>
+    <% } %>
+  </div>
+  <button type="button" id="addVariant" class="btn btn-secondary mt-2">+ Add More</button>
+</div>
+
 
         <!-- Submit -->
         <div class="col-12 text-end">
           <button type="submit" class="btn btn-primary">Update Product</button>
         </div>
+
       </div>
     </form>
   </div>
 </div>
 
 <script>
-  // Add more variant row
+  // Add variant row
   document.getElementById("addVariant").addEventListener("click", function () {
     const row = `
       <div class="row g-2 variant-row mb-2">
         <div class="col-md-5">
-          <input type="text" name="weight" class="form-control" placeholder="e.g. 100gm" required>
+          <input type="text" name="weight[]" class="form-control" placeholder="e.g. 100gm" required>
         </div>
         <div class="col-md-5">
-          <input type="number" name="price" class="form-control" placeholder="Price" step="0.01" required>
+          <input type="number" step="0.01" name="price[]" class="form-control" placeholder="Price" required>
         </div>
         <div class="col-md-2">
           <button type="button" class="btn btn-danger w-100 remove-variant">X</button>
@@ -210,9 +218,33 @@
       if (document.querySelectorAll(".variant-row").length > 1) {
         row.remove();
       } else {
-        row.querySelectorAll("input").forEach(input => input.value = "");
+        // Clear values but keep the row
+        row.querySelector('input[name="weight[]"]').value = "";
+        row.querySelector('input[name="price[]"]').value = "";
       }
     }
+  });
+
+  // Form validation
+  document.querySelector("form").addEventListener("submit", function(e) {
+    const variants = document.querySelectorAll(".variant-row");
+    let valid = true;
+    
+    variants.forEach(row => {
+      const weight = row.querySelector('input[name="weight[]"]').value;
+      const price = row.querySelector('input[name="price[]"]').value;
+      
+      if (!weight.trim() || !price.trim()) {
+        alert("Please fill all variant fields");
+        valid = false;
+      }
+    });
+    
+    if (!valid) {
+      e.preventDefault();
+      return false;
+    }
+    return true;
   });
 </script>
 
