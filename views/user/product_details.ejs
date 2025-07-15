@@ -216,8 +216,7 @@
   const discountPriceInput = document.getElementById("discountPriceInput");
 
   // Get discount percentage from backend
-  const discountPercentage = <%= product.discount || 0 %>;
-
+  const discountPercentage = <%- JSON.stringify(product.discount || 0) %>;
   function updateFormValues() {
     const selectedOption = weightSelect.options[weightSelect.selectedIndex];
     const price = parseFloat(selectedOption.getAttribute('data-price')) || 0;

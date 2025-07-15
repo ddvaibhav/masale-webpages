@@ -382,7 +382,7 @@ router.get("/place_order", async (req, res) => {
       city,
       landmark,
       address,
-      totalDiscountAmount,     // ✅ using discount price total
+      totalDiscountAmount,     
       totalQuantity,
       parseFloat(firstPrice),
       parseFloat(firstDiscountPrice),
