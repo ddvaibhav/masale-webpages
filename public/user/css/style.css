@@ -31,7 +31,7 @@ body {
 }
 
 .navbar-brand img {
-  height: 80px;
+  height: 70px;
   width: 150px;
   transition: all 0.3s ease;
 }
@@ -1370,6 +1370,9 @@ body {
 
 /* Responsive for very small devices (phones) */
 @media (max-width: 480px) {
+  .spice-hero-section {
+  min-height: 50vh;
+  }
   .spice-hero-title {
     font-size: 2.2rem;
   }
@@ -1451,13 +1454,13 @@ body {
       .quick-links {
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 1.2rem;
       }
 
       .sachet-link {
         width: auto;
         background: rgb(235, 234, 233);
-        padding: 1.2rem 2rem;
+        padding: 1rem 1.3rem;
         border-radius: 40px;
         color: #333;
         text-decoration: none;
@@ -1562,18 +1565,16 @@ body {
 
       .footer-banner {
         text-align: center;
-        margin-top: 6rem;
-        padding-top: 2rem;
+        margin-top: 1rem;
+        padding-top: 0.5rem;
         border-top: 3px dashed var(--turmeric);
         color: var(--turmeric);
-        font-size: 1.4rem;
-        position: relative;
-        z-index: 2;
+        font-size: 1.2rem;
         font-weight: 600;
       }
 
       .footer-banner i {
-        margin: 0 8px;
+        margin: 0 3px;
       }
 
       /* Spice Trail Effect */
