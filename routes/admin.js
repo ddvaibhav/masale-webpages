@@ -538,31 +538,29 @@ router.post("/add-product", async (req, res) => {
 });
 router.get("/manage_products", async (req, res) => {
   try {
-   const query = `
-  SELECT 
-    p.product_id,
-    p.product_name,
-    p.ingredients,
-    p.image,
-    p.image2,
-    p.detail,
-    p.usage,
-    p.health_benifits,
-    p.stockqty,
-    p.discount,  
-    c.category_name,
-    GROUP_CONCAT(DISTINCT t.tag_name) AS tags,
-    GROUP_CONCAT(DISTINCT CONCAT(v.weight, ': ₹', v.price) SEPARATOR '<br>') AS variants
-  FROM product p
-  LEFT JOIN category c ON p.category_id = c.category_id
-  LEFT JOIN product_tags pt ON p.product_id = pt.product_id
-  LEFT JOIN tags t ON pt.tag_id = t.tag_id
-  LEFT JOIN product_price_variants v ON p.product_id = v.product_id
-  WHERE p.status = 'active'
-  GROUP BY p.product_id
-  ORDER BY p.product_id DESC
-`;
-
+    const query = `
+      SELECT 
+        p.product_id,
+        p.product_name,
+        p.ingredients,
+        p.image,
+        p.image2,
+        p.detail,
+        p.usage,
+        p.health_benifits,
+        p.stockqty,
+        c.category_name,
+        GROUP_CONCAT(DISTINCT t.tag_name) AS tags,
+        GROUP_CONCAT(DISTINCT CONCAT(v.weight, ': ₹', v.price) SEPARATOR '<br>') AS variants
+      FROM product p
+      LEFT JOIN category c ON p.category_id = c.category_id
+      LEFT JOIN product_tags pt ON p.product_id = pt.product_id
+      LEFT JOIN tags t ON pt.tag_id = t.tag_id
+      LEFT JOIN product_price_variants v ON p.product_id = v.product_id
+      WHERE p.status = 'active'
+      GROUP BY p.product_id
+      ORDER BY p.product_id DESC
+    `;
 
     const products = await exe(query);
     res.render("admin/manage_products.ejs", { products });

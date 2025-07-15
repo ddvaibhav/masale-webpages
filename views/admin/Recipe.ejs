@@ -1,37 +1,117 @@
 <%- include("navbar") %>
 
 <style>
-.recipe-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.recipe-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
+  body {
+    background-color: #fdfbf7;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .recipe-heading {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 50px;
+    background-color: #5b4d9c;
+    padding: 18px 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(91, 77, 156, 0.25);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .recipe-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(91, 77, 156, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .recipe-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(91, 77, 156, 0.15);
+  }
+
+  .recipe-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+  }
+
+  .recipe-card .card-body {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+
+  .recipe-card h5 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #5b4d9c;
+    margin-bottom: 10px;
+  }
+
+  .recipe-card p {
+    font-size: 0.95rem;
+    color: #444;
+    margin-bottom: 15px;
+  }
+
+  .recipe-card .duration {
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .btn-update {
+    background-color: #5b4d9c;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+
+  .btn-update:hover {
+    background-color: #403373;
+  }
+
+  @media (max-width: 576px) {
+    .recipe-card img {
+      height: 200px;
+    }
+  }
 </style>
 
 <div class="container py-5">
-  <h2 class="mb-4">Our Special Recipes</h2>
-  <div class="row g-4">
+  <div class="recipe-heading">Our Special Recipes</div>
 
+  <div class="row gy-5 gx-4">
     <% for(let i = 0; i < result.length; i++) { %>
-      <div class="col-md-4">
-        <div class="recipe-card shadow rounded-4 overflow-hidden">
-          <img src="/images/<%= result[i].image %>" class="img-fluid w-100" alt="<%= result[i].title %>" style="height: 220px; object-fit: cover;">
-          <div class="p-3 bg-white">
-            <h5 class="fw-semibold mb-1"><%= result[i].title %></h5>
-            <p class="text-muted small"><%= result[i].description %></p>
+      <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="recipe-card h-100">
+          <img src="/images/<%= result[i].image %>" alt="<%= result[i].title %>">
+          <div class="card-body">
+            <div>
+              <h5><%= result[i].title %></h5>
+              <p><%= result[i].description %></p>
+            </div>
             <div class="d-flex justify-content-between align-items-center mt-3">
-              <span class="text-muted small">
-                <i class="bi bi-clock me-1"></i> <%= result[i].duration %>
-              </span>
-              <a href="/admin/edit_recipe/<%= result[i].id %>" class="btn btn-warning btn-sm px-3 rounded-pill fw-semibold text-white shadow-sm">Update</a>
+              <span class="duration"><i class="bi bi-clock me-1"></i> <%= result[i].duration %></span>
+              <a href="/admin/edit_recipe/<%= result[i].id %>" class="btn-update">Update</a>
             </div>
           </div>
         </div>
       </div>
     <% } %>
-
   </div>
 </div>
 

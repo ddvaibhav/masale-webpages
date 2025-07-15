@@ -350,7 +350,7 @@ body {
   transform-style: preserve-3d;
 }
 
-.flip__container:hover .flip__flipper {
+.flip_container:hover .flip_flipper {
   transform: rotateY(180deg);
 }
 
@@ -2249,9 +2249,3 @@ body {
         margin-left: 25px;
       }
     }
-
-
-
-
-
-      

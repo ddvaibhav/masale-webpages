@@ -1,37 +1,109 @@
 <%- include("navbar") %>
 
-<div class="main-content" style="min-height: 100vh; background-color: #fdfbf7;">
-  <div class="container py-5 px-4">
+<style>
+  body {
+    background-color: #fdfbf7;
+    font-family: 'Segoe UI', sans-serif;
+  }
 
-    <h3 class="mb-4 fw-bold" style="color: #f58220;">All Company Info</h3>
+  .company-wrapper {
+    padding: 60px 20px;
+    min-height: 100vh;
+  }
 
-    <% for (var i = 0; i < company_info.length; i++) { %>
-      <div class="bg-white p-4 rounded-4 shadow-sm mb-4">
-        <!-- Heading -->
-        <h4 class="fw-bold text-uppercase mb-1" style="color: #f58220;">
-          <%= company_info[i].heading_frist %>
-        </h4>
+  .company-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #5b4d9c;
+    margin-bottom: 40px;
+    text-align: center;
+    letter-spacing: 1px;
+  }
 
-        <!-- Subheading -->
-        <h6 class="mb-3" style="font-weight: 500;">
-          <%= company_info[i].heading_second %>
-        </h6>
+  .company-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 30px;
+  }
 
-        <!-- Paragraphs -->
-        <p class="mb-2" style="font-size: 15px; line-height: 1.7;"><%= company_info[i].p_frist %></p>
-        <p class="mb-2" style="font-size: 15px; line-height: 1.7;"><%= company_info[i].p_second %></p>
-        <p class="mb-3" style="font-size: 15px; line-height: 1.7;"><%= company_info[i].p_third %></p>
+  .company-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(91, 77, 156, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
 
-        <!--  Update Button -->
-        <div class="text-end">
-          <a href="/admin/edit_company/<%= company_info[i].id %>" class="btn btn-sm btn-primary px-4">
+  .company-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(91, 77, 156, 0.1);
+  }
+
+  .company-heading {
+    font-size: 20px;
+    font-weight: 700;
+    color: #5b4d9c;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .company-subheading {
+    font-size: 16px;
+    color: #403373;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+
+  .company-paragraph {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+
+  .btn-update {
+    background-color: #5b4d9c;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+    text-decoration: none;
+  }
+
+  .btn-update:hover {
+    background-color: #403373;
+  }
+
+  @media (max-width: 576px) {
+    .company-card {
+      padding: 20px;
+    }
+  }
+</style>
+
+<div class="container company-wrapper">
+  <h2 class="company-title">All Company Info</h2>
+
+  <div class="company-grid">
+    <% for (let i = 0; i < company_info.length; i++) { %>
+      <div class="company-card">
+        <h4 class="company-heading"><%= company_info[i].heading_frist %></h4>
+        <h6 class="company-subheading"><%= company_info[i].heading_second %></h6>
+        <p class="company-paragraph"><%= company_info[i].p_frist %></p>
+        <p class="company-paragraph"><%= company_info[i].p_second %></p>
+        <p class="company-paragraph"><%= company_info[i].p_third %></p>
+
+        <div class="text-end mt-3">
+          <a href="/admin/edit_company/<%= company_info[i].id %>" class="btn-update">
             <i class="bi bi-pencil me-1"></i> Update
           </a>
         </div>
       </div>
     <% } %>
-
   </div>
 </div>
-<%- include("footer.ejs") %>
 
+<%- include("footer.ejs") %>

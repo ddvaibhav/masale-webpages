@@ -2,82 +2,99 @@
 
 <style>
   body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
     background-color: #fdfbf7;
+    font-family: 'Segoe UI', sans-serif;
   }
 
-  .faq-page-wrapper {
-    padding: 100px 20px 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 80px);
-  }
-
-  .faq-form-card {
-    max-width: 600px;
-    width: 100%;
-    background: #ffffff;
-    padding: 30px;
+  .faq-edit-wrapper {
+    max-width: 700px;
+    margin: 70px auto;
+    background-color: #ffffff;
+    padding: 40px 30px;
     border-radius: 16px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(91, 77, 156, 0.08);
   }
 
-  .faq-form-title {
-    text-align: center;
-    color: #5a3300;
-    margin-bottom: 25px;
-    font-weight: 600;
+  .faq-edit-title {
     font-size: 24px;
+    font-weight: 700;
+    color: #5b4d9c;
+    text-align: center;
+    margin-bottom: 30px;
+    background-color: #ebe6ff;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(91, 77, 156, 0.1);
   }
 
-  .faq-form-label {
-    font-weight: bold;
-    display: block;
-    margin-top: 12px;
+  .form-label {
+    font-weight: 600;
     color: #333;
-    font-size: 15px;
+    margin-bottom: 6px;
+    display: block;
   }
 
-  .faq-form-input,
-  .faq-form-textarea {
+  .form-control {
     width: 100%;
-    padding: 10px;
-    margin-top: 6px;
-    border: 1px solid #ccc;
     border-radius: 8px;
+    border: 1px solid #ccc;
     font-size: 15px;
+    padding: 10px 12px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
   }
 
-  .faq-form-button {
-    background-color: #d97706;
-    color: white;
-    padding: 10px 25px;
+  .form-control:focus {
+    border-color: #5b4d9c;
+    box-shadow: 0 0 0 3px rgba(91, 77, 156, 0.1);
+    outline: none;
+  }
+
+  .submit-btn {
+    background-color: #5b4d9c;
+    color: #fff;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 25px;
+    transition: background-color 0.3s ease;
     width: 100%;
-    font-size: 16px;
+  }
+
+  .submit-btn:hover {
+    background-color: #403373;
   }
 </style>
 
-<div class="faq-page-wrapper">
-  <div class="faq-form-card">
-    <h2 class="faq-form-title">Update FAQ</h2>
-    <form action="/admin/update_faq" method="POST">
-      <input type="hidden" name="id" value="<%= result[0].id %>">
+<div class="faq-edit-wrapper">
+  <h2 class="faq-edit-title">Edit FAQ</h2>
 
-      <label class="faq-form-label">Question</label>
-      <input type="text" name="question" class="faq-form-input" value="<%= result[0].question %>" required>
+  <form action="/admin/update_faq" method="POST">
+    <input type="hidden" name="id" value="<%= result[0].id %>">
 
-      <label class="faq-form-label">Answer</label>
-      <textarea name="answer" rows="5" class="faq-form-textarea" required><%= result[0].answer %></textarea>
+    <label for="question" class="form-label">Question</label>
+    <input
+      type="text"
+      id="question"
+      name="question"
+      class="form-control"
+      value="<%= result[0].question %>"
+      required
+    >
 
-      <button type="submit" class="faq-form-button">Update</button>
-    </form>
-  </div>
+    <label for="answer" class="form-label">Answer</label>
+    <textarea
+      id="answer"
+      name="answer"
+      class="form-control"
+      rows="5"
+      required
+    ><%= result[0].answer %></textarea>
+
+    <button type="submit" class="submit-btn">Update</button>
+  </form>
 </div>
 
 <%- include("footer") %>
