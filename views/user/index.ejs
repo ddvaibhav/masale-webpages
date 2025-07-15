@@ -1,5 +1,6 @@
-  <%-include("navbar.ejs")%>
+<%-include("navbar.ejs")%>
 
+<<<<<<< HEAD
  
      <!-- Spice Decorations -->
   <div class="spice-decoration spice-1">🌶️</div>
@@ -24,19 +25,52 @@
           <h2>Authentic Homemade Masale</h2>
           <div class="order-btn-container mt-3">
             <button class="btn btn-warning order-btn">Shop Now</button>
+=======
+
+  <!-- Bootstrap 5 Hero Carousel -->
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+        aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+
+    <!-- Slides -->
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img
+          src="https://wallpaperbat.com/img/867849-wallpaper-the-dark-background-pepper-different-spices-spoon-salt-seasoning-cuts-bay-leaf-image-for-desktop-section-ieda.jpg"
+          class="d-block w-100" alt="Traditional Spices">
+        <div class="carousel-caption d-none d-md-block">
+          <h2>Authentic Homemade Masale</h2>
+          <div class="mt-4">
+            <button class="btn btn-warning btn-lg px-4 py-2">Shop Now</button>
+>>>>>>> c87f1252d7480971f1bec423ddb24938f7d28f0b
           </div>
         </div>
       </div>
       <div class="carousel-item">
+<<<<<<< HEAD
         <img src="https://chariot.tours/wp-content/uploads/2023/08/sri-lanakanspices-seasonings-table-scaled.jpg" class="d-block w-100" alt="Spices 2">
         <div class="carousel-caption d-none d-md-block">
           <h2>Premium Quality Spices</h2>
           <div class="order-btn-container mt-3">
             <a href="/shop" class="btn btn-warning order-btn">Shop Now</a>
+=======
+        <img src="https://wallpaperbat.com/img/867818-vegetables-spices-wallpaper-vegetables-spices-stock-photos.jpg"
+          class="d-block w-100" alt="Spice Market">
+        <div class="carousel-caption d-none d-md-block">
+          <h2>Premium Quality Spices</h2>
+          <div class="mt-4">
+            <button class="btn btn-warning btn-lg px-4 py-2">Shop Now</button>
+>>>>>>> c87f1252d7480971f1bec423ddb24938f7d28f0b
           </div>
         </div>
       </div>
       <div class="carousel-item">
+<<<<<<< HEAD
         <img src="https://tse3.mm.bing.net/th/id/OIP._NXUMzqo4aN1N-80IFpy_gHaEp?r=0&w=626&h=393&rs=1&pid=ImgDetMain&o=7&rm=3" class="d-block w-100" alt="Spices 3">
         <div class="carousel-caption d-none d-md-block">
           <h2>Traditional Recipes</h2>
@@ -44,6 +78,20 @@
         </div>
       </div>
     </div>
+=======
+        <img
+          src="https://wallpaperbat.com/img/867849-wallpaper-the-dark-background-pepper-different-spices-spoon-salt-seasoning-cuts-bay-leaf-image-for-desktop-section-ieda.jpg"
+          class="d-block w-100" alt="Traditional Recipes">
+        <div class="carousel-caption d-none d-md-block">
+          <h2>Traditional Recipes</h2>
+          <div class="mt-4">
+            <button class="btn btn-warning btn-lg px-4 py-2">Shop Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+>>>>>>> c87f1252d7480971f1bec423ddb24938f7d28f0b
     <!-- Controls -->
     <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -54,15 +102,18 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
+<<<<<<< HEAD
   <!-- Bootstrap Carousel End -->
+=======
+
+
+>>>>>>> c87f1252d7480971f1bec423ddb24938f7d28f0b
   <!-- Products Section -->
-  <div class="section-title">
+  <div class="product-slider__section-title">
     <h1>Our Top Selling Products</h1>
   </div>
-  
-  <div class="slider-container">
-    <button class="nav-btn nav-left"><i class="fas fa-chevron-left"></i></button>
 
+<<<<<<< HEAD
     <div class="slider-wrapper" id="sliderWrapper">
       <!-- Product 1 -->
        <% for(i of popular)
@@ -122,489 +173,561 @@
 
 
         </div>
-      </div>
-       <%}%>
-      
-   
-    </div>
+=======
+  <div class="container">
+    <div class="row">
+      <!-- <button class="product-slider__nav-btn product-slider__nav-left"><i class="fas fa-chevron-left"></i></button> -->
 
-    <button class="nav-btn nav-right"><i class="fas fa-chevron-right"></i></button>
+      <div class="product-slider__wrapper" id="sliderWrapper">
+        <% for(i of popular) {%>
+          <div class="product-card">
+            <div class="flip__container">
+              <div class="flip__flipper">
+                <div class="flip__front">
+                  <img src="https://m.media-amazon.com/images/I/81aN-UDQL2L.jpg" alt="Meat Masala">
+                </div>
+                <div class="flip__back">
+                  <img src="https://m.media-amazon.com/images/I/81wbHxQXdML._UF1000,1000_QL80_.jpg"
+                    alt="Meat Masala Back">
+                </div>
+              </div>
+            </div>
+            <div class="product-card__content">
+              <h5>Meat Masala</h5>
+              <p class="product-card__price">₹199</p>
+              <p class="product-card__desc">Bold & spicy for non-veg curries</p>
+              <div class="product-card__quantity-selector">
+                <label for="meatMasalaSelect" class="form-label fw-medium">Choose Quantity:</label>
+                <select class="form-select" id="meatMasalaSelect">
+                  <option>100 gm - ₹190.00</option>
+                  <option selected>250 gm - ₹370.00</option>
+                  <option>500 gm - ₹850.00</option>
+                  <option>1 kg - ₹1650.00</option>
+                </select>
+              </div>
+
+              <% if (req.session.user && req.session.user.user_id) { %>
+                <% if (cartProductIds.includes(i.product_id)) { %>
+                  <button class="btn btn-secondary w-100" disabled>
+                    <i class="fas fa-check-circle me-1"></i>Already in Cart
+                  </button>
+                  <% } else { %>
+                    <a href="/product_details/<%= i.product_id %>"
+                      class="btn btn-warning w-100 <%= i.stockqty <= 0 ? 'disabled' : '' %>">
+                      Add to Cart
+                    </a>
+                    <% } %>
+                      <% } else { %>
+                        <button class="btn btn-outline-warning w-100" onclick="alert('Please Login Or Sign Up')"
+                          <%=i.stockqty <=0 ? "disabled" : "" %>>
+                          Add to Cart
+                        </button>
+                        <% } %>
+            </div>
+          </div>
+          <% } %>
+>>>>>>> c87f1252d7480971f1bec423ddb24938f7d28f0b
+      </div>
+
+      <!-- <button class="product-slider__nav-btn product-slider__nav-right"><i class="fas fa-chevron-right"></i></button> -->
+    </div>
   </div>
-  
+
+
   <!-- Categories Section -->
-  <div class="section-title">
+  <div class="category-slider__title">
     <h1>Shop By Categories</h1>
   </div>
-  
-  <div class="categories-container">
-    <button class="nav-btn1 nav-left1"><i class="fas fa-chevron-left"></i></button>
-    
-    <div class="categories-wrapper" id="categoriesWrapper">
-      <!-- Dry Masala -->
-       <% for(i of category)
-       {
-        %>
 
+  <div class="category-slider__container">
+    <button class="category-slider__nav-btn category-slider__nav-left"><i class="fas fa-chevron-left"></i></button>
+
+    <div class="category-slider__wrapper" id="categoriesWrapper">
+      <% for(i of category) { %>
         <div class="category-card">
-            <a href="/category_product/<%=i.category_id%>" class="text-decoration-none">
-          <img src="https://i.pinimg.com/236x/f8/27/40/f8274041dc17291db8f1620367055060.jpg" alt="Dry Masala">
-          <h5>Dry Masala</h5>
+          <a href="/category_product/<%=i.category_id%>" class="text-decoration-none">
+            <img src="https://i.pinimg.com/236x/f8/27/40/f8274041dc17291db8f1620367055060.jpg" alt="Dry Masala">
+            <h5>Dry Masala</h5>
           </a>
         </div>
-
-        <%}%>
-
-
+        <% } %>
     </div>
-    
-    <button class="nav-btn1 nav-right1"><i class="fas fa-chevron-right"></i></button>
+
+    <button class="category-slider__nav-btn category-slider__nav-right"><i class="fas fa-chevron-right"></i></button>
   </div>
-     
 
-    <!-- Why Choose Us Section -->
-    <section class="position-relative">
-      <div class="bg-image"></div>
-      <div class="bg-text">
-        <h1 style="text-align: center;justify-items: center;margin-left: 130px;">Why Choose Our Homemade Masala?</h1>
-      </div>
-      <div class="container py-5">
-        <div class="row text-center g-4">
-          <!-- Feature 1 -->
-          <div
-            class="col-sm-6 col-lg-3"
-            data-aos="fade-up-left"
-            data-aos-duration="1200"
-            data-aos-delay="0"
-          >
-            <div class="feature-bx h-100">
-              <div class="feature-icon mx-auto">
-                <i class="fas fa-home"></i>
-              </div>
-              <h4>100% Home Made</h4>
-              <p>
-                Each batch is carefully prepared in our home kitchen with love
-                and care.
-              </p>
-            </div>
-          </div>
 
-          <!-- Feature 2 -->
-          <div
-            class="col-sm-6 col-lg-3"
-            data-aos="fade-up-left"
-            data-aos-duration="1200"
-            data-aos-delay="0"
-          >
-            <div class="feature-bx h-100">
-              <div class="feature-icon mx-auto">
-                <i class="fas fa-ban"></i>
-              </div>
-              <h4>No Chemicals</h4>
-              <p>
-                Pure spices with no artificial colors, preservatives, or
-                additives.
-              </p>
-            </div>
-          </div>
-
-          <!-- Feature 3 -->
-          <div
-            class="col-sm-6 col-lg-3"
-            data-aos="fade-up-left"
-            data-aos-duration="1200"
-            data-aos-delay="0"
-          >
-            <div class="feature-bx h-100">
-              <div class="feature-icon mx-auto">
-                <i class="fas fa-history"></i>
-              </div>
-              <h4>Traditional Methods</h4>
-              <p>
-                Time-honored techniques to preserve the authentic flavors of
-                India.
-              </p>
-            </div>
-          </div>
-
-          <!-- Feature 4 -->
-          <div
-            class="col-sm-6 col-lg-3"
-            data-aos="fade-up-left"
-            data-aos-duration="1200"
-            data-aos-delay="0"
-          >
-            <div class="feature-bx h-100">
-              <div class="feature-icon mx-auto">
-                <i class="fas fa-mortar-pestle"></i>
-              </div>
-              <h4>Freshly Ground</h4>
-              <p>
-                Spices are ground fresh in small batches to ensure maximum
-                aroma.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!--Testimonials  -->
-    <div class="containers">
-      <div class="header">
-        <h1><b>What Our Customers Say</b></h1>
-        <p>
-          Authentic homemade masala blends that bring the taste of India to your
-          kitchen
-        </p>
-      </div>
-
-      <div class="testimonials">
-        <!-- Testimonial 1 -->
-        <div
-          class="testimonial-card featured"
-          data-aos="fade-up-left"
-          data-aos-duration="1200"
-          data-aos-delay="0"
-        >
-          <div class="card-header">
-            <img
-              src="img/priya.png"
-              alt="Portrait of Priya Sharma, happy middle-aged Indian woman cooking with spices"
-              class="profile-img"
-            />
-            <div class="user-info">
-              <h3>Priya Sharma</h3>
-              <p>Home Chef, Mumbai</p>
-            </div>
-          </div>
-          <div class="rating">★★★★★</div>
-          <p class="review-text">
-            The homemade garam masala changed my cooking completely. The aroma
-            fills my kitchen just like my grandmother's used to!
-          </p>
-          <img
-            src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/544853d8-a471-4eac-992d-b67362f30070.png"
-            alt="Golden brown garam masala powder in an Indian stainless steel spice box"
-            class="masala-image"
-          />
-        </div>
-
-        <!-- Testimonial 2 -->
-        <div
-          class="testimonial-card"
-          data-aos="fade-up-left"
-          data-aos-duration="1200"
-          data-aos-delay="0"
-        >
-          <div class="card-header">
-            <img
-              src="img/raj.png"
-              alt="Portrait of Raj Patel, smiling Indian man in chef's uniform holding spices"
-              class="profile-img"
-            />
-            <div class="user-info">
-              <h3>Raj Patel</h3>
-              <p>Restaurant Owner, Delhi</p>
-            </div>
-          </div>
-          <div class="rating">★★★★½</div>
-          <p class="review-text">
-            As a professional chef, I'm very particular about spices. Their
-            chaat masala has the perfect balance of tangy and spicy flavors.
-          </p>
-          <img
-            src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5af82bbb-d3dc-44f2-b518-707a12eec6a0.png"
-            alt="Bright orange chaat masala sprinkled on fresh pani puri with coriander garnish"
-            class="masala-image"
-          />
-        </div>
-
-        <!-- Testimonial 3 -->
-        <div
-          class="testimonial-card"
-          data-aos="fade-up-left"
-          data-aos-duration="1200"
-          data-aos-delay="0"
-        >
-          <div class="card-header">
-            <img
-              src="img/anjali.png"
-              alt="Portrait of Anjali Kapoor, young woman holding masala packets with background of spices"
-              class="profile-img"
-            />
-            <div class="user-info">
-              <h3>Anjali Kapoor</h3>
-              <p>Food Blogger, Bangalore</p>
-            </div>
-          </div>
-          <div class="rating">★★★★★</div>
-          <p class="review-text">
-            The sambar powder is exceptional! It gives that authentic South
-            Indian taste I've been searching for abroad.
-          </p>
-          <img
-            src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5b025b8a-8957-4e61-9984-2181b2fc1a74.png"
-            alt="Colorful array of South Indian spices including sambar powder and curry leaves"
-            class="masala-image"
-          />
-        </div>
-      </div>
+  <!-- Why Choose Us Section -->
+  <section class="whychoose">
+    <div class="whychoose__bg"></div>
+    <div class="whychoose__heading">
+      <h1>Why Choose Our Homemade Masala?</h1>
     </div>
 
-    <!--Recipe of the month -->
-
-<section class="featured-recipes py-5 bg-light">
-  <div class="container">
-    <div class="text-center mb-5">
-      <h1 class="recipe-title">
-              <span class="text-warning">Recipe</span> Of The Month
-      </h1>
-      <p class="lead text-muted">Discover our chef's special selections</p>
-    </div>
-
-    <div class="row g-4">
-      <!-- Recipe Card 1 -->
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm overflow-hidden recipe-card">
-          <div class="position-relative">
-            <img src="https://static.toiimg.com/thumb/53205522.cms?width=1200&height=900" 
-                 alt="Spiced Chicken Curry" class="img-fluid recipe-image">
-          </div>
-          <div class="card-body">
-            <h3 class="h4 card-title">Spiced Chicken Curry</h3>
-            <p class="card-text text-muted">Tender chicken pieces with traditional Indian spices simmered in a creamy tomato sauce.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="badge bg-light text-dark"><i class="bi bi-clock"></i> 45 mins</span>
-              <a href="Recipes.html"><button class="recipe-btn">View Recipe</button></a>
+    <div class="container py-5">
+      <div class="row text-center g-4">
+        <!-- Feature Box 1 -->
+        <div class="col-sm-6 col-lg-3" data-aos="fade-up-left" data-aos-duration="1200">
+          <div class="whychoose__feature">
+            <div class="whychoose__icon mx-auto">
+              <i class="fas fa-home"></i>
             </div>
+            <h4>100% Home Made</h4>
+            <p>Each batch is carefully prepared in our home kitchen with love and care.</p>
           </div>
         </div>
-      </div>
 
-      <!-- Recipe Card 2 -->
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm overflow-hidden recipe-card">
-          <div class="position-relative">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJrNc1cyXapx99e8b7jKl2H9yJF4JTAAGpnw&s" 
-                 alt="Paneer Masala" class="img-fluid recipe-image">
-          </div>
-          <div class="card-body">
-            <h3 class="h4 card-title">Paneer Masala</h3>
-            <p class="card-text text-muted">Rich paneer with deep flavors of spiced tomato-onion gravy - a North Indian classic.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="badge bg-light text-dark"><i class="bi bi-clock"></i> 30 mins</span>
-              <a href="Recipes.html"><button class="recipe-btn">View Recipe</button></a>
+        <!-- Feature Box 2 -->
+        <div class="col-sm-6 col-lg-3" data-aos="fade-up-left" data-aos-duration="1200">
+          <div class="whychoose__feature">
+            <div class="whychoose__icon mx-auto">
+              <i class="fas fa-ban"></i>
             </div>
+            <h4>No Chemicals</h4>
+            <p>Pure spices with no artificial colors, preservatives, or additives.</p>
           </div>
         </div>
-      </div>
 
-      <!-- Recipe Card 3 -->
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm overflow-hidden recipe-card">
-          <div class="position-relative">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFfASdH-1Yl9awvgcZrgvQuzjrRB5vI1ZbhQ&s" 
-                 alt="Maswadi" class="img-fluid recipe-image">
-          </div>
-          <div class="card-body">
-            <h3 class="h4 card-title">Maswadi</h3>
-            <p class="card-text text-muted">Maharashtrian specialty with steamed besan rolls and spicy coconut-peanut stuffing.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="badge bg-light text-dark"><i class="bi bi-clock"></i> 60 mins</span>
-              <a href="Recipes.html"><button class="recipe-btn">View Recipe</button></a>
+        <!-- Feature Box 3 -->
+        <div class="col-sm-6 col-lg-3" data-aos="fade-up-left" data-aos-duration="1200">
+          <div class="whychoose__feature">
+            <div class="whychoose__icon mx-auto">
+              <i class="fas fa-history"></i>
             </div>
+            <h4>Traditional Methods</h4>
+            <p>Time-honored techniques to preserve the authentic flavors of India.</p>
+          </div>
+        </div>
+
+        <!-- Feature Box 4 -->
+        <div class="col-sm-6 col-lg-3" data-aos="fade-up-left" data-aos-duration="1200">
+          <div class="whychoose__feature">
+            <div class="whychoose__icon mx-auto">
+              <i class="fas fa-mortar-pestle"></i>
+            </div>
+            <h4>Freshly Ground</h4>
+            <p>Spices are ground fresh in small batches to ensure maximum aroma.</p>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="text-center mt-4">
-      <button class="viewrecipe-btn btn-lg px-4">View All Recipes</button>
+  <!-- Reviews Section -->
+
+
+
+  <!--Recipe of the month -->
+
+  <section class="featured-recipes py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h1 class="recipe-title">
+          <span class="text-warning">Recipe</span> Of The Month
+        </h1>
+        <p class="lead text-muted">Discover our chef's special selections</p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Recipe Card 1 -->
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm overflow-hidden recipe-card">
+            <div class="position-relative">
+              <img src="https://static.toiimg.com/thumb/53205522.cms?width=1200&height=900" alt="Spiced Chicken Curry"
+                class="img-fluid recipe-image">
+            </div>
+            <div class="card-body">
+              <h3 class="h4 card-title">Spiced Chicken Curry</h3>
+              <p class="card-text text-muted">Tender chicken pieces with traditional Indian spices simmered in a creamy
+                tomato sauce.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-light text-dark"><i class="bi bi-clock"></i> 45 mins</span>
+                <a href="Recipes.html"><button class="recipe-btn">View Recipe</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recipe Card 2 -->
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm overflow-hidden recipe-card">
+            <div class="position-relative">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJrNc1cyXapx99e8b7jKl2H9yJF4JTAAGpnw&s"
+                alt="Paneer Masala" class="img-fluid recipe-image">
+            </div>
+            <div class="card-body">
+              <h3 class="h4 card-title">Paneer Masala</h3>
+              <p class="card-text text-muted">Rich paneer with deep flavors of spiced tomato-onion gravy - a North
+                Indian classic.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-light text-dark"><i class="bi bi-clock"></i> 30 mins</span>
+                <a href="Recipes.html"><button class="recipe-btn">View Recipe</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recipe Card 3 -->
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm overflow-hidden recipe-card">
+            <div class="position-relative">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFfASdH-1Yl9awvgcZrgvQuzjrRB5vI1ZbhQ&s"
+                alt="Maswadi" class="img-fluid recipe-image">
+            </div>
+            <div class="card-body">
+              <h3 class="h4 card-title">Maswadi</h3>
+              <p class="card-text text-muted">Maharashtrian specialty with steamed besan rolls and spicy coconut-peanut
+                stuffing.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-light text-dark"><i class="bi bi-clock"></i> 60 mins</span>
+                <a href="Recipes.html"><button class="recipe-btn">View Recipe</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="viewrecipe-btn btn-lg px-4">View All Recipes</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center">
+            <div class="logo">
+              <i class="fa fa-leaf" style="color: #ff9933; font-size: 3.5rem"></i>
+            </div>
+            <h1>Oraganic masale</h1>
+            <p class="subtitle">
+              Authentic organic spices crafted with traditional recipes and a touch
+              of Marathi zaika
+            </p>
+
+
+          </div>
+
+          <div class="section-title">Spice Story Reel</div>
+          <p style="text-align: center; margin-bottom: 20px; color: #7f5a2b">
+            Hover over any post to flip and see details
+          </p>
+
+          <div class="carousel-container-fluid">
+            <div class="instagram-carousel" id="carousel">
+              <!-- Post 1 -->
+              <div class="post-card">
+                <div class="post-inner">
+                  <div class="post-front">
+                    <div class="post-image" style="
+                    background-image: url('https://tse2.mm.bing.net/th/id/OIP.mejgkrmGtm8j8ya5p0mREgHaHa?r=0&cb=thvnextc2&rs=1&pid=ImgDetMain&o=7&rm=3');
+                  "></div>
+                    <div class="post-info">
+                      <div class="post-header">
+                        <div class="profile-pic rounded-circle" style="margin-right: 15px;">
+                          <img class="rounded-circle" src="/public/images/logo2.jpg" width="60px" height="40px" />
+                        </div>
+                        <div>
+                          <strong>Oragnic Masale</strong>
+                          <p>Homemade Garam Masala Blend</p>
+                        </div>
+                      </div>
+                      <div class="post-stats">
+                        <div>1.2K views</div>
+                        <div class="post-actions">
+                          <div class="post-action">
+                            <i class="fas fa-heart"></i> 245
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-comment"></i> 42
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-share-alt"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="post-back">
+                    <img class="zoomed-image"
+                      src="https://tse2.mm.bing.net/th/id/OIP.mejgkrmGtm8j8ya5p0mREgHaHa?r=0&cb=thvnextc2&rs=1&pid=ImgDetMain&o=7&rm=3"
+                      alt="Garam Masala" style="background-size: contain" />
+                    <div class="post-caption">
+                      <p class="p-0 mb-2">
+                        Our signature Garam Masala blend made with 12 authentic
+                        spices. Slow-roasted and ground to perfection for that
+                        traditional taste.
+                      </p>
+                    </div>
+                    <div class="brand-watermark">The Masala Basket</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Post 2 -->
+              <div class="post-card">
+                <div class="post-inner">
+                  <div class="post-front">
+                    <div class="post-image" style="
+                    background-image: url('https://rimaindustries.co.in/wp-content/uploads/2024/09/Kashmiri2.jpg');
+                  "></div>
+                    <div class="post-info">
+                      <div class="post-header">
+                        <div class="profile-pic" style="margin-right: 15px;">
+                          <img class="rounded-circle" src="public/images/logo2.jpg" width="60px" height="40px"
+                            style="border-radius: 30px;">
+                        </div>
+                        <div>
+                          <strong>Oragnic Masale</strong>
+                          <p>Freshly Ground Red Chili Powder</p>
+                        </div>
+                      </div>
+                      <div class="post-stats">
+                        <div>980 views</div>
+                        <div class="post-actions">
+                          <div class="post-action">
+                            <i class="fas fa-heart"></i> 312
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-comment"></i> 28
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-share-alt"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="post-back">
+                    <img class="zoomed-image"
+                      src="https://rimaindustries.co.in/wp-content/uploads/2024/09/Kashmiri2.jpg"
+                      alt="Red Chili Powder" />
+                    <div class="post-caption">
+                      <p>
+                        Pure Kashmiri chili powder with vibrant color and mild heat.
+                        Perfect for adding rich color to your dishes without
+                        overwhelming spice.
+                      </p>
+                    </div>
+                    <div class="brand-watermark">The Masala Basket</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Post 3 -->
+              <div class="post-card">
+                <div class="post-inner">
+                  <div class="post-front">
+                    <div class="post-image" style="
+                    background-image: url('https://alopikas.com/assets/img/product/red-chilli-secondary-alopikas.webp');
+                  "></div>
+                    <div class="post-info">
+                      <div class="post-header">
+                        <div class="profile-pic" style="margin-right: 15px;">
+                          <img class="rounded-circle" src="public/images/logo2.jpg" width="60px" height="40px">
+                        </div>
+                        <div>
+                          <strong>Oragnic Masale</strong>
+                          <p>Homemade Pickle Collection</p>
+                        </div>
+                      </div>
+                      <div class="post-stats">
+                        <div>1.5K views</div>
+                        <div class="post-actions">
+                          <div class="post-action">
+                            <i class="fas fa-heart"></i> 421
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-comment"></i> 56
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-share-alt"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="post-back">
+                    <img class="zoomed-image"
+                      src="https://alopikas.com/assets/img/product/red-chilli-secondary-alopikas.webp"
+                      alt="Pickle Collection" />
+                    <div class="post-caption">
+                      <p>
+                        Traditional Indian pickles made with seasonal fruits and
+                        vegetables. Preserved using authentic family recipes handed
+                        down for generations.
+                      </p>
+                    </div>
+                    <div class="brand-watermark">The Masala Basket</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Post 4 -->
+              <div class="post-card">
+                <div class="post-inner">
+                  <div class="post-front">
+                    <div class="post-image" style="
+                    background-image: url('https://www.gosupps.com/media/catalog/product/cache/25/image/1500x/040ec09b1e35df139433887a97daa66f/8/1/81aGrguDHML._SL1500_.jpg');
+                  "></div>
+                    <div class="post-info">
+                      <div class="post-header">
+                        <div class="profile-pic" style="margin-right: 15px;">
+                          <img class="rounded-circle" src="public/images/logo2.jpg" width="60px" height="40px">
+                        </div>
+                        <div>
+                          <strong>Oragnic Masale</strong>
+                          <p>Traditional Turmeric Powder</p>
+                        </div>
+                      </div>
+                      <div class="post-stats">
+                        <div>1.1K views</div>
+                        <div class="post-actions">
+                          <div class="post-action">
+                            <i class="fas fa-heart"></i> 387
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-comment"></i> 34
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-share-alt"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="post-back">
+                    <img class="zoomed-image"
+                      src="https://www.gosupps.com/media/catalog/product/cache/25/image/1500x/040ec09b1e35df139433887a97daa66f/8/1/81aGrguDHML._SL1500_.jpg"
+                      alt="Turmeric Powder" />
+                    <div class="post-caption">
+                      <p>
+                        Pure organic turmeric with high curcumin content. Sourced
+                        directly from farmers in Maharashtra and processed without
+                        additives.
+                      </p>
+                    </div>
+                    <div class="brand-watermark">The Masala Basket</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Post 5 -->
+              <div class="post-card">
+                <div class="post-inner">
+                  <div class="post-front">
+                    <div class="post-image" style="
+                    background-image: url('https://assets.epicurious.com/photos/5f7b812544b4b8f1f7ddfba2/1:1/w_2560%2Cc_limit/CurryBlend_RECIPE_100320_0231.jpg');
+                  "></div>
+                    <div class="post-info">
+                      <div class="post-header">
+                        <div class="profile-pic" style="margin-right: 15px;">
+                          <img class="rounded-circle" src="public/images/logo2.jpg" width="55px" height="40px">
+                        </div>
+                        <div>
+                          <strong>Oragnic Masale</strong>
+                          <p>Special Curry Masala Blend</p>
+                        </div>
+                      </div>
+                      <div class="post-stats">
+                        <div>890 views</div>
+                        <div class="post-actions">
+                          <div class="post-action">
+                            <i class="fas fa-heart"></i> 278
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-comment"></i> 19
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-share-alt"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="post-back">
+                    <img class="zoomed-image"
+                      src="https://assets.epicurious.com/photos/5f7b812544b4b8f1f7ddfba2/1:1/w_2560%2Cc_limit/CurryBlend_RECIPE_100320_0231.jpg"
+                      alt="Curry Masala" />
+                    <div class="post-caption">
+                      <p>
+                        Our aromatic curry blend with 15 spices. Perfect for
+                        creating rich, flavorful curries in minutes. Just add to
+                        sautéed onions and tomatoes.
+                      </p>
+                    </div>
+                    <div class="brand-watermark">The Masala Basket</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="reel_carousel_nav">
+              <button class="reel_nav_btn" onclick="scrollCarousel(-1)">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="reel_nav_btn" onclick="scrollCarousel(1)">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+   <!-- Hero Section with Spice Basket Animation -->
+<section class="spice-hero-section">
+  <div class="spice-hero-content">
+    <div class="spice-hero-text">
+      <h1 class="spice-hero-title">Organic Masale</h1>
+      <p class="spice-hero-subtitle">
+        Authentic Indian Spices Handpicked from the Heart of India
+      </p>
+      <div class="spice-cta-buttons">
+        <a href="product.html" class="text-decoration-none">
+          <button class="spice-cta-btn spice-shop-btn">
+            <i class="fas fa-shopping-cart"></i> Shop Now
+          </button>
+        </a>
+        <a href="https://wa.me/+919146848704" target="_blank" class="text-decoration-none">
+          <button class="spice-cta-btn spice-whatsapp-btn">
+            <i class="fab fa-whatsapp"></i> WhatsApp to Order
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <div class="spice-hero-animation">
+      <div class="spice-basket-container">
+        <div class="spice-basket">
+          <div class="spice-basket-body"></div>
+          <div class="spice-basket-handle"></div>
+
+          <div class="spice-packet packet-1"><i class="fas fa-pepper-hot spice-icon"></i><div class="spice-label">CHILI</div></div>
+          <div class="spice-packet packet-2"><i class="fas fa-mortar-pestle spice-icon"></i><div class="spice-label">TURMERIC</div></div>
+          <div class="spice-packet packet-3"><i class="fas fa-seedling spice-icon"></i><div class="spice-label">CARDAMOM</div></div>
+          <div class="spice-packet packet-4"><i class="fas fa-leaf spice-icon"></i><div class="spice-label">BAY LEAF</div></div>
+          <div class="spice-packet packet-5"><i class="fas fa-fire-alt spice-icon"></i><div class="spice-label">GARAM MASALA</div></div>
+
+          <div class="spice-particles"></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 
-    <div class="container">
-      <header>
-        <div class="logo">
-          <i class="fa fa-leaf" style="color: #ff9933; font-size: 3.5rem"></i>
-        </div>
-        <h1>Oraganic masale</h1>
-        <p class="subtitle">
-          Authentic organic spices crafted with traditional recipes and a touch
-          of Marathi zaika
-        </p>
-      </header>
 
-      <div class="section-title">Spice Story Reel</div>
-      <p style="text-align: center; margin-bottom: 20px; color: #7f5a2b">
-        Hover over any post to flip and see details
-      </p>
 
-      <div class="carousel-container-fluid">
-        <div class="instagram-carousel" id="carousel">
-          <!-- Post 1 -->
-          <div class="post-card">
-            <div class="post-inner">
-              <div class="post-front">
-                <div
-                  class="post-image"
-                  style="
-                    background-image: url('https://tse2.mm.bing.net/th/id/OIP.mejgkrmGtm8j8ya5p0mREgHaHa?r=0&cb=thvnextc2&rs=1&pid=ImgDetMain&o=7&rm=3');
-                  "
-                ></div>
-                <div class="post-info">
-                  <div class="post-header">
-                    <div class="profile-pic rounded-circle" style="margin-right: 15px;">
-                      <img class="rounded-circle" src="/public/images/logo2.jpg" width="60px" height="40px" />
-                    </div>
-                    <div>
-                      <strong>Oragnic Masale</strong>
-                      <p>Homemade Garam Masala Blend</p>
-                    </div>
-                  </div>
-                  <div class="post-stats">
-                    <div>1.2K views</div>
-                    <div class="post-actions">
-                      <div class="post-action">
-                        <i class="fas fa-heart"></i> 245
-                      </div>
-                      <div class="post-action">
-                        <i class="fas fa-comment"></i> 42
-                      </div>
-                      <div class="post-action">
-                        <i class="fas fa-share-alt"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="post-back">
-                <img
-                  class="zoomed-image"
-                  src="https://tse2.mm.bing.net/th/id/OIP.mejgkrmGtm8j8ya5p0mREgHaHa?r=0&cb=thvnextc2&rs=1&pid=ImgDetMain&o=7&rm=3"
-                  alt="Garam Masala"
-                  style="background-size: contain"
-                />
-                <div class="post-caption">
-                  <p class="p-0 mb-2">
-                    Our signature Garam Masala blend made with 12 authentic
-                    spices. Slow-roasted and ground to perfection for that
-                    traditional taste.
-                  </p>
-                </div>
-                <div class="brand-watermark">The Masala Basket</div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Post 2 -->
-          <div class="post-card">
-            <div class="post-inner">
-              <div class="post-front">
-                <div
-                  class="post-image"
-                  style="
-                    background-image: url('https://rimaindustries.co.in/wp-content/uploads/2024/09/Kashmiri2.jpg');
-                  "
-                ></div>
-                <div class="post-info">
-                  <div class="post-header">
-                    <div class="profile-pic" style="margin-right: 15px;">
-                      <img class="rounded-circle" src="public/images/logo2.jpg" width="60px" height="40px" style="border-radius: 30px;"></div>
-                    <div>
-                      <strong>Oragnic Masale</strong>
-                      <p>Freshly Ground Red Chili Powder</p>
-                    </div>
-                  </div>
-                  <div class="post-stats">
-                    <div>980 views</div>
-                    <div class="post-actions">
-                      <div class="post-action">
-                        <i class="fas fa-heart"></i> 312
-                      </div>
-                      <div class="post-action">
-                        <i class="fas fa-comment"></i> 28
-                      </div>
-                      <div class="post-action">
-                        <i class="fas fa-share-alt"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="post-back">
-                <img
-                  class="zoomed-image"
-                  src="https://rimaindustries.co.in/wp-content/uploads/2024/09/Kashmiri2.jpg"
-                  alt="Red Chili Powder"
-                />
-                <div class="post-caption">
-                  <p>
-                    Pure Kashmiri chili powder with vibrant color and mild heat.
-                    Perfect for adding rich color to your dishes without
-                    overwhelming spice.
-                  </p>
-                </div>
-                <div class="brand-watermark">The Masala Basket</div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Post 3 -->
-          <div class="post-card">
-            <div class="post-inner">
-              <div class="post-front">
-                <div
-                  class="post-image"
-                  style="
-                    background-image: url('https://alopikas.com/assets/img/product/red-chilli-secondary-alopikas.webp');
-                  "
-                ></div>
-                <div class="post-info">
-                  <div class="post-header">
-                    <div class="profile-pic" style="margin-right: 15px;">
-                      <img  class="rounded-circle" src="public/images/logo2.jpg" width="60px" height="40px"></div>
-                    <div>
-                      <strong>Oragnic Masale</strong>
-                      <p>Homemade Pickle Collection</p>
-                    </div>
-                  </div>
-                  <div class="post-stats">
-                    <div>1.5K views</div>
-                    <div class="post-actions">
-                      <div class="post-action">
-                        <i class="fas fa-heart"></i> 421
-                      </div>
-                      <div class="post-action">
-                        <i class="fas fa-comment"></i> 56
-                      </div>
-                      <div class="post-action">
-                        <i class="fas fa-share-alt"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="post-back">
-                <img
-                  class="zoomed-image"
-                  src="https://alopikas.com/assets/img/product/red-chilli-secondary-alopikas.webp"
-                  alt="Pickle Collection"
-                />
-                <div class="post-caption">
-                  <p>
-                    Traditional Indian pickles made with seasonal fruits and
-                    vegetables. Preserved using authentic family recipes handed
-                    down for generations.
-                  </p>
-                </div>
-                <div class="brand-watermark">The Masala Basket</div>
-              </div>
-            </div>
-          </div>
 
+<<<<<<< HEAD
           <!-- Post 4 -->
           <div class="post-card">
             <div class="post-inner">
@@ -790,5 +913,7 @@
         </div>
       </div>
     </section>
+=======
+>>>>>>> c87f1252d7480971f1bec423ddb24938f7d28f0b
 
   <%-include("footer.ejs")%>
