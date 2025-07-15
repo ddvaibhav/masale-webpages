@@ -3,74 +3,87 @@
 <style>
   body {
     background-color: #fdfbf7;
-    margin: 0;
     font-family: 'Segoe UI', sans-serif;
+    margin: 0;
   }
 
-  .terms-container {
-    margin-left: 250px;
-    padding: 40px 20px;
-  }
-
-  .terms-card {
-    max-width: 600px;
-    margin: auto;
-    background: #f9f9f9;
-    padding: 30px;
+  .terms-edit-wrapper {
+    max-width: 700px;
+    margin: 60px auto;
+    background-color: #ffffff;
+    padding: 40px 30px;
     border-radius: 16px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 25px rgba(91, 77, 156, 0.08);
   }
 
-  .terms-card h2 {
+  .terms-edit-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #5b4d9c;
     text-align: center;
-    color: #5a3300;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    background-color: #ebe6ff;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(91, 77, 156, 0.1);
   }
 
   .form-label {
-    font-weight: bold;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
     display: block;
-    margin-top: 10px;
-  }
-
-  .form-input, .form-textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
     font-size: 15px;
   }
 
-  .update-btn {
-    background-color: #d97706;
+  .form-control {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    padding: 10px 12px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #5b4d9c;
+    box-shadow: 0 0 0 3px rgba(91, 77, 156, 0.1);
+    outline: none;
+  }
+
+  .submit-btn {
+    background-color: #5b4d9c;
     color: white;
-    padding: 10px 25px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 20px;
-    display: block;
+    transition: background-color 0.3s ease;
     width: 100%;
-    font-size: 16px;
+  }
+
+  .submit-btn:hover {
+    background-color: #403373;
   }
 </style>
 
-<div class="terms-container">
-  <div class="terms-card">
-    <h2>Update Terms & Condition</h2>
-    <form action="/admin/update_terms" method="POST">
-      <input type="hidden" name="id" value="<%= result.id %>">
+<div class="terms-edit-wrapper">
+  <h2 class="terms-edit-title">Edit Terms & Conditions</h2>
 
-      <label class="form-label">Title</label>
-      <input type="text" name="title" class="form-input" value="<%= result.title %>" required>
+  <form action="/admin/update_terms" method="POST">
+    <input type="hidden" name="id" value="<%= result.id %>">
 
-      <label class="form-label">Description</label>
-      <textarea name="description" rows="5" class="form-textarea" required><%= result.description %></textarea>
+    <label class="form-label">Title</label>
+    <input type="text" name="title" class="form-control" value="<%= result.title %>" required>
 
-      <button type="submit" class="update-btn">Update</button>
-    </form>
-  </div>
+    <label class="form-label">Description</label>
+    <textarea name="description" rows="6" class="form-control" required><%= result.description %></textarea>
+
+    <button type="submit" class="submit-btn">Update</button>
+  </form>
 </div>
 
 <%- include("footer") %>

@@ -57,8 +57,10 @@ router.get("/", async function (req, res) {
     SELECT 
       p.product_id, 
       p.product_name, 
-      p.image,
+      p.image AS product_image_front,
+      p.image2 AS product_image_back,
       p.stockqty,
+      p.discount,
       (SELECT price FROM product_price_variants WHERE product_id = p.product_id LIMIT 1) AS price,
       COUNT(oi.product_id) AS order_count
     FROM order_items oi
@@ -69,20 +71,41 @@ router.get("/", async function (req, res) {
     LIMIT 5
   `);
 
+  // Get all variants for popular products
+  const popularIds = popular.map(p => p.product_id);
+  let productVariants = {};
+
+  if (popularIds.length > 0) {
+    const variants = await exe(
+      `SELECT product_id, weight, price FROM product_price_variants WHERE product_id IN (?)`,
+      [popularIds]
+    );
+
+    // Group variants by product_id
+    variants.forEach(v => {
+      if (!productVariants[v.product_id]) productVariants[v.product_id] = [];
+      productVariants[v.product_id].push({ weight: v.weight, price: v.price });
+    });
+  }
+
+  // Get cart items if user is logged in
   let cartProductIds = [];
   if (userId) {
     const cart = await exe(`SELECT product_id FROM cart WHERE user_id = ? AND status = 'active'`, [userId]);
     cartProductIds = cart.map(i => i.product_id);
   }
 
+  // Render the page
   res.render("user/index.ejs", {
     product: products,
     category: categories,
     popular: popular,
+    productVariants,
     cartProductIds,
     req
   });
 });
+
 
 
 
@@ -142,29 +165,113 @@ router.get("/contact_us",function(req,res){
 });
 
 
-router.get("/category_product/:id",function(req,res){
-    res.render("user/category_product.ejs");
+router.get("/category_product/:id", async function (req, res) {
+  try {
+    const categoryId = req.params.id;
+
+    // Get category name
+    const [categoryData] = await exe(`SELECT category_name FROM category WHERE category_id = ?`, [categoryId]);
+
+    // Get all products under the category
+    const productData = await exe(`SELECT p.*, c.category_name FROM product p
+                                   JOIN category c ON p.category_id = c.category_id
+                                   WHERE p.status = 'active' AND p.category_id = ?`, [categoryId]);
+
+    // Get all variants (can be optimized if you have a lot of data)
+    const variantData = await exe(`SELECT * FROM product_price_variants`);
+
+    // If user is logged in, get cart items for them
+    let cartProductIds = [];
+    if (req.session.user && req.session.user.user_id) {
+      const userId = req.session.user.user_id;
+      const cartData = await exe(`SELECT product_id FROM cart WHERE user_id = ?`, [userId]);
+      cartProductIds = cartData.map(item => item.product_id);
+    }
+
+    res.render("user/category_product.ejs", {
+      categoryName: categoryData?.category_name || "Category Products",
+      product: productData,
+      variants: variantData,
+      cartProductIds: cartProductIds,
+      req: req
+    });
+  } catch (err) {
+    console.error("Category Product Route Error:", err);
+    res.status(500).send("Server Error");
+  }
 });
+
 router.get("/product_details/:id", async function (req, res) {
   const id = req.params.id;
 
-  const product = await exe(`
-  SELECT product_id, product_name, image, image2, detail, \`usage\`, health_benifits, ingredients, discount 
-  FROM product 
-  WHERE status = 'active' AND product_id = ?
-`, [id]);
+  // Get main product
+  const [product] = await exe(`
+    SELECT product_id, product_name, image, image2, detail, \`usage\`, health_benifits, ingredients, discount, category_id
+    FROM product 
+    WHERE status = 'active' AND product_id = ?
+  `, [id]);
 
+  if (!product) {
+    return res.send("Product not found");
+  }
+
+  // Get variants
   const variants = await exe(`
     SELECT id, weight, price 
     FROM product_price_variants 
     WHERE product_id = ?
   `, [id]);
 
-  res.render("user/product_details.ejs", {
-    product: product[0],
-    variants
-  });
+  const reviews = await exe(`
+    SELECT username, rating, comment, date 
+    FROM reviews 
+    WHERE product_id = ? 
+    ORDER BY date DESC
+  `, [id]);
+
+  
+const related = await exe(`
+  SELECT product_id, product_name, image
+  FROM product 
+  WHERE status = 'active' 
+    AND category_id = ? 
+    AND product_id != ? 
+  ORDER BY product_id DESC 
+  LIMIT 6
+`, [product.category_id, id]);
+
+const relatedVariantsMap = {};
+for (let rel of related) {
+  const variants = await exe(`
+    SELECT id, weight, price 
+    FROM product_price_variants 
+    WHERE product_id = ?
+  `, [rel.product_id]);
+  relatedVariantsMap[rel.product_id] = variants;
+}
+
+res.render("user/product_details.ejs", {
+  product,
+  variants,
+  reviews,
+  related,
+  relatedVariantsMap 
 });
+
+});
+
+
+
+router.post('/submit_review', async (req, res) => {
+  const { product_id, username, rating, comment } = req.body;
+  const sql = `INSERT INTO reviews (product_id, username, rating, comment, date) VALUES (?, ?, ?, ?, NOW())`;
+  await exe(sql, [product_id, username, rating, comment]);
+  res.redirect('/product_details/' + product_id);
+});
+
+
+
+
 
 
 router.post("/filter-products", async (req, res) => {
@@ -223,7 +330,7 @@ router.post("/add_tocart", async (req, res) => {
         [quantity, existing[0].cart_id]
       );
     } else {
-      // ✅ INSERT new product into cart including discount_price
+      
       await exe(
         `INSERT INTO cart (user_id, product_id, weight_id, price, discount_price, quantity, status) 
          VALUES (?, ?, ?, ?, ?, ?, 'active')`,
@@ -231,7 +338,7 @@ router.post("/add_tocart", async (req, res) => {
       );
     }
 
-    res.redirect(`/add_tocart`); // Redirect to product page or cart
+    res.redirect(`/add_tocart`);
   } catch (error) {
     console.error("Add to cart error:", error);
     res.send("Something went wrong while adding to cart");

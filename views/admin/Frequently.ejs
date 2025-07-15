@@ -1,43 +1,71 @@
 <%- include("navbar") %>
 
 <style>
-  .faq-container {
-    max-width: 900px;
-    margin: 60px auto;
-    padding: 20px;
+  body {
+    background-color: #fdfbf7;
     font-family: 'Segoe UI', sans-serif;
   }
 
-  .faq-title {
+  .faq-heading {
     font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #5a3300;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 50px;
+    background-color: #5b4d9c;
+    padding: 18px 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(91, 77, 156, 0.25);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .faq-container {
+    max-width: 1000px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
   }
 
   .faq-item {
-    background: #fff;
-    border-left: 4px solid #fbbf24;
-    padding: 20px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(91, 77, 156, 0.08);
+    margin-bottom: 25px;
+    padding: 25px 30px;
+    transition: all 0.3s ease;
+  }
+
+  .faq-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(91, 77, 156, 0.12);
   }
 
   .faq-question {
-    font-weight: bold;
+    font-size: 18px;
+    font-weight: 600;
+    color: #5b4d9c;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
-    color: #3b3b3b;
+    align-items: center;
+  }
+
+  .faq-question::after {
+    content: "▼";
+    color: #999;
+    transition: transform 0.2s ease;
+  }
+
+  .faq-item.active .faq-question::after {
+    content: "▲";
+    color: #5b4d9c;
   }
 
   .faq-answer {
-    margin-top: 10px;
+    margin-top: 15px;
+    font-size: 15px;
     color: #444;
+    line-height: 1.6;
     display: none;
   }
 
@@ -45,50 +73,61 @@
     display: block;
   }
 
-  .faq-item.active .faq-question::after {
-    content: "▲";
-    color: #f59e0b;
-  }
-
-  .faq-question::after {
-    content: "▼";
-    color: #aaa;
-  }
-
-  .update-btn {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 6px 16px;
-    font-size: 14px;
-    background-color: #d97706;
-    color: #fff;
-    border: none;
+  .btn-update {
+    background-color: #5b4d9c;
+    color: white;
+    padding: 8px 16px;
     border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
     text-decoration: none;
+    margin-top: 12px;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-update:hover {
+    background-color: #403373;
+  }
+
+  @media (max-width: 576px) {
+    .faq-item {
+      padding: 20px;
+    }
+
+    .faq-question {
+      font-size: 16px;
+    }
   }
 </style>
 
-<div class="faq-container">
-  <div class="faq-title">
-    <i class="bi bi-question-circle-fill text-warning"></i> Frequently Asked Questions
-  </div>
+<div class="container py-5">
+  <div class="faq-heading">Frequently Asked Questions</div>
 
-  <% for (var i = 0; i < result.length; i++) { %>
-    <div class="faq-item">
-      <div class="faq-question"><%= result[i].question %></div>
-      <div class="faq-answer">
-        <p><%= result[i].answer %></p>
-        <a href="/admin/edit_faq/<%= result[i].id %>" class="update-btn">Update</a>
-      </div>
-    </div>
-  <% } %>
+  <div class="faq-container">
+    <% if (result.length > 0) { %>
+      <% result.forEach((faq) => { %>
+        <div class="faq-item">
+          <div class="faq-question"><%= faq.question %></div>
+          <div class="faq-answer">
+            <p><%= faq.answer %></p>
+            <a href="/admin/edit_faq/<%= faq.id %>" class="btn-update">
+              <i class="bi bi-pencil-fill me-1"></i> Update
+            </a>
+          </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p class="text-center text-muted">No FAQs available at the moment.</p>
+    <% } %>
+  </div>
 </div>
 
 <script>
-  const faqs = document.querySelectorAll(".faq-item");
-  faqs.forEach(faq => {
-    faq.querySelector(".faq-question").addEventListener("click", () => {
-      faq.classList.toggle("active");
+  document.querySelectorAll(".faq-question").forEach((question) => {
+    question.addEventListener("click", () => {
+      question.parentElement.classList.toggle("active");
     });
   });
 </script>

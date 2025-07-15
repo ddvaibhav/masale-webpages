@@ -128,11 +128,6 @@
             cursor: pointer;
         }
         
-        .recipe-step__image:hover,
-        .recipe-step__image:active {
-            transform: scale(1.1);
-        }
-        
         .recipe-tip {
             background-color: #fff3e0;
             border-left: 4px solid #ffa000;

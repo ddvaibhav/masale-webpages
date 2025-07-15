@@ -1,38 +1,158 @@
 <%- include("navbar") %>
-<div class="container py-5">
-  <div class="card shadow-lg rounded-4 p-4" style="max-width: 700px; margin: auto;">
-    <h3 class="mb-4 text-center text-primary">Edit Masala Product</h3>
-    
-    <form action="/admin/update_Spice_Story" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="id" value="<%= result[0].id %>">
-      <div class="mb-3">
-        <label for="title" class="form-label">Masala Title</label>
-        <input type="text" class="form-control" id="title" name="title" value="<%= result[0].title %>" required>
+
+<style>
+  body {
+    background-color: #fdfbf7;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .edit-container {
+    max-width: 1000px;
+    margin: 60px auto;
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(91, 77, 156, 0.08);
+  }
+
+  .edit-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #5b4d9c;
+    margin-bottom: 30px;
+    text-align: center;
+    background: #ebe6ff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(91, 77, 156, 0.1);
+  }
+
+  .form-group {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 20px;
+  }
+
+  .form-group label {
+    width: 200px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 10px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: #5b4d9c;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(91, 77, 156, 0.1);
+  }
+
+  .preview-action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 200px;
+    margin-top: 30px;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .image-preview img {
+    max-height: 130px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .submit-btn {
+    background-color: #5b4d9c;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 26px;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .submit-btn:hover {
+    background-color: #403373;
+  }
+
+  @media (max-width: 768px) {
+    .form-group {
+      flex-direction: column;
+    }
+
+    .form-group label {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+
+    .preview-action-row {
+      margin-left: 0;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .submit-btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="edit-container">
+  <div class="edit-title">Edit Masala Product</div>
+
+  <form action="/admin/update_Spice_Story" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<%= result[0].id %>">
+
+    <div class="form-group">
+      <label for="title">Masala Title</label>
+      <input type="text" id="title" name="title" value="<%= result[0].title %>" required>
+    </div>
+
+    <div class="form-group">
+      <label for="subheading">Subheading</label>
+      <input type="text" id="subheading" name="subheading" value="<%= result[0].subheading %>" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" required><%= result[0].description %></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="image">Upload New Image</label>
+      <input type="file" id="image" name="image">
+    </div>
+
+    <!-- Image + Submit Side by Side -->
+    <div class="preview-action-row">
+      <div class="image-preview">
+        <small class="text-muted">Current Image:</small><br>
+        <img src="/images/<%= result[0].image %>?v=<%= Math.random() %>" alt="Current Image">
       </div>
 
-      <div class="mb-3">
-        <label for="subheading" class="form-label">Subheading</label>
-        <input type="text" class="form-control" id="subheading" name="subheading" value="<%= result[0].subheading %>" required>
-      </div>
-
-      <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" id="description" name="description" rows="3" required><%= result[0].description %></textarea>
-      </div>
-
-      <div class="mb-3">
-        <label for="image" class="form-label">Change Image</label>
-        <input class="form-control" type="file" id="image" name="image">
-        <small class="text-muted">Current Image: <%= result[0].image %></small>
-        <br>
-        <img src="/images/<%= result[0].image %>?v=<%= Math.random() %>" alt="Current Image" class="img-fluid mt-2 rounded shadow" style="max-height: 150px;">
-      </div>
-
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-success px-4">Update</button>
-      </div>
-
-    </form>
-  </div>
+      <button type="submit" class="submit-btn">Update</button>
+    </div>
+  </form>
 </div>
+
 <%- include("footer") %>
