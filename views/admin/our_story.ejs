@@ -1,103 +1,139 @@
 <%- include("navbar") %>
 
 <style>
-  .story-section {
+  body {
+    background-color: #fdfbf7;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .section-heading {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 50px;
+    background-color: #5b4d9c;
+    padding: 18px 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(91, 77, 156, 0.25);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .story-card {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 80px;
-    background-color: #fefaf4;
     gap: 40px;
-    margin-bottom: 60px;
+    background-color: #ffffff;
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
     flex-wrap: wrap;
-    position: relative;
   }
 
   .story-text {
-    flex: 1 1 400px;
+    flex: 1 1 55%;
   }
 
-  .story-text h2 {
-    font-size: 36px;
-    font-weight: bold;
-    color: #d97706;
-    margin-bottom: 20px;
+  .story-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #5b4d9c;
+    margin-bottom: 16px;
     position: relative;
   }
 
-  .story-text h2::after {
+  .story-title::after {
     content: "";
+    display: block;
     width: 60px;
     height: 4px;
-    background: #f59e0b;
-    position: absolute;
-    left: 0;
-    bottom: -10px;
+    background: #5b4d9c;
+    margin-top: 8px;
   }
 
-  .story-text p {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 20px;
+  .story-paragraph {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 12px;
   }
 
-  .story-image {
-    flex: 1 1 300px;
-    text-align: center;
+  .story-img {
+    flex: 1 1 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .story-image img {
+  .story-img img {
     width: 100%;
-    max-width: 400px;
+    height: auto;
+    max-height: 320px;
+    object-fit: contain;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
 
-  .update-btn {
-    position: absolute;
-    bottom: 20px;
-    right: 30px;
-    background-color: #0d6efd;
+  .btn-update {
+    background-color: #5b4d9c;
     color: white;
-    padding: 8px 20px;
+    padding: 8px 18px;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
+    font-size: 14px;
     font-weight: 500;
+    margin-top: 10px;
+    display: inline-block;
     text-decoration: none;
     transition: background-color 0.3s ease;
   }
 
-  .update-btn:hover {
-    background-color: #0b5ed7;
+  .btn-update:hover {
+    background-color: #403373;
   }
 
   @media (max-width: 768px) {
-    .story-section {
+    .story-card {
       flex-direction: column;
       text-align: center;
-      padding: 40px 20px;
+      padding: 20px;
     }
-    .update-btn {
-      position: static;
-      margin-top: 20px;
+
+    .story-text,
+    .story-img {
+      flex: 1 1 100%;
+    }
+
+    .story-img img {
+      max-height: 280px;
     }
   }
 </style>
 
-<% for (var i = 0; i < our_story.length; i++) { %>
-  <div class="story-section">
-    <div class="story-text">
-      <h2><%= our_story[i].hiadding %></h2>
-      <p><%= our_story[i].p_frist %></p>
-      <p><%= our_story[i].p_second %></p>
-      <p><%= our_story[i].p_third %></p>
+<div class="container py-5">
+  <div class="section-heading">Our Story</div>
+
+  <% for (var i = 0; i < our_story.length; i++) { %>
+    <div class="story-card">
+      <!-- Text Section -->
+      <div class="story-text">
+        <h2 class="story-title"><%= our_story[i].hiadding %></h2>
+        <p class="story-paragraph"><%= our_story[i].p_frist %></p>
+        <p class="story-paragraph"><%= our_story[i].p_second %></p>
+        <p class="story-paragraph"><%= our_story[i].p_third %></p>
+        <a href="/admin/edit_our_story/<%= our_story[i].id %>" class="btn-update">
+          <i class="bi bi-pencil-fill me-1"></i> Update
+        </a>
+      </div>
+
+      <!-- Image Section -->
+      <div class="story-img">
+        <img src="/images/<%= our_story[i].image %>" alt="Story Image">
+      </div>
     </div>
-    <div class="story-image">
-      <img src="/images/<%= our_story[i].image %>" alt="Story Image">
-    </div>
-    <!--  Update Button -->
-    <a href="/admin/edit_our_story/<%= our_story[i].id %>" class="update-btn">Update</a>
-  </div>
-<% } %>
+  <% } %>
+</div>
 
 <%- include("footer") %>

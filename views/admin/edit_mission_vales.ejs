@@ -3,89 +3,156 @@
 <style>
   body {
     background-color: #fdfbf7;
-  }
-
-  .form-wrapper {
-    max-width: 600px;
-    margin: 60px auto;
-    background: #ffffff;
-    padding: 40px 30px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     font-family: 'Segoe UI', sans-serif;
   }
 
-  .form-wrapper h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    font-weight: bold;
-    color: #333;
+  .edit-wrapper {
+    max-width: 850px;
+    margin: 60px auto;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
   }
 
-  label {
+  .edit-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #5b4d9c;
+    margin-bottom: 30px;
+  }
+
+  .form-group {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+  }
+
+  .form-group label {
     font-weight: 600;
+    color: #444;
     margin-bottom: 8px;
     display: block;
-    color: #444;
   }
 
-  input[type="text"], textarea, input[type="file"] {
+  .form-group .input-box {
+    flex: 1 1 48%;
+  }
+
+  .form-group input[type="text"],
+  .form-group textarea,
+  .form-group input[type="file"] {
     width: 100%;
     padding: 12px;
-    margin-bottom: 22px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
     font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
   }
 
-  input:focus, textarea:focus {
+  .form-group textarea {
+    resize: vertical;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
     outline: none;
-    border-color: #d97706;
-    box-shadow: 0 0 5px rgba(217, 119, 6, 0.3);
+    border-color: #5b4d9c;
+    box-shadow: 0 0 5px rgba(91, 77, 156, 0.2);
+  }
+
+  .image-action-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+  }
+
+  .image-preview {
+    flex: 1 1 48%;
+    text-align: center;
+  }
+
+  .image-preview img {
+    max-width: 150px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .submit-box {
+    flex: 1 1 48%;
+    text-align: center;
   }
 
   button {
-    background-color: #d97706;
+    background-color: #5b4d9c;
     color: white;
-    border: none;
     padding: 12px 30px;
-    border-radius: 10px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
+    border: none;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
 
   button:hover {
-    background-color: #b45309;
+    background-color: #403373;
   }
 
-  img.preview {
-    max-width: 120px;
-    margin-top: 10px;
-    border-radius: 6px;
+  @media (max-width: 768px) {
+    .form-group .input-box,
+    .image-action-row {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .image-preview,
+    .submit-box {
+      flex: 1 1 100%;
+    }
   }
 </style>
 
-<div class="form-wrapper">
-  <h2>Edit Mission Value</h2>
+<div class="edit-wrapper">
+  <h2 class="edit-title">Edit Mission Value</h2>
 
   <form action="/admin/our_mission_value" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="id" value="<%=info[0].id%>">
-    <label>Title</label>
-    <input type="text" name="title" value="<%= info[0].heading %>" required>
+    <input type="hidden" name="id" value="<%= info[0].id %>">
 
-    <label>Description</label>
-    <textarea name="description" rows="4" required><%= info[0].description %></textarea>
+    <!-- Heading -->
+    <div class="form-group">
+      <div class="input-box">
+        <label>Heading</label>
+        <input type="text" name="title" value="<%= info[0].heading %>" required>
+      </div>
 
-    <label>Current Image</label><br>
-    <img src="/images/<%= info[0].image %>" class="preview" alt="Current Image"><br><br>
+      <div class="input-box">
+        <label>New Image (optional)</label>
+        <input type="file" name="image">
+      </div>
+    </div>
 
-    <label>New Image (optional)</label>
-    <input type="file" name="image">
+    <!-- Description -->
+    <div class="form-group">
+      <div class="input-box" style="flex: 1 1 100%;">
+        <label>Description</label>
+        <textarea name="description" rows="4" required><%= info[0].description %></textarea>
+      </div>
+    </div>
 
-    <div class="text-center mt-4">
-      <button type="submit">Update</button>
+    <!-- Image Preview & Update Button Side by Side -->
+    <div class="image-action-row">
+      <div class="image-preview">
+        <p>Current Image:</p>
+        <img src="/images/<%= info[0].image %>" alt="Mission Image">
+      </div>
+      <div class="submit-box">
+        <button type="submit">Update</button>
+      </div>
     </div>
   </form>
 </div>
