@@ -68,16 +68,22 @@
        <% for(i of popular)
        {%>
 <div class="product-card">
-        <div class="flip-container">
-          <div class="flipper">
-            <div class="front">
-              <img src="https://m.media-amazon.com/images/I/81aN-UDQL2L.jpg" alt="Meat Masala">
-            </div>
-            <div class="back">
-              <img src="https://m.media-amazon.com/images/I/81wbHxQXdML._UF1000,1000_QL80_.jpg" alt="Meat Masala Back">
-            </div>
-          </div>
-        </div>
+       <div class="flip-container position-relative">
+  <% if (i.discount > 0) { %>
+    <div class="discount-badge position-absolute bg-danger text-white px-2 py-1 rounded">
+      <%= i.discount %>% OFF
+    </div>
+  <% } %>
+  <div class="flipper">
+    <div class="front">
+      <img src="/uploads/<%= i.image %>" alt="<%= i.product_name %>">
+    </div>
+    <div class="back">
+      <img src="/uploads/<%= i.image2 %>" alt="<%= i.product_name %> Back">
+    </div>
+  </div>
+</div>
+
         <div class="product-content">
           <h5>Meat Masala</h5>
           <p class="price">₹199</p>

@@ -9,6 +9,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+<style>
+  .review-card {
+  transition: all 0.3s ease-in-out;
+}
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.review-card .fa-user-circle {
+  color: #0d6efd;
+}
+
+</style>
 <body>
   <!-- Decorative spice elements -->
   <div class="spice-decoration" style="top: 50px; left: 50px;">🌶️</div>
@@ -118,6 +131,73 @@
         </div>
       </div>
     </div>
+
+ <!-- reviews -->
+<hr class="my-5" />
+<div class="row">
+  <div class="col-lg-7">
+    <h4 class="mb-4 fw-semibold">Customer Reviews</h4>
+    <% if (reviews && reviews.length > 0) { %>
+      <% reviews.forEach(review => { %>
+        <div class="review-card p-3 mb-3 rounded shadow-sm bg-white">
+          <div class="d-flex justify-content-between mb-1">
+            <h6 class="mb-0 text-primary"><i class="fas fa-user-circle me-1"></i> <%= review.username %></h6>
+            <small class="text-muted"><%= new Date(review.date).toLocaleDateString() %></small>
+          </div>
+          <div class="mb-2 text-warning">
+            <% for(let i = 0; i < review.rating; i++) { %>
+              <i class="fas fa-star"></i>
+            <% } %>
+            <% for(let i = review.rating; i < 5; i++) { %>
+              <i class="far fa-star"></i>
+            <% } %>
+          </div>
+          <p class="mb-0 text-dark"><%= review.comment %></p>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p class="text-muted">No reviews yet. Be the first to share your experience!</p>
+    <% } %>
+  </div>
+
+  <!-- Review Submission Form -->
+  <div class="col-lg-5">
+    <div class="p-4 rounded bg-light shadow-sm">
+      <h5 class="mb-3 fw-semibold">Write a Review</h5>
+      <form action="/submit_review" method="POST">
+        <input type="hidden" name="product_id" value="<%= product.product_id %>">
+
+        <div class="mb-3">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-control" name="username" placeholder="Enter your name" required />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Rating</label>
+          <select name="rating" class="form-select" required>
+            <option value="">Select Rating</option>
+            <option value="5">⭐️⭐️⭐️⭐️⭐️ - Excellent</option>
+            <option value="4">⭐️⭐️⭐️⭐️ - Very Good</option>
+            <option value="3">⭐️⭐️⭐️ - Good</option>
+            <option value="2">⭐️⭐️ - Fair</option>
+            <option value="1">⭐️ - Poor</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Your Review</label>
+          <textarea name="comment" class="form-control" placeholder="Share your experience..." rows="3" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">
+          <i class="fas fa-paper-plane me-2"></i>Submit Review
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
   </div>
 
   <!-- JavaScript -->

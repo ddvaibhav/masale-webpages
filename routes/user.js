@@ -54,20 +54,23 @@ router.get("/", async function (req, res) {
   ]);
 
   const popular = await exe(`
-    SELECT 
-      p.product_id, 
-      p.product_name, 
-      p.image,
-      p.stockqty,
-      (SELECT price FROM product_price_variants WHERE product_id = p.product_id LIMIT 1) AS price,
-      COUNT(oi.product_id) AS order_count
-    FROM order_items oi
-    JOIN product p ON p.product_id = oi.product_id
-    WHERE p.status = 'active'
-    GROUP BY oi.product_id
-    ORDER BY order_count DESC
-    LIMIT 5
-  `);
+  SELECT 
+    p.product_id, 
+    p.product_name, 
+    p.image,
+    p.image2,
+    p.stockqty,
+    p.discount,
+    (SELECT price FROM product_price_variants WHERE product_id = p.product_id LIMIT 1) AS price,
+    COUNT(oi.product_id) AS order_count
+  FROM order_items oi
+  JOIN product p ON p.product_id = oi.product_id
+  WHERE p.status = 'active'
+  GROUP BY oi.product_id
+  ORDER BY order_count DESC
+  LIMIT 5
+`);
+
 
   let cartProductIds = [];
   if (userId) {
@@ -149,10 +152,10 @@ router.get("/product_details/:id", async function (req, res) {
   const id = req.params.id;
 
   const product = await exe(`
-  SELECT product_id, product_name, image, image2, detail, \`usage\`, health_benifits, ingredients, discount 
-  FROM product 
-  WHERE status = 'active' AND product_id = ?
-`, [id]);
+    SELECT product_id, product_name, image, image2, detail, \`usage\`, health_benifits, ingredients, discount 
+    FROM product 
+    WHERE status = 'active' AND product_id = ?
+  `, [id]);
 
   const variants = await exe(`
     SELECT id, weight, price 
@@ -160,11 +163,28 @@ router.get("/product_details/:id", async function (req, res) {
     WHERE product_id = ?
   `, [id]);
 
+  const reviews = await exe(`
+    SELECT username, rating, comment, date 
+    FROM reviews 
+    WHERE product_id = ? 
+    ORDER BY date DESC
+  `, [id]);
+
   res.render("user/product_details.ejs", {
     product: product[0],
-    variants
+    variants,
+    reviews
   });
 });
+
+
+router.post('/submit_review', async (req, res) => {
+  const { product_id, username, rating, comment } = req.body;
+  const sql = `INSERT INTO reviews (product_id, username, rating, comment, date) VALUES (?, ?, ?, ?, NOW())`;
+  await exe(sql, [product_id, username, rating, comment]);
+  res.redirect('/product_details/' + product_id);
+});
+
 
 
 router.post("/filter-products", async (req, res) => {
@@ -223,7 +243,7 @@ router.post("/add_tocart", async (req, res) => {
         [quantity, existing[0].cart_id]
       );
     } else {
-      // ✅ INSERT new product into cart including discount_price
+      
       await exe(
         `INSERT INTO cart (user_id, product_id, weight_id, price, discount_price, quantity, status) 
          VALUES (?, ?, ?, ?, ?, ?, 'active')`,
@@ -231,7 +251,7 @@ router.post("/add_tocart", async (req, res) => {
       );
     }
 
-    res.redirect(`/add_tocart`); // Redirect to product page or cart
+    res.redirect(`/add_tocart`);
   } catch (error) {
     console.error("Add to cart error:", error);
     res.send("Something went wrong while adding to cart");

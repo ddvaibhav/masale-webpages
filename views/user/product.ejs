@@ -80,21 +80,22 @@
     <!-- Product Grid -->
     <div class="col-md-9">
       <h4 class="section-title">Our Products</h4>
-   <div class="row" id="productGrid">
+  <div class="row" id="productGrid">
   <% for (let i of product) { 
     const matchingVariants = variants.filter(w => w.product_id == i.product_id);
-    const isInCart = cartProductIds.includes(i.product_id); // ✅ Define isInCart for this product
+    const isInCart = cartProductIds.includes(i.product_id);
   %>
     <div class="col-sm-6 col-md-4 p-3 card_size">
-      <div class="product-card shadow-sm h-100">
-        <a href="/product_details/<%= i.product_id %>" class="text-decoration-none">
-          <div class="flip-box">
+      <div class="product-card shadow-sm h-100 d-flex flex-column">
 
-             <% if (i.discount > 0) { %>
-    <div class="discount-badge position-absolute bg-danger text-white px-2 py-1 rounded">
-      <%= i.discount %>% OFF
-    </div>
-  <% } %>
+        <!-- Product Flip Image -->
+        <a href="/product_details/<%= i.product_id %>" class="text-decoration-none">
+          <div class="flip-box position-relative">
+            <% if (i.discount > 0) { %>
+              <div class="discount-badge position-absolute bg-danger text-white px-2 py-1 rounded">
+                <%= i.discount %>% OFF
+              </div>
+            <% } %>
             <div class="flip-box-inner">
               <div class="flip-box-front">
                 <img src="/uploads/<%= i.image %>" alt="Agri Masala">
@@ -106,7 +107,9 @@
           </div>
         </a>
 
-        <div class="p-3">
+        <!-- Card Content -->
+        <div class="p-3 flex-grow-1 d-flex flex-column justify-content-between">
+          <!-- Stock Status -->
           <div class="stock-status mb-1">
             <% if (i.stockqty > 10) { %>
               <span class="text-success">In stock!</span>
@@ -117,41 +120,48 @@
             <% } %>
           </div>
 
-          <div class="product-title mb-2 fw-bold"><%= i.product_name %></div>
-          <div class="product-title mb-2 text-muted">Category: <%= i.category_name %></div>
+          <!-- Product Info -->
+          <div class="mb-2 fw-bold product-title"><%= i.product_name %></div>
+          <div class="text-muted mb-2">Category: <%= i.category_name %></div>
 
+          <!-- Variant Dropdown -->
           <select class="form-select variant-select mb-2" onchange="updatePrice(this)">
             <% for (let v of matchingVariants) { %>
               <option value="<%= v.price %>"><%= v.weight %> - ₹<%= v.price %></option>
             <% } %>
           </select>
 
+          <!-- Price -->
           <div class="price mb-3">₹<span class="price-value"><%= matchingVariants[0]?.price || "0.00" %></span></div>
 
-          <% if (req.session.user && req.session.user.user_id) { %>
-            <% if (isInCart) { %>
-              <button class="btn btn-secondary w-100" disabled>
-                <i class="fas fa-check-circle me-1"></i>Already in Cart
-              </button>
+          <!-- Add to Cart Button (Always at bottom) -->
+          <div class="mt-auto">
+            <% if (req.session.user && req.session.user.user_id) { %>
+              <% if (isInCart) { %>
+                <button class="btn btn-cart-outline w-100" disabled>
+                  <i class="fas fa-check-circle me-2"></i>Already in Cart
+                </button>
+              <% } else { %>
+                <a href="/product_details/<%= i.product_id %>" 
+                   class="btn btn-cart-theme w-100 <%= i.stockqty <= 0 ? 'disabled' : '' %>">
+                  <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                </a>
+              <% } %>
             <% } else { %>
-              <a href="/product_details/<%= i.product_id %>" 
-                 class="btn btn-warning w-100 <%= i.stockqty <= 0 ? 'disabled' : '' %>">
-                Add to Cart
-              </a>
+              <button class="btn btn-cart-login w-100" 
+                      onclick="alert('Please Login Or Sign Up')" 
+                      <%= i.stockqty <= 0 ? "disabled" : "" %>>
+                <i class="fas fa-user-lock me-2"></i>Add To Cart
+              </button>
             <% } %>
-          <% } else { %>
-            <button class="btn btn-outline-warning w-100" 
-                    onclick="alert('Please Login Or Sign Up')" 
-                    <%= i.stockqty <= 0 ? "disabled" : "" %>>
-              Add to Cart
-            </button>
-          <% } %>
-
+          </div>
         </div>
+
       </div>
     </div>
   <% } %>
 </div>
+
 
 
           </div>
