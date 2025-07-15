@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="carousel-item">
-<<<<<<< HEAD
+
 
         <img src="https://chariot.tours/wp-content/uploads/2023/08/sri-lanakanspices-seasonings-table-scaled.jpg" class="d-block w-100" alt="Spices 2">
         <div class="carousel-caption d-none d-md-block">
@@ -60,10 +60,10 @@
           <div class="order-btn-container mt-3">
             <a href="/shop" class="btn btn-warning order-btn">Shop Now</a>
 
-        <img src="https://wallpaperbat.com/img/867818-vegetables-spices-wallpaper-vegetables-spices-stock-photos.jpg"
-=======
-        <img src="/images/Slider_img2.jpg"
->>>>>>> ff0b58798264a99fecf39439eeb63dee5b680040
+        <img src="https://wallpaperbat.com/img/867818-vegetables-spices-wallpaper-vegetables-spices-stock-photos.jpg">
+
+        <img src="/images/Slider_img2.jpg">
+
           class="d-block w-100" alt="Spice Market">
         <div class="carousel-caption d-none d-md-block">
           <h2>Premium Quality Spices</h2>
@@ -118,65 +118,52 @@
   </div>
 
 
-    <div class="slider-wrapper" id="sliderWrapper">
-      <!-- Product 1 -->
-       <% for(i of popular)
-       {%>
-<div class="product-card">
-       <div class="flip-container position-relative">
-  <% if (i.discount > 0) { %>
-    <div class="discount-badge position-absolute bg-danger text-white px-2 py-1 rounded">
-      <%= i.discount %>% OFF
+   <div class="slider-wrapper" id="sliderWrapper">
+  <% for (let i of popular) { %>
+    <div class="product-card">
+      <div class="flip-container position-relative">
+        <% if (i.discount > 0) { %>
+          <div class="discount-badge position-absolute bg-danger text-white px-2 py-1 rounded">
+            <%= i.discount %>% OFF
+          </div>
+        <% } %>
+        <div class="flipper">
+          <div class="front">
+            <img src="/uploads/<%= i.image %>" alt="<%= i.product_name %>">
+          </div>
+          <div class="back">
+            <img src="/uploads/<%= i.image2 %>" alt="<%= i.product_name %> Back">
+          </div>
+        </div>
+      </div>
+
+      <div class="product-content">
+        <h5><%= i.product_name %></h5>
+        <p class="price">₹<%= i.price %></p>
+        <!-- … your rest of markup … -->
+
+        <% if (req.session.user && req.session.user.user_id) { %>
+          <% if (cartProductIds.includes(i.product_id)) { %>
+            <button class="btn btn-secondary w-100" disabled>
+              <i class="fas fa-check-circle me-1"></i>Already in Cart
+            </button>
+          <% } else { %>
+            <a href="/product_details/<%= i.product_id %>"
+               class="btn btn-warning w-100 <%= i.stockqty <= 0 ? 'disabled' : '' %>">
+              Add to Cart
+            </a>
+          <% } %>
+        <% } else { %>
+          <button class="btn btn-outline-warning w-100" onclick="alert('Please Login Or Sign Up')"
+                  <%= i.stockqty <= 0 ? "disabled" : "" %>>
+            Add to Cart
+          </button>
+        <% } %>
+      </div>
     </div>
   <% } %>
-  <div class="flipper">
-    <div class="front">
-      <img src="/uploads/<%= i.image %>" alt="<%= i.product_name %>">
-    </div>
-    <div class="back">
-      <img src="/uploads/<%= i.image2 %>" alt="<%= i.product_name %> Back">
-    </div>
-  </div>
 </div>
 
-        <div class="product-content">
-          <h5>Meat Masala</h5>
-          <p class="price">₹199</p>
-          <p class="desc">Bold & spicy for non-veg curries</p>
-          <div class="quantity-selector">
-            <label for="meatMasalaSelect" class="form-label fw-medium">Choose Quantity:</label>
-            <select class="form-select" id="meatMasalaSelect">
-              <option>100 gm - ₹190.00</option>
-              <option selected>250 gm - ₹370.00</option>
-              <option>500 gm - ₹850.00</option>
-              <option>1 kg - ₹1650.00</option>
-            </select>
-          </div>
-         
-     <% if (req.session.user && req.session.user.user_id) { %>
-  <% if (cartProductIds.includes(i.product_id)) { %>
-    <!-- Already in cart -->
-    <button class="btn btn-secondary w-100" disabled>
-      <i class="fas fa-check-circle me-1"></i>Already in Cart
-    </button>
-  <% } else { %>
-    <!-- User logged in but product not in cart -->
-    <a href="/product_details/<%= i.product_id %>" 
-       class="btn btn-warning w-100 <%= i.stockqty <= 0 ? 'disabled' : '' %>">
-      Add to Cart
-    </a>
-  <% } %>
-<% } else { %>
-  <!-- Not logged in -->
-  <button class="btn btn-outline-warning w-100" 
-          onclick="alert('Please Login Or Sign Up')" 
-          <%= i.stockqty <= 0 ? "disabled" : "" %>>
-    Add to Cart
-  </button>
-<% } %>
-
-
-        </div>
 
   <div class="container">
     <div class="row">
