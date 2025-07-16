@@ -731,7 +731,7 @@ router.post("/all_orders", async (req, res) => {
     let query = `UPDATE orders SET order_status = ?`;
     let params = [order_status];
 
-    // फक्त Shipped, Completed, Cancelled साठीच date_at update करायची
+    
     if (
       order_status === "Shipped" ||
       order_status === "Completed" ||
@@ -739,7 +739,7 @@ router.post("/all_orders", async (req, res) => {
     ) {
       query += `, date_at = NOW()`;
     } else {
-      query += `, date_at = NULL`; // जर पुन्हा Pending किंवा काही अनोळखी status आला, तर clear करा
+      query += `, date_at = NULL`; 
     }
 
     query += ` WHERE order_id = ?`;
@@ -756,11 +756,11 @@ router.post("/all_orders", async (req, res) => {
 
 
 router.get("/gallery", async function (req, res) {
-  // Fetch gallery items with their category info
+ 
   const gallerySql = `SELECT * FROM gallery`;
   const galleryData = await exe(gallerySql);
 
-  // Fetch all categories for the dropdown
+ 
   const categorySql = `SELECT * FROM gallery_category`;
   const categories = await exe(categorySql);
 
@@ -773,7 +773,7 @@ router.post("/save_gallery", async function (req, res) {
     req.files.gallery_image.mv("public/uploads/" + req.body.gallery_image);
   }
   var d = req.body;
-  // Now insert gallery_category_id as well
+ 
   var sql = `INSERT INTO gallery (gallery_category_id, gallery_name, gallery_headline, gallery_image) VALUES (?, ?, ?, ?)`;
   await exe(sql, [d.gallery_category_id, d.gallery_name, d.gallery_headline, d.gallery_image]);
 
