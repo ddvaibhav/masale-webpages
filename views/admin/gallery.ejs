@@ -75,7 +75,7 @@
             <option value="">Select Category</option>
             <% if (typeof categories !== "undefined" && categories.length > 0) { %>
               <% categories.forEach(function(cat) { %>
-                <option value="<%= cat.gallery_category_id %>"><%= cat.gallery_category_name %></option>
+                <option value="<%= cat.gallery_category_name %>"><%= cat.gallery_category_name %></option>
               <% }) %>
             <% } %>
           </select>
@@ -124,17 +124,8 @@
             <tr>
               <td><%= i + 1 %></td>
               <td>
-                <% 
-                  // Find the category name by matching gallery_category_id
-                  var catName = '';
-                  if (typeof categories !== "undefined" && categories.length > 0) {
-                    var found = categories.find(function(cat) {
-                      return cat.gallery_category_id == row.gallery_category_id;
-                    });
-                    if (found) catName = found.gallery_category_name;
-                  }
-                %>
-                <%= catName || '-' %>
+                
+                <%= row.gallery_category_id %>
               </td>
               <td><%= row.gallery_name %></td>
               <td><%= row.gallery_headline %></td>
