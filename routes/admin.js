@@ -708,14 +708,21 @@ router.get("/delete_product/:id",async function(req,res){
 
 router.get("/all_orders", async (req, res) => {
   try {
-   const orders = await exe(`
-  SELECT o.order_id, o.total_amount, o.order_status, o.created_at AS order_date, o.date_at,
-         u.name AS user_name, u.email AS user_email
-  FROM orders o
-  JOIN user_registration u ON o.user_id = u.user_id
-  ORDER BY o.created_at DESC
-`);
-
+    const orders = await exe(`
+      SELECT 
+        o.order_id, 
+        o.total_amount, 
+        o.order_status, 
+        o.created_at AS order_date, 
+        o.date_at,
+        o.weight, 
+        u.name AS user_name, 
+        u.email AS user_email
+      FROM orders o
+      JOIN user_registration u ON o.user_id = u.user_id
+      WHERE o.status = 'active'
+      ORDER BY o.created_at DESC
+    `);
 
     res.render("admin/all_orders.ejs", { orders });
   } catch (error) {
@@ -724,6 +731,8 @@ router.get("/all_orders", async (req, res) => {
   }
 });
 
+
+
 router.post("/all_orders", async (req, res) => {
   const { order_id, order_status } = req.body;
 
@@ -731,7 +740,11 @@ router.post("/all_orders", async (req, res) => {
     let query = `UPDATE orders SET order_status = ?`;
     let params = [order_status];
 
+<<<<<<< Updated upstream
     
+=======
+   
+>>>>>>> Stashed changes
     if (
       order_status === "Shipped" ||
       order_status === "Completed" ||
@@ -752,6 +765,60 @@ router.post("/all_orders", async (req, res) => {
     res.send("Something went wrong");
   }
 });
+
+router.post("/order_status/:id", async (req, res) => {
+  const { status } = req.body;
+  const { id } = req.params;
+
+  await exe(`UPDATE orders SET order_status = ? WHERE order_id = ?`, [status, id]);
+  res.redirect("/admin/order_details/" + id);
+});
+
+router.get("/order_details/:id", async (req, res) => {
+  const orderId = req.params.id;
+
+  // 1. Mark the order as seen (important for notification badge)
+  await exe(`UPDATE orders SET is_seen = 1 WHERE order_id = ?`, [orderId]);
+
+  // 2. Fetch the order details
+  const [order] = await exe(`
+    SELECT * FROM orders WHERE status = 'active' AND order_id = ?
+  `, [orderId]);
+
+  if (!order) return res.send("Order not found");
+
+  // 3. Fetch the ordered items
+  const items = await exe(`
+    SELECT oi.*, p.product_name, p.image 
+    FROM order_items oi
+    JOIN product p ON p.product_id = oi.product_id
+    WHERE oi.order_id = ?
+  `, [orderId]);
+
+  // 4. Render template
+  res.render("admin/order_details.ejs", {
+    order,
+    items
+  });
+});
+
+router.get("/delete_orders/:id",async function(req,res){
+  var id = req.params.id;
+  var sql = await exe(`UPDATE orders SET status = 'deleted' WHERE order_id = ${id}`);
+  // res.send(sql);
+  res.redirect("/admin/all_orders");
+
+})
+
+router.get("/notification-count", async (req, res) => {
+  try {
+    const [row] = await exe(`SELECT COUNT(*) AS unseenCount FROM orders WHERE is_seen = 0`);
+    res.json({ unseenCount: row.unseenCount || 0 });
+  } catch (err) {
+    res.json({ unseenCount: 0 });
+  }
+});
+
 
 
 
