@@ -75,9 +75,10 @@
 
   <input type="hidden" name="total_amount" value="<%= totalAmount %>">
 
-  <% cart.forEach(item => { %>
-    <input type="hidden" name="products[]" value="<%= item.product_id %>_<%= item.price %>_<%= item.discount_price %>_<%= item.quantity %>">
-  <% }) %>
+ <% cart.forEach(item => { %>
+  <input type="hidden" name="products[]" value="<%= item.product_id %>_<%= item.price %>_<%= item.discount_price %>_<%= item.quantity %>_<%= item.weight %>">
+<% }) %>
+
 
   <h5 class="mb-3">Select Payment Method</h5>
 <div class="form-check mb-2">
@@ -109,7 +110,6 @@
 </div>
 
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
   document.getElementById("checkoutForm").addEventListener("submit", async function (e) {

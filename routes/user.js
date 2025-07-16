@@ -414,7 +414,6 @@ router.post("/create-order", async (req, res) => {
   }
 });
 
-
 router.get("/place_order", async (req, res) => {
   const {
     razorpay_payment_id,
@@ -426,7 +425,7 @@ router.get("/place_order", async (req, res) => {
     city,
     landmark,
     address,
-    amount, // This will be overridden below with calculated discount total
+    // amount, 
     products,
     payment_method
   } = req.query;
@@ -434,8 +433,8 @@ router.get("/place_order", async (req, res) => {
   const userId = req.session.user?.user_id;
   if (!razorpay_payment_id || !products) return res.send("Payment failed");
 
-  const productList = decodeURIComponent(products).split(","); // ["1_100_90_2", "3_200_180_1"]
-  const [firstProductId, firstPrice, firstDiscountPrice] = productList[0].split("_");
+  const productList = decodeURIComponent(products).split(","); 
+  const [firstProductId, firstPrice, firstDiscountPrice, firstQty, firstWeight] = productList[0].split("_");
 
   let totalQuantity = 0;
   let totalDiscountAmount = 0;
@@ -452,58 +451,74 @@ router.get("/place_order", async (req, res) => {
     totalSavings += (originalPrice - discountPrice) * quantity;
   });
 
-  // Insert order
-  const orderResult = await exe(`
-    INSERT INTO orders 
-    (user_id, payment_id, product_id, name, phone, email, pincode, state, city, landmark, address, total_amount, quantity, price, discount_price, payment_method)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [
-      userId,
-      razorpay_payment_id,
-      firstProductId,
-      name,
-      phone,
-      email,
-      pincode,
-      state,
-      city,
-      landmark,
-      address,
-      totalDiscountAmount,     // ✅ using discount price total
-      totalQuantity,
-      parseFloat(firstPrice),
-      parseFloat(firstDiscountPrice),
-      payment_method
-    ]
-  );
+  // 🛠️ Insert into orders table (added weight field)
+const query = `
+  INSERT INTO orders (
+    user_id, product_id, name, phone, address, total_amount,
+    payment_id, quantity, payment_method, price, discount_price,
+    email, pincode, state, city, landmark, weight
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
+
+const values = [
+  userId,
+  firstProductId,
+  name,
+  phone,
+  address,
+  totalDiscountAmount,
+  razorpay_payment_id,
+  totalQuantity,
+  payment_method,
+  parseFloat(firstPrice),
+  parseFloat(firstDiscountPrice),
+  email,
+  pincode,
+  state,
+  city,
+  landmark,
+  firstWeight
+];
+
+const orderResult = await exe(query, values);
+
+
+
+
+
+
+  
 
   const order_id = orderResult.insertId;
 
-  // Insert order items
+  // 🛠️ Insert into order_items table with weight
   for (const item of productList) {
-    const [product_id, price, discount_price, quantity] = item.split("_");
+    const [product_id, price, discount_price, quantity, weight] = item.split("_");
 
     await exe(`
-      INSERT INTO order_items (order_id, product_id, price, discount_price, quantity)
-      VALUES (?, ?, ?, ?, ?)`,
+      INSERT INTO order_items (order_id, product_id, price, discount_price, quantity, weight)
+      VALUES (?, ?, ?, ?, ?, ?)`,
       [
         order_id,
         product_id,
         parseFloat(price) || 0,
         parseFloat(discount_price) || 0,
-        quantity
+        quantity,
+        weight || ''
       ]
     );
   }
 
-  // Clear user cart
+  // 🧹 Clear user cart
   await exe(`DELETE FROM cart WHERE user_id = ?`, [userId]);
 
-  // Render success page
+  // ✅ Render success
   res.render("user/order_success.ejs", {
     paymentId: razorpay_payment_id
   });
 });
+
+
 
 
 

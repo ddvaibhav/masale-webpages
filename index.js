@@ -5,6 +5,7 @@ var session = require("express-session");
 var admin_route = require("./routes/admin.js");
 var accountsroute = require("./routes/accounts");
 var userroute = require("./routes/user");
+var exe = require("./conn.js")
 var app = express();
 app.use(express.static("public/"));
 
@@ -28,6 +29,21 @@ app.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
 });
+
+app.use(async (req, res, next) => {
+  if (req.url.startsWith('/admin')) {
+    try {
+      const [row] = await exe(`SELECT COUNT(*) AS unseenCount FROM orders WHERE is_seen = 0`);
+      res.locals.unseenCount = row.unseenCount || 0;
+    } catch (err) {
+      console.error("Error fetching unseen orders:", err);
+      res.locals.unseenCount = 0;
+    }
+  }
+  next();
+});
+
+
 
 
 app.use("/",userroute);
