@@ -1,0 +1,84 @@
+<%- include("navbar.ejs") %>
+
+<style>
+  .heading-banner {
+    background: linear-gradient(to right, #5b4d9c 0%, #5b4d9c 70%, #ffffff 100%);
+    position: relative;
+    color: white;
+    padding: 20px 30px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+  .heading-banner::before,
+  .heading-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background-color: #ffcc33;
+    transform: skewX(-45deg);
+  }
+  .heading-banner::before { right: 90px; }
+  .heading-banner::after { right: 75px; }
+
+  .form-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.07);
+  }
+  .btn-primary {
+    background-color: #5b4d9c;
+    border: none;
+  }
+  .btn-primary:hover {
+    background-color: #483c7f;
+  }
+  .form-label {
+    font-weight: 500;
+    color: #5b4d9c;
+  }
+</style>
+
+<div class="container">
+  <div class="heading-banner">
+    <i class="bi bi-pencil-square me-2"></i> Edit Gallery Category
+  </div>
+</div>
+
+<div class="container">
+  <div class="form-section">
+    <form action="/admin/update_gallery_category/<%= category.gallery_category_id %>" method="post" autocomplete="off">
+      <div class="row mb-3">
+        <div class="col-md-6">
+            <input  type="hidden" name="gallery_category_id" value="<%= category.gallery_category_id %>">
+          <label for="gallery_category_name" class="form-label">Gallery Category</label>
+          <input
+            type="text"
+            class="form-control"
+            id="gallery_category_name"
+            name="gallery_category_name"
+            required
+            placeholder="Enter category name"
+            value="<%= category.gallery_category_name %>"
+          >
+        </div>
+        <div class="col-md-6 d-flex align-items-end justify-content-end">
+          <button type="submit" class="btn btn-primary px-4">
+            <i class="bi bi-save me-1"></i>Update Category
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<%- include("footer.ejs") %>

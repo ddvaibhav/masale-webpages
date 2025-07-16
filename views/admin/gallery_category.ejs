@@ -1,0 +1,146 @@
+<%- include("navbar.ejs") %>
+
+<style>
+  .heading-banner {
+    background: linear-gradient(to right, #5b4d9c 0%, #5b4d9c 70%, #ffffff 100%);
+    position: relative;
+    color: white;
+    padding: 20px 30px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+  .heading-banner::before,
+  .heading-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background-color: #ffcc33;
+    transform: skewX(-45deg);
+  }
+  .heading-banner::before { right: 90px; }
+  .heading-banner::after { right: 75px; }
+
+  .form-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.07);
+  }
+  .btn-primary {
+    background-color: #5b4d9c;
+    border: none;
+  }
+  .btn-primary:hover {
+    background-color: #483c7f;
+  }
+  .table thead th {
+    background: #23272b;
+    color: #fff;
+    font-weight: 500;
+    border: none;
+  }
+  .table td, .table th {
+    vertical-align: middle;
+  }
+  .table-striped>tbody>tr:nth-of-type(odd)>* {
+    --bs-table-accent-bg: #f6f6fa;
+    color: #23272b;
+  }
+  .table-hover>tbody>tr:hover>* {
+    background-color: #f1f0fa;
+  }
+  .card {
+    border: none;
+    border-radius: 10px;
+  }
+  .card-header {
+    border-radius: 10px 10px 0 0 !important;
+  }
+  .form-label {
+    font-weight: 500;
+    color: #5b4d9c;
+  }
+  .btn-success {
+    background: #5b4d9c;
+    border: none;
+  }
+  .btn-success:hover {
+    background: #483c7f;
+  }
+  .table-actions .btn {
+    padding: 0.25rem 0.6rem;
+    font-size: 1rem;
+  }
+</style>
+
+<div class="container">
+  <div class="heading-banner">
+    <i class="bi bi-folder-plus me-2"></i> Add Gallery Category
+  </div>
+</div>
+
+<div class="container">
+  <div class="form-section">
+    <form action="/admin/save_gallery_category" method="post" autocomplete="off">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="gallery_category_name" class="form-label">Gallery Category</label>
+          <input type="text" class="form-control" name="gallery_category_name" required placeholder="Enter category name">
+        </div>
+        <div class="col-md-6 d-flex align-items-end justify-content-end">
+          <button type="submit" class="btn btn-primary px-4">
+            <i class="bi bi-save me-1"></i>Save category
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="container mt-2 px-0">
+    <h5 class="mb-3" style="font-weight:600;">Product List</h5>
+    <div class="table-responsive shadow rounded">
+      <table class="table table-bordered table-striped table-hover mb-0 p-3">
+        <thead>
+          <tr>
+            <th style="width:60px;">#</th>
+            <th>Category Name</th>
+            <th style="width:150px;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (typeof categories !== "undefined" && categories.length > 0) { %>
+            <% categories.forEach(function(cat, idx) { %>
+              <tr>
+                <td><%= idx + 1 %></td>
+                <td><%= cat.gallery_category_name %></td>
+                <td>
+                  <a href="/admin/edit_gallery_category/<%= cat.gallery_category_id %>" class="btn btn-sm btn-outline-primary me-1">
+                    <i class="fa fa-pencil"></i>
+                  </a>
+                  <a href="/admin/delete_gallery_category/<%= cat.gallery_category_id %>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this category?');">
+                    <i class="fa fa-trash"></i>
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr>
+              <td colspan="3" class="text-center text-muted py-4">No categories found.</td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<%- include("footer.ejs") %>
