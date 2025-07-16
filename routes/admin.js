@@ -740,11 +740,6 @@ router.post("/all_orders", async (req, res) => {
     let query = `UPDATE orders SET order_status = ?`;
     let params = [order_status];
 
-<<<<<<< Updated upstream
-    
-=======
-   
->>>>>>> Stashed changes
     if (
       order_status === "Shipped" ||
       order_status === "Completed" ||
@@ -765,6 +760,7 @@ router.post("/all_orders", async (req, res) => {
     res.send("Something went wrong");
   }
 });
+
 
 router.post("/order_status/:id", async (req, res) => {
   const { status } = req.body;

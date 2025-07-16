@@ -1,9 +1,4 @@
 <%- include("navbar.ejs") %>
-<!-- DataTables CDN -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
 <style>
 
   .heading-banner {
@@ -54,11 +49,10 @@
           <th>Order ID</th>
           <th>User Name</th>
           <th>Email</th>
-          <th>Weight</th>
           <th>Total Amount</th>
           <th>Status</th>
           <th>Date</th>
-          <th>Change Status </th>
+          <th>Change </th>
           <th>Change </th>
           <th>Date At</th>
           <!-- <th>Change Status</th> -->
@@ -73,7 +67,6 @@
     <td><%= order.order_id %></td>
     <td><%= order.user_name %></td>
     <td><%= order.user_email %></td>
-    <td><%=order.weight%></td>
     <td>₹<%= order.total_amount.toFixed(2) %></td>
 
     <!-- Status Badge -->
@@ -81,10 +74,10 @@
       <% 
         const status = order.order_status.toLowerCase().trim(); 
         let badgeClass = 'bg-secondary';
-        if (status === 'pending') badgeClass = 'mt-4 ml-4 bg-warning text-dark';
-        else if (status === 'shipped') badgeClass = 'mt-4 ml-4 bg-info text-dark';
-        else if (status === 'completed') badgeClass = 'mt-4 ml-4 bg-success';
-        else if (status === 'cancelled') badgeClass = 'mt-4 ml-4 bg-danger';
+        if (status === 'pending') badgeClass = 'bg-warning text-dark';
+        else if (status === 'shipped') badgeClass = 'bg-info text-dark';
+        else if (status === 'completed') badgeClass = 'bg-success';
+        else if (status === 'cancelled') badgeClass = 'bg-danger';
       %>
 
       <span class="badge <%= badgeClass %>"><%= order.order_status %></span>
@@ -94,21 +87,19 @@
     <td><%= order.order_date.toLocaleDateString('en-IN') %></td>
 
     <!-- Form to Change Status -->
-    <td>
-  <form action="/admin/all_orders" method="POST">
-    <input type="hidden" name="order_id" value="<%= order.order_id %>">
-    <select name="order_status" onchange="this.form.submit()" class="form-select form-select-sm">
-      <option value="Pending" <%= order.order_status === 'Pending' ? 'selected' : '' %>>Pending</option>
-      <option value="Shipped" <%= order.order_status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
-      <option value="Completed" <%= order.order_status === 'Completed' ? 'selected' : '' %>>Completed</option>
-      <option value="Cancelled" <%= order.order_status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
-    </select>
-  </form>
-</td>
-<td></td>
+    <td colspan="2">
+      <form action="/admin/all_orders" method="POST">
+        <input type="hidden" name="order_id" value="<%= order.order_id %>">
+        <select name="order_status" onchange="this.form.submit()" class="form-select form-select-sm">
+          <option value="Pending" <%= order.order_status === 'Pending' ? 'selected' : '' %>>Pending</option>
+          <option value="Shipped" <%= order.order_status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+          <option value="Completed" <%= order.order_status === 'Completed' ? 'selected' : '' %>>Completed</option>
+          <option value="Cancelled" <%= order.order_status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+        </select>
+      </form>
+    </td>
 
-
-    <!-- ✅ This is the Date At Column -->
+  
     <td>
       <% if (order.date_at) { %>
         <%= new Date(order.date_at).toLocaleDateString('en-IN', {
@@ -123,13 +114,8 @@
 
     <!-- Actions -->
     <td>
-<<<<<<< Updated upstream
-      <a href="/admin/orders_datails/<%= order.order_id %>" class="btn btn-sm btn-primary">View</a>
-      <a href="/admin/orders/delete/<%= order.order_id %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
-=======
       <a href="/admin/order_details/<%= order.order_id %>" class="btn btn-sm btn-primary">View</a>
-      <a href="/admin/delete_orders/<%= order.order_id %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
->>>>>>> Stashed changes
+      <a href="/admin/orders/delete/<%= order.order_id %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
     </td>
   </tr>
 <% } %>
@@ -139,17 +125,15 @@
   </div>
 </div>
 
+<!-- DataTables CDN -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
   $(document).ready(function () {
-    $('#orderTable').DataTable({
-      "paging": true,
-      "searching": true,
-      "ordering": true,
-      "info": true
-    });
+    $('#orderTable').DataTable();
   });
 </script>
-
 
 <%- include("footer.ejs") %>
