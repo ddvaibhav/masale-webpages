@@ -1,93 +1,118 @@
 <%-include("navbar.ejs") %>
 
-<div class="container order-details-container">
-  <h2 class="text-center mb-4">Order Details</h2>
 
-  <!-- Order Info -->
-  <div class="mb-4">
-    <p><span class="label">Order ID:</span> <span class="value">#ORD<%= order.order_id %></span></p>
-    <p><span class="label">Order Date:</span> <%= new Date(order.created_at).toLocaleDateString() %></p>
-    <% if (order.date_at) { %>
-  <p>
-    <span class="label">Order <%= order.order_status %> At:</span> 
-    <%= new Date(order.date_at).toLocaleDateString('en-IN', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    }) %>
-  </p>
-<% } %>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mt-5">
+        <div class="order-details-container">
+          <h2 class="text-center mb-4">Order Details</h2>
 
-    <p>
-      <span class="label">Status:</span> 
-      <span class="order-status 
+          <!-- Order Info -->
+          <div class="mb-4">
+            <p><span class="label">Order ID:</span> <span class="value">#ORD<%= order.order_id %></span></p>
+            <p><span class="label">Order Date:</span>
+              <%= new Date(order.created_at).toLocaleDateString() %>
+            </p>
+            <% if (order.date_at) { %>
+              <p>
+                <span class="label">Order <%= order.order_status %> At:</span>
+                <%= new Date(order.date_at).toLocaleDateString('en-IN', { year: 'numeric' , month: 'short' ,
+                  day: 'numeric' }) %>
+              </p>
+              <% } %>
+
+                <p>
+                  <span class="label">Status:</span>
+                  <span class="order-status 
         <% if (order.order_status === 'Pending') { %> bg-pending 
         <% } else if (order.order_status === 'Completed') { %> bg-completed 
         <% } else if (order.order_status === 'Cancelled') { %> bg-cancelled <% } %>">
-        <%= order.order_status %>
-      </span>
-    </p>
-  </div>
+                    <%= order.order_status %>
+                  </span>
+                </p>
+          </div>
 
-  <!-- Shipping Info -->
-  <div class="mb-4">
-    <div class="section-title">Shipping Information</div>
-    <p><span class="label">Name:</span> <%= order.name %></p>
-    <p><span class="label">Phone:</span> <%= order.phone %></p>
-    <p><span class="label">Email:</span> <%= order.email %></p>
-    <p><span class="label">Address:</span> <%= order.address %>, <%= order.landmark %>, <%= order.city %>, <%= order.state %> - <%= order.pincode %></p>
-  </div>
+          <!-- Shipping Info -->
+          <div class="mb-4">
+            <div class="section-title">Shipping Information</div>
+            <p><span class="label">Name:</span>
+              <%= order.name %>
+            </p>
+            <p><span class="label">Phone:</span>
+              <%= order.phone %>
+            </p>
+            <p><span class="label">Email:</span>
+              <%= order.email %>
+            </p>
+            <p><span class="label">Address:</span>
+              <%= order.address %>, <%= order.landmark %>, <%= order.city %>, <%= order.state %> - <%= order.pincode %>
+            </p>
+          </div>
 
-  <!-- Ordered Products -->
-  <div>
-    <div class="section-title">Ordered Products</div>
-    <% let totalSavings = 0; %>
-    <% items.forEach(item => {
-      const itemTotal = item.discount_price * item.quantity;
-      const savedAmount = (item.price - item.discount_price) * item.quantity;
-      totalSavings += savedAmount;
-    %>
-      <div class="order-item">
-        <img src="/uploads/<%= item.image %>" alt="">
-        <div class="order-item-details">
-          <h6><%= item.product_name %></h6>
-          <p>
-            Price: 
-            <span class="text-strike">₹<%= item.price %></span>
-            <span class="text-success fw-bold"> ₹<%= item.discount_price %></span>
-            × <%= item.quantity %>
-          </p>
-          <% if (savedAmount > 0) { %>
-            <p class="text-save">You saved ₹<%= savedAmount.toFixed(2) %></p>
-          <% } %>
-        </div>
-        <div class="text-end fw-bold">
-          ₹<%= itemTotal.toFixed(2) %>
+          <!-- Ordered Products -->
+          <div>
+            <div class="section-title">Ordered Products</div>
+            <% let totalSavings=0; %>
+              <% items.forEach(item=> {
+                const itemTotal = item.discount_price * item.quantity;
+                const savedAmount = (item.price - item.discount_price) * item.quantity;
+                totalSavings += savedAmount;
+                %>
+                <div class="order-item">
+                  <img src="/uploads/<%= item.image %>" alt="">
+                  <div class="order-item-details">
+                    <h6>
+                      <%= item.product_name %>
+                    </h6>
+                    <p>
+                      Price:
+                      <span class="text-strike">₹<%= item.price %></span>
+                      <span class="text-success fw-bold"> ₹<%= item.discount_price %></span>
+                      × <%= item.quantity %>
+                    </p>
+                    <% if (savedAmount> 0) { %>
+                      <p class="text-save">You saved ₹<%= savedAmount.toFixed(2) %>
+                      </p>
+                      <% } %>
+                  </div>
+                  <div class="text-end fw-bold">
+                    ₹<%= itemTotal.toFixed(2) %>
+                  </div>
+                </div>
+                <% }) %>
+          </div>
+
+          <!-- Order Summary -->
+          <div class="order-summary">
+            <p><span class="label">Total Quantity:</span>
+              <%= order.quantity %>
+            </p>
+            <p><span class="label">Total Amount Paid:</span> ₹<%= order.total_amount %>
+            </p>
+            <% if (totalSavings> 0) { %>
+              <div class="total-saving-highlight">
+                🎉 You saved ₹<%= totalSavings.toFixed(2) %> on this order!
+              </div>
+              <% } %>
+                <p class="mt-3"><span class="label">Payment Method:</span>
+                  <%= order.payment_method %>
+                </p>
+                <% if (order.payment_method==='Online' ) { %>
+                  <p><span class="label">Payment ID:</span>
+                    <%= order.payment_id %>
+                  </p>
+                  <% } %>
+          </div>
+
+          <!-- Cancel Button -->
+          <% if (order.order_status.toLowerCase().trim()==='pending' ) { %>
+            <form class="cancel-order-form" method="POST" action="/cancel_order/<%= order.order_id %>"
+              onsubmit="return confirm('Are you sure you want to cancel this order?');">
+              <button class="btn btn-danger w-100" type="submit">Cancel This Order</button>
+            </form>
+            <% } %>
         </div>
       </div>
-    <% }) %>
+    </div>
   </div>
-
-  <!-- Order Summary -->
-  <div class="order-summary">
-    <p><span class="label">Total Quantity:</span> <%= order.quantity %></p>
-    <p><span class="label">Total Amount Paid:</span> ₹<%= order.total_amount %></p>
-    <% if (totalSavings > 0) { %>
-      <div class="total-saving-highlight">
-        🎉 You saved ₹<%= totalSavings.toFixed(2) %> on this order!
-      </div>
-    <% } %>
-    <p class="mt-3"><span class="label">Payment Method:</span> <%= order.payment_method %></p>
-    <% if (order.payment_method === 'Online') { %>
-      <p><span class="label">Payment ID:</span> <%= order.payment_id %></p>
-    <% } %>
-  </div>
-
-  <!-- Cancel Button -->
-  <% if (order.order_status.toLowerCase().trim() === 'pending') { %>
-    <form class="cancel-order-form" method="POST" action="/cancel_order/<%= order.order_id %>" onsubmit="return confirm('Are you sure you want to cancel this order?');">
-      <button class="btn btn-danger w-100" type="submit">Cancel This Order</button>
-    </form>
-  <% } %>
-</div>
-<%- include("footer.ejs") %>
+  <%- include("footer.ejs") %>
