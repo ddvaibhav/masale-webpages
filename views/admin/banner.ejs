@@ -1,0 +1,59 @@
+<%- include("navbar") %>
+
+<style>
+  .banner-section {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .banner-box {
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    background: #fff;
+    padding: 20px;
+  }
+
+  .banner-box img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .update-btn {
+    margin-top: 15px;
+  }
+
+  .print-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .banner-box {
+      padding: 10px;
+    }
+
+    .banner-box img {
+      max-height: 300px;
+    }
+  }
+</style>
+
+<div class="banner-section">
+  <% if(banner.length > 0) { %>
+    <div class="banner-box">
+      <img src="/uploads/<%= banner[0].image %>" alt="Banner Image">
+      <a href="/admin/edit_banner/<%= banner[0].id %>" class="btn btn-warning update-btn">✏️ Update</a>
+    </div>
+  <% } else { %>
+    <p>No banner found.</p>
+  <% } %>
+</div>
+
+<%- include("footer") %>

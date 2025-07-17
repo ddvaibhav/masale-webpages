@@ -5,44 +5,10 @@ const  authMiddleware = require("./authMiddleware");
 
 
 router.get("/",authMiddleware,async function(req,res){
-    // 1. Admin details
-var sql = `SELECT * FROM admin WHERE admin_id=?`;
-var data = await exe(sql,[req.session.admin.admin_id]);
-var obj = {"admin":data[0]};
-
-// 2. Order stats
-const stats = await exe(`
-  SELECT 
-    COUNT(*) AS total_orders,
-    COUNT(CASE WHEN order_status = 'Pending' THEN 1 END) AS pending_orders,
-    COUNT(CASE WHEN order_status = 'Shipped' THEN 1 END) AS shipped_orders,
-    COUNT(CASE WHEN order_status = 'Completed' THEN 1 END) AS completed_orders,
-    COUNT(CASE WHEN order_status = 'Cancelled' THEN 1 END) AS cancelled_orders
-  FROM orders
-  WHERE status = 'active'
-`);
-
-const orderStats = stats[0];
-const total = orderStats.total_orders || 1;
-orderStats.pending_percent = Math.round((orderStats.pending_orders / total) * 100);
-orderStats.shipped_percent = Math.round((orderStats.shipped_orders / total) * 100);
-orderStats.completed_percent = Math.round((orderStats.completed_orders / total) * 100);
-orderStats.cancelled_percent = Math.round((orderStats.cancelled_orders / total) * 100);
-
-// 3. Get latest orders (top 5 or 10)
-const latestOrders = await exe(`
-  SELECT order_id, name,total_amount,order_status, created_at 
-  FROM orders 
-  WHERE status = 'active' 
-  ORDER BY created_at DESC 
-  LIMIT 5
-`);
-
-res.render("admin/home.ejs", {
-  obj,
-  orderStats,
-  latestOrders
-});
+     var sql = `SELECT * FROM admin WHERE admin_id=?`;
+    var data = await exe(sql,[req.session.admin.admin_id]);
+   var obj = {"admin":data[0]};
+    res.render("admin/home.ejs",obj);
 });
 
 router.get("/profile",async function(req,res){
@@ -501,7 +467,6 @@ router.get("/add_product",async function(req,res){
     tags:tags}
   );
 });
-
 
 router.post("/add-product", async (req, res) => {
   try {
@@ -984,6 +949,7 @@ router.get("/delete_gallery_category/:id",async function(req,res){
   var sql = `DELETE FROM gallery_category WHERE gallery_category_id =?`;
   var data = await exe(sql,[id])
   res.redirect("/admin/gallery_category")
+<<<<<<< HEAD
 });
 
 router.get("/pending_orders", async (req, res) => {
@@ -1061,6 +1027,9 @@ router.post("/enquery",async function(req,res){
   // res.send(data);
   res.redirect("/enquiry");
 });
+=======
+})
+>>>>>>> ae0efa2673cc84f8b532922ca589bb75a1f041bb
 
 
 
