@@ -1946,6 +1946,13 @@ body {
 
 
   }
+  @media (max-width: 480px){
+    .discount_box{
+      margin-left: 30px;
+      width: 300px;
+
+    }
+  }
 
 /* hero-section-img */
     
