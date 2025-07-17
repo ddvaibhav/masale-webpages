@@ -5,10 +5,44 @@ const  authMiddleware = require("./authMiddleware");
 
 
 router.get("/",authMiddleware,async function(req,res){
-     var sql = `SELECT * FROM admin WHERE admin_id=?`;
-    var data = await exe(sql,[req.session.admin.admin_id]);
-   var obj = {"admin":data[0]};
-    res.render("admin/home.ejs",obj);
+    // 1. Admin details
+var sql = `SELECT * FROM admin WHERE admin_id=?`;
+var data = await exe(sql,[req.session.admin.admin_id]);
+var obj = {"admin":data[0]};
+
+// 2. Order stats
+const stats = await exe(`
+  SELECT 
+    COUNT(*) AS total_orders,
+    COUNT(CASE WHEN order_status = 'Pending' THEN 1 END) AS pending_orders,
+    COUNT(CASE WHEN order_status = 'Shipped' THEN 1 END) AS shipped_orders,
+    COUNT(CASE WHEN order_status = 'Completed' THEN 1 END) AS completed_orders,
+    COUNT(CASE WHEN order_status = 'Cancelled' THEN 1 END) AS cancelled_orders
+  FROM orders
+  WHERE status = 'active'
+`);
+
+const orderStats = stats[0];
+const total = orderStats.total_orders || 1;
+orderStats.pending_percent = Math.round((orderStats.pending_orders / total) * 100);
+orderStats.shipped_percent = Math.round((orderStats.shipped_orders / total) * 100);
+orderStats.completed_percent = Math.round((orderStats.completed_orders / total) * 100);
+orderStats.cancelled_percent = Math.round((orderStats.cancelled_orders / total) * 100);
+
+// 3. Get latest orders (top 5 or 10)
+const latestOrders = await exe(`
+  SELECT order_id, name,total_amount,order_status, created_at 
+  FROM orders 
+  WHERE status = 'active' 
+  ORDER BY created_at DESC 
+  LIMIT 5
+`);
+
+res.render("admin/home.ejs", {
+  obj,
+  orderStats,
+  latestOrders
+});
 });
 
 router.get("/profile",async function(req,res){
@@ -468,6 +502,7 @@ router.get("/add_product",async function(req,res){
   );
 });
 
+
 router.post("/add-product", async (req, res) => {
   try {
     const d = req.body;
@@ -918,6 +953,30 @@ router.get("/delete_gallery_category/:id",async function(req,res){
   var sql = `DELETE FROM gallery_category WHERE gallery_category_id =?`;
   var data = await exe(sql,[id])
   res.redirect("/admin/gallery_category")
+});
+
+router.get("/contact_us",async function(req,res){
+  var data = await exe(`SELECT * FROM contact_us`);
+  res.render("admin/contact_us.ejs",{"contact":data});
+})
+router.post("/contact_us",async function(req,res){
+  var d = req.body;
+  var sql = `INSERT INTO contact_us (first_name,last_name,email,mobile,subject,message)VALUES(?, ?, ?, ?, ?, ?)`;
+  var data = await exe(sql,[d.first_name,d.last_name,d.email,d.mobile,d.subject,d.message]);
+  // res.send(data);
+  res.redirect("/contact_us")
+});
+router.get("/enquiry",async  function(req,res){
+  var data = await exe(`SELECT * FROM enquiries`);
+  res.render("admin/enquiry.ejs",{"data":data});
+})
+router.post("/enquery",async function(req,res){
+  var d = req.body;
+  var sql = `INSERT INTO enquiries(businessName,productName,quantity,location,contactPerson,phoneNumber,email,comments) 
+  VALUES(?, ?, ?, ?, ?, ?, ?, ?)`
+  var data = await exe(sql,[d.businessName,d.productName,d.quantity,d.location,d.contactPerson,d.phoneNumber,d.email,d.comments]);
+  // res.send(data);
+  res.redirect("/enquiry");
 })
 
 
