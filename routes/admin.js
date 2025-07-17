@@ -705,6 +705,37 @@ router.get("/delete_product/:id",async function(req,res){
   res.redirect("/admin/manage_products");
 });
 
+router.get("/slider", async function(req, res) {
+  var sql = `SELECT * FROM slider`;
+  var slider = await exe(sql);
+  res.render("admin/slider.ejs", { slider });
+});
+
+router.get("/edit_slider/:id", async function(req, res) {
+  var id = req.params.id;
+  var sql = "SELECT * FROM slider WHERE slider_id = ?";
+  var result = await exe(sql, [id]);
+
+  res.render("admin/edit_slider", { slider: result[0] });
+});
+
+
+router.post("/update_slider", async function(req, res) {
+  var d = req.body;
+  var file_name = d.old_image;
+
+  if (req.files && req.files.image) {
+    file_name = Date.now() + "_" + req.files.image.name;
+    await req.files.image.mv("public/uploads/" + file_name);
+  }
+
+  var sql = "UPDATE slider SET title = ?, image = ? WHERE slider_id = ?";
+  await exe(sql, [d.title, file_name, d.id]);
+
+  res.redirect("/admin/slider");
+});
+
+
 router.get("/all_orders", async (req, res) => {
   try {
     const orders = await exe(`

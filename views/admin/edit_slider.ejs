@@ -1,0 +1,50 @@
+<%- include("navbar") %>
+
+<style>
+  .edit-form {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  .edit-form img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 6px;
+  }
+
+  .edit-form input, .edit-form button {
+    margin-bottom: 15px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<form action="/admin/update_slider" method="post" enctype="multipart/form-data" class="edit-form">
+  <input type="hidden" name="id" value="<%= slider.slider_id %>">
+  <input type="hidden" name="old_image" value="<%= slider.image %>">
+
+  <label>Title:</label>
+  <input type="text" name="title" class="form-control" value="<%= slider.title %>" required>
+
+  <label>Current Image:</label><br>
+  <img src="/uploads/<%= slider.image %>" width="150"><br><br>
+
+  <label>Upload New Image (optional):</label>
+  <input type="file" name="image" class="form-control">
+
+  <button type="submit" class="btn btn-primary">Update Slider</button>
+</form>
+
+<%- include("footer") %>

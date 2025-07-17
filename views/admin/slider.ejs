@@ -1,0 +1,113 @@
+<%- include("navbar") %>
+
+<style>
+  .slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 30px 0;
+  }
+
+  .slider {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+
+  .slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 0 30px; /* side space added */
+    position: relative;
+  }
+
+  .slide img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+    border: 3px solid #ccc;
+  }
+
+  .slide-info {
+    position: absolute;
+    bottom: 80px;
+    left: 60px;
+    color: white;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 15px 20px;
+    border-radius: 10px;
+    max-width: 60%;
+  }
+
+  .slide-info h2 {
+    margin: 0 0 5px 0;
+    font-size: 22px;
+  }
+
+  .slide-info p {
+    margin: 0;
+    font-size: 15px;
+  }
+
+  .update-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 60px;
+    background-color: #3498db;
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  .update-btn:hover {
+    background-color: #2980b9;
+  }
+
+  @media (max-width: 768px) {
+    .slide-info {
+      bottom: 60px;
+      left: 20px;
+      max-width: 80%;
+    }
+    .update-btn {
+      bottom: 15px;
+      left: 20px;
+    }
+    .slide img {
+      height: 250px;
+    }
+  }
+</style>
+
+<div class="slider-container">
+  <div class="slider" id="slider">
+    <% for (let i = 0; i < slider.length; i++) { %>
+      <div class="slide">
+        <img src="/uploads/<%= slider[i].image %>" alt="slider <%= i + 1 %>">
+        <div class="slide-info">
+          <h2><%= slider[i].title %></h2>
+          <p><%= slider[i].description %></p>
+        </div>
+        <a class="update-btn" href="/admin/edit_slider/<%= slider[i].slider_id %>">Update</a>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<script>
+  let index = 0;
+  const slides = document.querySelectorAll('.slide');
+
+  setInterval(() => {
+    index = (index + 1) % slides.length;
+    document.getElementById('slider').style.transform = `translateX(-${index * 100}%)`;
+  }, 3000);
+</script>
+
+<%- include("footer") %>

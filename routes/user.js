@@ -9,8 +9,6 @@ const razorpay = new Razorpay({
 });
 
 
-
-
 router.post("/user_registration",async function(req,res){
   // res.send(req.body);
   var d= req.body;
@@ -95,13 +93,17 @@ router.get("/", async function (req, res) {
     cartProductIds = cart.map(i => i.product_id);
   }
 
+  let info = await exe("select * from slider");
+
   // Render the page
   res.render("user/index.ejs", {
     product: products,
     category: categories,
+    
     popular: popular,
     productVariants,
     cartProductIds,
+    info:info,
     req
   });
 });
