@@ -972,6 +972,23 @@ router.get("/pending_orders", async (req, res) => {
     res.send("Something went wrong");
   }
 });
+router.get("/shipped_orders", async (req, res) => {
+  try {
+    const query = `
+      SELECT o.order_id, o.total_amount, o.order_status, o.created_at,
+             u.name AS name, u.email
+      FROM orders o
+      JOIN user_registration u ON o.user_id = u.user_id
+      WHERE o.order_status = 'shipped' AND status = 'active'
+      ORDER BY o.created_at DESC
+    `;
+    const orders = await exe(query);
+    res.render("admin/shipped_orders.ejs", { orders });
+  } catch (err) {
+    console.error("Shipped order fetch error:", err);
+    res.send("Something went wrong");
+  }
+});
 router.get("/completed_orders",async function(req,res){
    try {
     const query = `
@@ -988,7 +1005,7 @@ router.get("/completed_orders",async function(req,res){
     console.error("Shipped order fetch error:", err);
     res.send("Something went wrong");
   }
-})
+});
 
 router.get("/contact_us",async function(req,res){
   var data = await exe(`SELECT * FROM contact_us`);
