@@ -1,37 +1,47 @@
-var express = require("express");
-var bodyparser = require("body-parser");
-var upload = require("express-fileupload");
-var session = require("express-session");
-var admin_route = require("./routes/admin.js");
-var accountsroute = require("./routes/accounts");
-var userroute = require("./routes/user");
-var app = express();
-app.use(express.static("public/"));
+const express = require("express");
+const bodyparser = require("body-parser");
+const upload = require("express-fileupload");
+const session = require("express-session");
+const path = require("path");
 
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
+const admin_route = require("./routes/admin.js");
+const accountsroute = require("./routes/accounts");
+const userroute = require("./routes/user"); // ✅ use this one only
 
-app.use(bodyparser.urlencoded({extended:true}));
+const app = express();
+
+// Static files
+
+app.use(express.static("public"));
+
+// View engine setup
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyparser.urlencoded({ extended: true }));
 app.use(session({
-    secret:"kjdjdjdjdded",
-    resave:true,
-    saveUninitialized:true
-}))
-
+  secret: "kjdjdjdjdded",
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(upload());
 
-app.use(function (req, res, next) {
-  res.locals.admin = req.session.admin;
-  next();
-});
+// Global session variable
 app.use((req, res, next) => {
+  res.locals.admin = req.session.admin;
   res.locals.user = req.session.user;
   next();
 });
 
+// ✅ Routes
+app.use("/", userroute);         // frontend site (e.g., index.ejs)
+app.use("/admin", admin_route);  // admin routes
+app.use("/accounts", accountsroute); // login/register
 
-app.use("/",userroute);
-app.use("/admin", admin_route); 
-app.use("/accounts",accountsroute);
-
-app.listen(1000);
+// Server
+app.listen(1000, () => {
+  console.log("Server running at http://localhost:1000");
+});

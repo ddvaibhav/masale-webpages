@@ -201,9 +201,9 @@
 
 
 
-  <!--Recipe of the month -->
+<!--Recipe of the month -->
 
-  <section class="featured-recipes py-5">
+<section class="featured-recipes py-5">
     <div class="container">
       <div class="text-center mb-5">
         <h1 class="recipe-title">
@@ -217,15 +217,14 @@
         <div class="col-md-4">
           <div class="card h-100 border-0 shadow-sm overflow-hidden recipe-card">
             <div class="position-relative">
-              <img src="https://static.toiimg.com/thumb/53205522.cms?width=1200&height=900" alt="Spiced Chicken Curry"
+              <img src="/images/<%-recipe[0].image%>" alt="Spiced Chicken Curry"
                 class="img-fluid recipe-image">
             </div>
             <div class="card-body">
-              <h3 class="h4 card-title">Spiced Chicken Curry</h3>
-              <p class="card-text text-muted">Tender chicken pieces with traditional Indian spices simmered in a creamy
-                tomato sauce.</p>
+              <h3 class="h4 card-title"><%-recipe[0].title%></h3>
+              <p class="card-text text-muted"><%-recipe[0].description%></p>
               <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-light text-dark"><i class="bi bi-clock"></i> 45 mins</span>
+                <span class="badge bg-light text-dark"><i class="bi bi-clock"></i><%-recipe[0].duration%></span>
                 <a href="/recipes"><button class="recipe-btn">View Recipe</button></a>
               </div>
             </div>
@@ -236,15 +235,14 @@
         <div class="col-md-4">
           <div class="card h-100 border-0 shadow-sm overflow-hidden recipe-card">
             <div class="position-relative">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJrNc1cyXapx99e8b7jKl2H9yJF4JTAAGpnw&s"
+              <img src="/images/<%-recipe[1].image%>"
                 alt="Paneer Masala" class="img-fluid recipe-image">
             </div>
             <div class="card-body">
-              <h3 class="h4 card-title">Paneer Masala</h3>
-              <p class="card-text text-muted">Rich paneer with deep flavors of spiced tomato-onion gravy - a North
-                Indian classic.</p>
+              <h3 class="h4 card-title"><%-recipe[1].title%></h3>
+              <p class="card-text text-muted"><%-recipe[1].description%></p>
               <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-light text-dark"><i class="bi bi-clock"></i> 30 mins</span>
+                <span class="badge bg-light text-dark"><i class="bi bi-clock"></i><%-recipe[1].duration%></span>
                 <a href="/recipes"><button class="recipe-btn">View Recipe</button></a>
               </div>
             </div>
@@ -255,15 +253,14 @@
         <div class="col-md-4">
           <div class="card h-100 border-0 shadow-sm overflow-hidden recipe-card">
             <div class="position-relative">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFfASdH-1Yl9awvgcZrgvQuzjrRB5vI1ZbhQ&s"
+              <img src="/images/<%-recipe[2].image%>"
                 alt="Maswadi" class="img-fluid recipe-image">
             </div>
             <div class="card-body">
-              <h3 class="h4 card-title">Maswadi</h3>
-              <p class="card-text text-muted">Maharashtrian specialty with steamed besan rolls and spicy coconut-peanut
-                stuffing.</p>
+              <h3 class="h4 card-title"><%-recipe[2].title%></h3>
+              <p class="card-text text-muted"><%-recipe[2].description%></p>
               <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-light text-dark"><i class="bi bi-clock"></i> 60 mins</span>
+                <span class="badge bg-light text-dark"><i class="bi bi-clock"></i><%-recipe[2].duration%></span>
                 <a href="/recipes"><button class="recipe-btn">View Recipe</button></a>
               </div>
             </div>
@@ -277,6 +274,7 @@
       </div>
     </div>
   </section>
+
 
   <section>
     <div class="container">
@@ -307,15 +305,15 @@
                 <div class="post-inner">
                   <div class="post-front">
                     <div class="post-image" style="
-                    background-image: url('https://tse2.mm.bing.net/th/id/OIP.mejgkrmGtm8j8ya5p0mREgHaHa?r=0&cb=thvnextc2&rs=1&pid=ImgDetMain&o=7&rm=3');
+                    background-image: url('/images/<%-spice_story[0].image%>');
                   "></div>
                     <div class="post-info">
                       <div class="post-header">
                         <div class="profile-pic rounded-circle" style="margin-right: 15px;">
-                          <img class="rounded-circle" src="/public/images/logo2.jpg" width="60px" height="40px" />
+                          <img class="rounded-circle" src="/images/<%-spice_story[0].image%>" width="60px" height="40px" />
                         </div>
                         <div>
-                          <strong>Oragnic Masale</strong>
+                          <strong><%-spice_story[0].title%></strong>
                           <p>Homemade Garam Masala Blend</p>
                         </div>
                       </div>
@@ -337,22 +335,201 @@
                   </div>
                   <div class="post-back">
                     <img class="zoomed-image"
-                      src="https://tse2.mm.bing.net/th/id/OIP.mejgkrmGtm8j8ya5p0mREgHaHa?r=0&cb=thvnextc2&rs=1&pid=ImgDetMain&o=7&rm=3"
+                      src="/images/<%-spice_story[0].image%>"
                       alt="Garam Masala" style="background-size: contain" />
                     <div class="post-caption">
-                      <p class="p-0 mb-2">
-                        Our signature Garam Masala blend made with 12 authentic
-                        spices. Slow-roasted and ground to perfection for that
-                        traditional taste.
-                      </p>
+                      <p class="p-0 mb-2"><%-spice_story[0].description%></p>
                     </div>
-                    <div class="brand-watermark">The Masala Basket</div>
+                    <div class="brand-watermark"><%-spice_story[0].subheading%></div>
                   </div>
                 </div>
               </div>
 
-              <!-- Post 2 -->
+              
               <div class="post-card">
+                <div class="post-inner">
+                  <div class="post-front">
+                    <div class="post-image" style="
+                    background-image: url('/images/<%-spice_story[1].image%>');
+                  "></div>
+                    <div class="post-info">
+                      <div class="post-header">
+                        <div class="profile-pic rounded-circle" style="margin-right: 15px;">
+                          <img class="rounded-circle" src="/images/<%-spice_story[1].image%>" width="60px" height="40px" />
+                        </div>
+                        <div>
+                          <strong><%-spice_story[1].title%></strong>
+                          <p>Homemade Garam Masala Blend</p>
+                        </div>
+                      </div>
+                      <div class="post-stats">
+                        <div>1.2K views</div>
+                        <div class="post-actions">
+                          <div class="post-action">
+                            <i class="fas fa-heart"></i> 245
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-comment"></i> 42
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-share-alt"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="post-back">
+                    <img class="zoomed-image"
+                      src="/images/<%-spice_story[1].image%>"
+                      alt="Garam Masala" style="background-size: contain" />
+                    <div class="post-caption">
+                      <p class="p-0 mb-2"><%-spice_story[1].description%></p>
+                    </div>
+                    <div class="brand-watermark"><%-spice_story[1].subheading%></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="post-card">
+                <div class="post-inner">
+                  <div class="post-front">
+                    <div class="post-image" style="
+                    background-image: url('/images/<%-spice_story[2].image%>');
+                  "></div>
+                    <div class="post-info">
+                      <div class="post-header">
+                        <div class="profile-pic rounded-circle" style="margin-right: 15px;">
+                          <img class="rounded-circle" src="/images/<%-spice_story[2].image%>" width="60px" height="40px" />
+                        </div>
+                        <div>
+                          <strong><%-spice_story[2].title%></strong>
+                          <p>Homemade Garam Masala Blend</p>
+                        </div>
+                      </div>
+                      <div class="post-stats">
+                        <div>1.2K views</div>
+                        <div class="post-actions">
+                          <div class="post-action">
+                            <i class="fas fa-heart"></i> 245
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-comment"></i> 42
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-share-alt"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="post-back">
+                    <img class="zoomed-image"
+                      src="/images/<%-spice_story[2].image%>"
+                      alt="Garam Masala" style="background-size: contain" />
+                    <div class="post-caption">
+                      <p class="p-0 mb-2"><%-spice_story[2].description%></p>
+                    </div>
+                    <div class="brand-watermark"><%-spice_story[2].subheading%></div>
+                  </div>
+                </div>
+              </div>
+
+              
+
+              <div class="post-card">
+                <div class="post-inner">
+                  <div class="post-front">
+                    <div class="post-image" style="
+                    background-image: url('/images/<%-spice_story[3].image%>');
+                  "></div>
+                    <div class="post-info">
+                      <div class="post-header">
+                        <div class="profile-pic rounded-circle" style="margin-right: 15px;">
+                          <img class="rounded-circle" src="/images/<%-spice_story[3].image%>" width="60px" height="40px" />
+                        </div>
+                        <div>
+                          <strong><%-spice_story[3].title%></strong>
+                          <p>Homemade Garam Masala Blend</p>
+                        </div>
+                      </div>
+                      <div class="post-stats">
+                        <div>1.2K views</div>
+                        <div class="post-actions">
+                          <div class="post-action">
+                            <i class="fas fa-heart"></i> 245
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-comment"></i> 42
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-share-alt"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="post-back">
+                    <img class="zoomed-image"
+                      src="/images/<%-spice_story[3].image%>"
+                      alt="Garam Masala" style="background-size: contain" />
+                    <div class="post-caption">
+                      <p class="p-0 mb-2"><%-spice_story[3].description%></p>
+                    </div>
+                    <div class="brand-watermark"><%-spice_story[3].subheading%></div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="post-card">
+                <div class="post-inner">
+                  <div class="post-front">
+                    <div class="post-image" style="
+                    background-image: url('/images/<%-spice_story[4].image%>');
+                  "></div>
+                    <div class="post-info">
+                      <div class="post-header">
+                        <div class="profile-pic rounded-circle" style="margin-right: 15px;">
+                          <img class="rounded-circle" src="/images/<%-spice_story[4].image%>" width="60px" height="40px" />
+                        </div>
+                        <div>
+                          <strong><%-spice_story[4].title%></strong>
+                          <p>Homemade Garam Masala Blend</p>
+                        </div>
+                      </div>
+                      <div class="post-stats">
+                        <div>1.2K views</div>
+                        <div class="post-actions">
+                          <div class="post-action">
+                            <i class="fas fa-heart"></i> 245
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-comment"></i> 42
+                          </div>
+                          <div class="post-action">
+                            <i class="fas fa-share-alt"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="post-back">
+                    <img class="zoomed-image"
+                      src="/images/<%-spice_story[4].image%>"
+                      alt="Garam Masala" style="background-size: contain" />
+                    <div class="post-caption">
+                      <p class="p-0 mb-2"><%-spice_story[4].description%></p>
+                    </div>
+                    <div class="brand-watermark"><%-spice_story[4].subheading%></div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <!-- Post 2 -->
+              <!-- <div class="post-card">
                 <div class="post-inner">
                   <div class="post-front">
                     <div class="post-image" style="
@@ -399,10 +576,10 @@
                     <div class="brand-watermark">The Masala Basket</div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <!-- Post 3 -->
-              <div class="post-card">
+              <!-- <div class="post-card">
                 <div class="post-inner">
                   <div class="post-front">
                     <div class="post-image" style="
@@ -448,10 +625,10 @@
                     <div class="brand-watermark">The Masala Basket</div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <!-- Post 4 -->
-              <div class="post-card">
+              <!-- <div class="post-card">
                 <div class="post-inner">
                   <div class="post-front">
                     <div class="post-image" style="
@@ -497,10 +674,10 @@
                     <div class="brand-watermark">The Masala Basket</div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <!-- Post 5 -->
-              <div class="post-card">
+              <!-- <div class="post-card">
                 <div class="post-inner">
                   <div class="post-front">
                     <div class="post-image" style="
@@ -546,7 +723,7 @@
                     <div class="brand-watermark">The Masala Basket</div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
 
             <div class="reel_carousel_nav">
