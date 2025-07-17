@@ -222,6 +222,7 @@ router.get("/", async function (req, res) {
   }
 
 
+
   let info = await exe("select * from slider");
 
   // Render the page
