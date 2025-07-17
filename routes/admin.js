@@ -468,7 +468,6 @@ router.get("/add_product",async function(req,res){
   );
 });
 
-
 router.post("/add-product", async (req, res) => {
   try {
     const d = req.body;
