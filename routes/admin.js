@@ -955,6 +955,41 @@ router.get("/delete_gallery_category/:id",async function(req,res){
   res.redirect("/admin/gallery_category")
 });
 
+router.get("/pending_orders", async (req, res) => {
+  try {
+    const query = `
+      SELECT o.order_id, o.total_amount, o.order_status, o.created_at,
+             u.name AS name, u.email
+      FROM orders o
+      JOIN user_registration u ON o.user_id = u.user_id
+      WHERE o.order_status = 'pending' AND status = 'active'
+      ORDER BY o.created_at DESC
+    `;
+    const orders = await exe(query);
+    res.render("admin/pending_orders.ejs", { orders });
+  } catch (err) {
+    console.error("Shipped order fetch error:", err);
+    res.send("Something went wrong");
+  }
+});
+router.get("/completed_orders",async function(req,res){
+   try {
+    const query = `
+      SELECT o.order_id, o.total_amount, o.order_status, o.created_at,
+             u.name AS name, u.email
+      FROM orders o
+      JOIN user_registration u ON o.user_id = u.user_id
+      WHERE o.order_status = 'completed' AND status = 'active'
+      ORDER BY o.created_at DESC
+    `;
+    const orders = await exe(query);
+    res.render("admin/completed_orders.ejs", { orders });
+  } catch (err) {
+    console.error("Shipped order fetch error:", err);
+    res.send("Something went wrong");
+  }
+})
+
 router.get("/contact_us",async function(req,res){
   var data = await exe(`SELECT * FROM contact_us`);
   res.render("admin/contact_us.ejs",{"contact":data});
@@ -977,7 +1012,7 @@ router.post("/enquery",async function(req,res){
   var data = await exe(sql,[d.businessName,d.productName,d.quantity,d.location,d.contactPerson,d.phoneNumber,d.email,d.comments]);
   // res.send(data);
   res.redirect("/enquiry");
-})
+});
 
 
 
