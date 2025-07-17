@@ -2082,7 +2082,7 @@ body {
       transform: translateY(-2px);
     }
     
-    .btn-primary {
+    .btn-contact{
       background-color: var(--primary-color);
       border: none;
       padding: 10px 24px;
@@ -2090,7 +2090,7 @@ body {
       font-weight: 500;
     }
     
-    .btn-primary:hover {
+    .btn-contact:hover {
       background-color: var(--accent-color);
     }
      
