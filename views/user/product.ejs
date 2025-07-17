@@ -92,11 +92,14 @@
           <button class="btn btn-warning w-100" type="submit">Apply Filters</button>
         </form>
       </div>
+      <div class="discount_box">
+        <img src="/images/Discount_Banner.png" class="discount_img">
+      </div>
     </div>
 
     <!-- Product Grid -->
     <div class="col-md-9">
-      <h4 class="section-title">Our Products</h4>
+      <h1 class="producthead-title">Our Products</h1>
   <div class="row" id="productGrid">
   <% for (let i of product) { 
     const matchingVariants = variants.filter(w => w.product_id == i.product_id);

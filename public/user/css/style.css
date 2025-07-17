@@ -1927,6 +1927,25 @@ body {
     font-size: 0.85rem;
     z-index: 10;
   }
+  .discount_box{
+    height: 500px;
+    width: 270px;
+    margin-top: 30px;
+    transition: all 0.4s ease;
+
+  }
+.discount_box:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(255, 153, 51, 0.25);
+}
+  .discount_img{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    border: 3px solid #ff9933;
+
+
+  }
 
 /* hero-section-img */
     
@@ -2184,10 +2203,11 @@ body {
       font-size: 0.9rem;
     }
 
-    .section-title {
+    .producthead-title {
       font-weight: 700;
       color: var(--saffron-brown);
       margin-bottom: 1.5rem;
+      text-align: center;
     }
 
     .stock-status {
