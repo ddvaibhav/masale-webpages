@@ -1927,6 +1927,7 @@ body {
     font-size: 0.85rem;
     z-index: 10;
   }
+<<<<<<< HEAD
   .discount_box{
     height: 500px;
     width: 270px;
@@ -1953,6 +1954,8 @@ body {
 
     }
   }
+=======
+>>>>>>> ae0efa2673cc84f8b532922ca589bb75a1f041bb
 
 /* hero-section-img */
     
@@ -2089,7 +2092,7 @@ body {
       transform: translateY(-2px);
     }
     
-    .btn-contact{
+    .btn-primary {
       background-color: var(--primary-color);
       border: none;
       padding: 10px 24px;
@@ -2097,7 +2100,7 @@ body {
       font-weight: 500;
     }
     
-    .btn-contact:hover {
+    .btn-primary:hover {
       background-color: var(--accent-color);
     }
      
@@ -2210,11 +2213,10 @@ body {
       font-size: 0.9rem;
     }
 
-    .producthead-title {
+    .section-title {
       font-weight: 700;
       color: var(--saffron-brown);
       margin-bottom: 1.5rem;
-      text-align: center;
     }
 
     .stock-status {
