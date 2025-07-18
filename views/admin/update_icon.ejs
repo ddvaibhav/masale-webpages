@@ -1,0 +1,55 @@
+<%-include("navbar.ejs")%>
+  <div class="container mt-5 px-5">
+    <h2 class="mb-4">Update Social Media Links</h2>
+
+    <form action="/admin/update_icon" enctype="multipart/form-data" method="POST">
+
+      <div class="mb-3">
+        <label class="form-label">Location</label>
+        <input type="text" class="form-control" name="location" value="<%= info.location %>">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Phone Number</label>
+        <input type="number" class="form-control" name="phone_no" value="<%= info.phone_no %>">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" name="email" value="<%= info.email %>">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">WhatsApp</label>
+        <input type="number" class="form-control" name="whatsapp" value="<%= info.whatsapp %>">
+      </div>
+
+
+
+      <div class="mb-3">
+        <label for="instagram" class="form-label">Instagram URL</label>
+        <input type="text" class="form-control" id="instagram" name="instagram"
+          placeholder="https://instagram.com/yourpage" value="<%-info.instagram%>">
+      </div>
+
+      <div class="mb-3">
+        <label for="facebook" class="form-label">Facebook URL</label>
+        <input type="text" class="form-control" id="facebook" name="facebook"
+          placeholder="https://facebook.com/yourpage" value="<%-info.facebook%>">
+      </div>
+
+      <div class="mb-3">
+        <label for="youtube" class="form-label">YouTube URL</label>
+        <input type="text" class="form-control" id="youtube" name="youtube"
+          placeholder="https://youtube.com/yourchannel" value="<%-info.youtube%>">
+      </div>
+
+      <div class="col-12 text-center">
+        <button class="btn btn-primary">Update Links</button>
+      </div>
+    </form>
+  </div>
+
+
+
+  <%-include("footer.ejs")%>

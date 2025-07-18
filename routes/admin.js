@@ -1233,12 +1233,18 @@ router.get("/delete_recipes/:id", async (req, res) => {
 
 router.get("/contact_info", async function(req, res) {
   try {
+
     const sql = `SELECT * FROM contact_info`;
+
+    // const sql = `SELECT * FROM company_info`;
     const data = await exe(sql);
 
     console.log("Fetched contact info:", data);
 
+
     res.render("admin/contact_info.ejs", { data: data[0] || {} });
+
+    res.render("admin/contact_info.ejs", { data: data || {} });
   } catch (error) {
     console.error("Error fetching contact info:", error);
     res.status(500).send("Internal Server Error");
@@ -1250,10 +1256,15 @@ router.get("/contact_info", async function(req, res) {
 
 router.post("/update_contact_info",async function(req,res){
   var d = req.body;
+
   var sql = `UPDATE contact_info SET location=?,phone = ? ,email = ?, working_hours = ? , map_link = ?`;
   var data = await exe(sql,[d.location,d.phone,d.email,d.working_hours,d.map_link]);
   // res.send(data);
   res.redirect("/admin/contact_info");
+
+  var sql = `INSERT INTO contact_info (location , email,phone,working_hours,map_link) VALUES (? , ?, ?, ?, ?)`;
+  var data = await exe(sql,[d.location,d.email,d.phone,d.working_hours,d.map_link]);
+  res.send("data");
 })
 
 
@@ -1290,6 +1301,46 @@ router.post("/update_banner", async function(req, res) {
 
 
 
+
+router.get("/update_icon", async function (req, res) {
+
+  var data = await exe(`SELECT * FROM incon WHERE incon_id = '1'`)
+
+  res.render("admin/update_icon.ejs", { info: data[0] })
+  if (req.files && req.files.image && req.files.image.name) {
+    var file = req.files.image;
+    var filename = Date.now() + "_" + file.name;
+    await file.mv("public/uploads/" + filename);
+    image = filename; 
+  } else {
+    image = d.old_image; 
+  }
+  await exe("UPDATE banner SET image=? WHERE id=?", [image, d.id]);
+  res.redirect("/admin/banner");
+});
+
+
+router.post("/update_icon", async function (req, res) {
+  var b = req.body;
+
+  var sql = `UPDATE incon SET 
+            instagram = ? ,
+            facebook = ? ,
+            youtube = ? ,
+            location = ? ,
+            phone_no = ? ,
+            email = ? ,
+            whatsapp = ? 
+
+            WHERE incon_id = '1'
+            `;
+
+  var data = await exe(sql, [b.instagram , b.facebook , b.youtube , b.location , b.phone_no , b.email , b.whatsapp]);
+
+
+  res.redirect("/admin/update_icon");
+
+});
 
 
 

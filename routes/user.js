@@ -44,6 +44,10 @@ router.get("/logout",function(req,res){
   res.redirect("/");
 });
 router.get("/", async function (req, res) {
+
+  var incon = await exe(`SELECT * FROM incon`)
+  var recipe = await exe(`SELECT * FROM recipe`);
+  var spice_story = await exe(`SELECT * FROM spice_story`);
   const userId = req.session.user?.user_id;
 
   const [products, categories] = await Promise.all([
@@ -99,8 +103,10 @@ router.get("/", async function (req, res) {
   // Render the page
   res.render("user/index.ejs", {
     product: products,
+    incon:incon[0],
     category: categories,
-    
+    spice_story:spice_story,
+    recipe:recipe,
     popular: popular,
     productVariants,
     cartProductIds,
@@ -112,10 +118,12 @@ router.get("/", async function (req, res) {
 
 
 
-router.get("/about",function(req,res){
-    res.render("user/about.ejs");
+router.get("/about",async function(req,res){
+  var incon = await exe(`SELECT * FROM incon`)
+    res.render("user/about.ejs",{incon:incon[0]});
 });
 router.get("/product", async function(req, res) {
+  var incon = await exe(`SELECT * FROM incon`);
   const category = await exe(`SELECT * FROM category WHERE status = 'active'`);
   const allVariants = await exe(`SELECT * FROM product_price_variants`);
   const product = await exe(`
@@ -143,6 +151,7 @@ router.get("/product", async function(req, res) {
   var banner = await exe("select * from banner");
 
   res.render("user/product.ejs", {
+    incon:incon[0],
     product,
     category,
     banner:banner,
@@ -156,14 +165,15 @@ router.get("/product", async function(req, res) {
 
 
 router.get("/gallery",async function(req,res){
+    var incon = await exe(`SELECT * FROM incon`)
     var data = await exe("SELECT * FROM gallery");
-    var obj = {"data":data};
+    var obj = {"data":data , incon:incon[0]};
     res.render("user/gallery.ejs",obj);
 });
 
 router.get("/recipes", async function (req, res) {
   let recipes = await exe("SELECT * FROM recipes");
-
+  var incon = await exe(`SELECT * FROM incon`)
   let updatedRecipes = recipes.map(r => {
     return {
       ...r,
@@ -174,6 +184,7 @@ router.get("/recipes", async function (req, res) {
   });
 
   res.render("user/recipes.ejs", {
+    incon:incon[0],
     data: updatedRecipes,
     mainRecipe: updatedRecipes[0], // default first recipe
   });
@@ -182,12 +193,17 @@ router.get("/recipes", async function (req, res) {
 
 
 router.get("/enquiry",async function(req,res){
+
   var data = await exe("SELECT * FROM contact_info");
     res.render("user/enquiry.ejs",{"data":data[0]});
+
+    // var incon = await exe(`SELECT * FROM incon`);
+    // res.render("user/enquiry.ejs",{incon:incon[0]});
 });
 router.get("/contact_us",async function(req,res){
+  var incon = await exe(`SELECT * FROM incon`)
   var data = await exe(`SELECT * FROM contact_info`);
-    res.render("user/contact_us.ejs",{"data":data[0]});
+    res.render("user/contact_us.ejs",{"data":data[0] , incon:incon[0]});
 });
 
 
@@ -197,7 +213,7 @@ router.get("/category_product/:id", async function (req, res) {
 
     // Get category name
     const [categoryData] = await exe(`SELECT category_name FROM category WHERE category_id = ?`, [categoryId]);
-
+    var incon = await exe(`SELECT * FROM incon`)
     // Get all products under the category
     const productData = await exe(`SELECT p.*, c.category_name FROM product p
                                    JOIN category c ON p.category_id = c.category_id
@@ -215,6 +231,7 @@ router.get("/category_product/:id", async function (req, res) {
     }
 
     res.render("user/category_product.ejs", {
+      incon:incon[0],
       categoryName: categoryData?.category_name || "Category Products",
       product: productData,
       variants: variantData,
@@ -229,7 +246,7 @@ router.get("/category_product/:id", async function (req, res) {
 
 router.get("/product_details/:id", async function (req, res) {
   const id = req.params.id;
-
+  var incon = await exe(`SELECT * FROM incon`)
   // Get main product
   const [product] = await exe(`
     SELECT product_id, product_name, image, image2, detail, \`usage\`, health_benifits, ingredients, discount, category_id
@@ -277,6 +294,7 @@ for (let rel of related) {
 }
 
 res.render("user/product_details.ejs", {
+  incon:incon[0],
   product,
   variants,
   reviews,
@@ -302,7 +320,7 @@ router.post('/submit_review', async (req, res) => {
 
 router.post("/filter-products", async (req, res) => {
   const { category, weight, popular } = req.body;
-
+  var incon = await exe(`SELECT * FROM incon`)
   let sql = `
     SELECT p.*, c.category_name 
     FROM product p
@@ -331,6 +349,7 @@ router.post("/filter-products", async (req, res) => {
   }
 
   res.render("user/product_list.ejs", {
+    incon:incon[0],
     product: productList,
     variants,
     req
@@ -377,7 +396,7 @@ router.post("/add_tocart", async (req, res) => {
 router.get("/add_tocart", async (req, res) => {
   const userId = req.session.user?.user_id;
   if (!userId) return res.redirect("/");
-
+  var incon = await exe(`SELECT * FROM incon`)
   const cartItems = await exe(`
   SELECT 
     c.cart_id, 
@@ -394,11 +413,12 @@ router.get("/add_tocart", async (req, res) => {
 `, [userId]);
 
 
-  res.render("user/add_tocart.ejs", { cart: cartItems });
+  res.render("user/add_tocart.ejs", { cart: cartItems , incon:incon[0] });
 });
 
 router.get("/remove_cart/:id",async function(req,res){
   var id = req.params.id;
+  var incon = await exe(`SELECT * FROM incon`);
   var sql = await exe(`UPDATE cart SET status = 'deleted' WHERE cart_id = ${id}`);
   // res.send(sql);
   res.redirect("/add_tocart");
@@ -406,6 +426,7 @@ router.get("/remove_cart/:id",async function(req,res){
 });
 router.get("/checkout", async function(req, res) {
   const userId = req.session.user?.user_id;
+  var incon = await exe(`SELECT * FROM incon`)
   if (!userId) return res.redirect("/");
 
   const cart = await exe(`
@@ -418,7 +439,7 @@ router.get("/checkout", async function(req, res) {
 
 
 
-  res.render("user/checkout.ejs", { cart });
+  res.render("user/checkout.ejs", { cart , incon:incon[0]});
 });
 
 
@@ -441,6 +462,7 @@ router.post("/create-order", async (req, res) => {
 });
 
 router.get("/place_order", async (req, res) => {
+  var incon = await exe(`SELECT * FROM incon`)
   const {
     razorpay_payment_id,
     name,
@@ -540,6 +562,7 @@ const orderResult = await exe(query, values);
 
   // ✅ Render success
   res.render("user/order_success.ejs", {
+    incon:incon[0],
     paymentId: razorpay_payment_id
   });
 });
@@ -552,9 +575,6 @@ const orderResult = await exe(query, values);
 
 
 
-router.get("/order_success",function(req,res){
-  res.render("user/order_success.ejs");
-});
 
 router.post("/cancel_order/:id", async (req, res) => {
   const id = req.params.id;
@@ -566,6 +586,7 @@ router.post("/cancel_order/:id", async (req, res) => {
 router.get("/orders", async function (req, res) {
   const userId = req.session.user?.user_id;
   if (!userId) return res.redirect("/");
+  var incon = await exe(`SELECT * FROM incon`)
 
  const orders = await exe(`
   SELECT order_id, order_status, created_at, date_at 
@@ -595,6 +616,7 @@ router.get("/orders", async function (req, res) {
   });
 
   res.render("user/orders.ejs", {
+    incon:incon[0],
     orders,
     groupedItems
   });
@@ -602,6 +624,7 @@ router.get("/orders", async function (req, res) {
 
 router.get("/order_details/:id", async (req, res) => {
   const userId = req.session.user?.user_id;
+  var incon = await exe(`SELECT * FROM incon`)
   if (!userId) return res.redirect("/");
 
   const orderId = req.params.id;
@@ -626,7 +649,7 @@ router.get("/order_details/:id", async (req, res) => {
     WHERE oi.order_id = ?
   `, [orderId]);
 
-  res.render("user/order_details.ejs", { order, items });
+  res.render("user/order_details.ejs", { order, items , incon:incon[0]});
 });
 
  
