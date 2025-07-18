@@ -1231,6 +1231,22 @@ router.get("/delete_recipes/:id", async (req, res) => {
   }
 });
 
+
+
+
+// router.get("/contact_info",function(req,res){
+//   res.render("admin/contact_info.ejs");
+// });
+// router.post("/update_contact_info",async function(req,res){
+//   var d = req.body;
+//   var sql = `INSERT INTO contact_info (location , email,phone,working_hours,map_link) VALUES (? , ?, ?, ?, ?)`;
+//   var data = await exe(sql,[d.location,d.email,d.phone,d.working_hours,d.map_link]);
+//   res.send("data");
+// })
+
+
+
+
 router.get("/banner",async function(req,res){
   var sql = `select * from banner`;
   var banner = await exe(sql);
@@ -1242,6 +1258,7 @@ router.get("/edit_banner/:bid",async function(req,res){
   var banner = await exe(sql,[id]);
   res.render("admin/edit_banner.ejs",{banner});
 })
+
 
 router.post("/update_banner", async function(req, res) {
   var d = req.body;

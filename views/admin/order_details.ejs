@@ -1,26 +1,69 @@
 <%- include("navbar.ejs") %>
+
+<!-- Custom Heading CSS -->
+<style>
+  .section-heading {
+    position: relative;
+    background: linear-gradient(to right, #5b4d9c 0%, #5b4d9c 70%, #ffffff 100%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: uppercase;
+    padding: 12px 25px;
+    border-left: 6px solid #ffc107;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 0;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .section-heading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -60px;
+    width: 60px;
+    height: 100%;
+    background: linear-gradient(
+      -45deg,
+      #ffc107 0 10px,
+      #ffc107 10px,
+      #0d572c 10px 15px,
+      #0d572c 15px,
+      #ff8c00 15px 20px,
+      #ff8c00 20px,
+      transparent 20px
+    );
+    transform: skewX(-10deg);
+  }
+</style>
+
+<!-- Page Content -->
 <div class="container my-5">
-  <h2 class="mb-4">Order #<%= order.order_id %> Details</h2>
-
+   <div class="section-heading">
+     <h2 class="mb-4">Order #<%= order.order_id %> Details</h2>
+   </div>
+<br> <br>
+  <!-- Customer Info -->
   <div class="card mb-4">
-  <div class="card-header bg-primary text-white">Customer Information</div>
-  <div class="card-body">
-    <p><strong>Name:</strong> <%= order.name %></p>
-    <p><strong>Email:</strong> <%= order.email %></p>
-    <p><strong>Mobile:</strong> <%= order.phone %></p>
-    <p><strong>Order Date:</strong> <%= order.created_at.toLocaleString() %></p>
-    <p><strong>Status:</strong> <%= order.order_status %></p>
-    <p><strong>Pincode:</strong> <%= order.pincode %></p>
-    <p><strong>City:</strong> <%= order.city %></p>
-    <p><strong>State:</strong> <%= order.state %></p>
-    <p><strong>Landmark:</strong> <%= order.landmark %></p>
-    <p><strong>Address:</strong> <%= order.address %></p>
+    <div class="section-heading">Customer Information</div>
+    <div class="card-body">
+      <p><strong>Name:</strong> <%= order.name %></p>
+      <p><strong>Email:</strong> <%= order.email %></p>
+      <p><strong>Mobile:</strong> <%= order.phone %></p>
+      <p><strong>Order Date:</strong> <%= order.created_at.toLocaleString() %></p>
+      <p><strong>Status:</strong> <%= order.order_status %></p>
+      <p><strong>Pincode:</strong> <%= order.pincode %></p>
+      <p><strong>City:</strong> <%= order.city %></p>
+      <p><strong>State:</strong> <%= order.state %></p>
+      <p><strong>Landmark:</strong> <%= order.landmark %></p>
+      <p><strong>Address:</strong> <%= order.address %></p>
+    </div>
   </div>
-</div>
 
-
+  <!-- Ordered Products -->
   <div class="card">
-    <div class="card-header bg-success text-white">Ordered Products</div>
+    <div class="section-heading">Ordered Products</div>
     <div class="card-body">
       <table class="table table-bordered">
         <thead>
@@ -41,7 +84,7 @@
           %>
           <tr>
             <td>
-              <img src="/uploads/<%= p.image %>" alt="" width="60"> <br>
+              <img src="/uploads/<%= p.image %>" alt="" width="60" class="img-thumbnail mb-1"> <br>
               <%= p.product_name %>
             </td>
             <td><%= p.weight %></td>
@@ -52,18 +95,17 @@
             <td><%= p.quantity %></td>
             <td>₹<%= subTotal.toFixed(2) %></td>
             <td>
-              <form method="POST" action="/admin/order_status/<%= order.order_id %>" class="mb-4">
-  <label><strong>Update Order Status:</strong></label>
-  <div class="d-flex gap-2">
-    <select name="status" class="form-select w-auto">
-      <option value="pending" <%= order.order_status === "pending" ? "selected" : "" %>>Pending</option>
-      <option value="shipped" <%= order.order_status === "shipped" ? "selected" : "" %>>Shipped</option>
-      <option value="completed" <%= order.order_status === "completed" ? "selected" : "" %>>Completed</option>
-    </select>
-    <button type="submit" class="btn btn-primary">Update</button>
-  </div>
-</form>
-
+              <form method="POST" action="/admin/order_status/<%= order.order_id %>">
+                <label><strong>Update Status:</strong></label>
+                <div class="d-flex gap-2">
+                  <select name="status" class="form-select w-auto">
+                    <option value="pending" <%= order.order_status === "pending" ? "selected" : "" %>>Pending</option>
+                    <option value="shipped" <%= order.order_status === "shipped" ? "selected" : "" %>>Shipped</option>
+                    <option value="completed" <%= order.order_status === "completed" ? "selected" : "" %>>Completed</option>
+                  </select>
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+              </form>
             </td>
           </tr>
           <% }) %>
@@ -72,12 +114,14 @@
           <tr>
             <th colspan="4" class="text-end">Total Amount</th>
             <th>₹<%= total.toFixed(2) %></th>
+            <th></th>
           </tr>
         </tfoot>
       </table>
     </div>
   </div>
 
-  <a href="/all_orders" class="btn btn-secondary mt-4">Back to Orders</a>
+  <a href="/admin/all_orders" class="btn btn-secondary mt-4">Back to Orders</a>
 </div>
+
 <%- include("footer.ejs") %>

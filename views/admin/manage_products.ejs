@@ -1,62 +1,57 @@
 <%- include("navbar.ejs") %>
 
-
 <style>
   .task-banner {
-  position: relative;
-  background: #5d4c9c;
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding: 18px 30px;
-  border-left: 6px solid #ffc107;
-  margin: 40px 0 25px;
-  width: 100%;
-  max-width: 900px;
-  overflow: hidden;
-}
+    position: relative;
+    background: #5d4c9c;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 18px 30px;
+    border-left: 6px solid #ffc107;
+    margin: 40px 0 25px;
+    width: 100%;
+    max-width: 900px;
+    overflow: hidden;
+  }
 
-.task-banner::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 120px;
-  height: 100%;
-  background: linear-gradient(to right, rgba(255,255,255,0.2), white);
-  transform: skewX(-30deg);
-  transform-origin: right;
-}
+  .task-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0.2), white);
+    transform: skewX(-30deg);
+    transform-origin: right;
+  }
 
-.task-banner::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 95px;
-  width: 6px;
-  height: 100%;
-  background-color: #fbc02d;
-  transform: skewX(-30deg);
-}
+  .task-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 95px;
+    width: 6px;
+    height: 100%;
+    background-color: #fbc02d;
+    transform: skewX(-30deg);
+  }
 
-.task-banner .stripe-1,
-.task-banner .stripe-2 {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 6px;
-  background-color: #fbc02d;
-  transform: skewX(-30deg);
-}
+  .task-banner .stripe-1,
+  .task-banner .stripe-2 {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 6px;
+    background-color: #fbc02d;
+    transform: skewX(-30deg);
+  }
 
-.task-banner .stripe-1 {
-  right: 85px;
-}
+  .task-banner .stripe-1 { right: 85px; }
+  .task-banner .stripe-2 { right: 75px; }
 
-.task-banner .stripe-2 {
-  right: 75px;
-}
   .table-box {
     background: #fff;
     padding: 25px;
@@ -111,99 +106,104 @@
   .btn-warning i, .btn-danger i {
     font-size: 14px;
   }
+
+  /* Scrollable text box */
+  .scroll-box {
+    max-height: 80px;
+    overflow-y: auto;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #f9f9f9;
+  }
 </style>
 
 <div class="container">
   <div class="task-banner">Manage Products</div>
 
- <div class="table-box">
-  <div style="overflow-x:auto;">
-    <table id="productTable" class="table table-bordered table-striped align-middle" style="width: 100%;">
-
-      <thead>
-        <tr>
-            <th>SrNo</th>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Ingredients</th>
-          <th>Tags</th>
-          <th>Variants</th>
-          <th>Total Orders</th>
-          <th>Image Front</th>
-          <th>Image Back</th>
-          <th>Details</th>
-          <th>Usage</th>
-          <th>Health Benifits</th>
-          <th>Stock</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% products.forEach((product,index) => { %>
+  <div class="table-box">
+    <div style="overflow-x:auto;">
+      <table id="productTable" class="table table-bordered table-striped align-middle" style="width: 100%;">
+        <thead>
           <tr>
-            <td><%=index+1%></td>
-            <td><%= product.product_name %></td>
-            <td><%= product.product_name %></td>
-            <td><%= product.ingredients %></td>
-            <td class="tag-list"><%= product.tags || "-" %></td>
-            <td class="variant-list"><%- product.variants || "-" %></td>
-            <td><%= product.total_orders %></td>
-            <td><img src="/uploads/<%= product.image %>" class="product-img" /></td>
-            <td><img src="/uploads/<%= product.image2 %>" class="product-img" /></td>
-            <td><%= product.detail %></td>
-            <td><%= product.usage %></td>
-            <td><%= product.health_benifits %></td>
-            <td><%= product.stockqty %></td>
-            <td>
-              <a href="/admin/edit_product/<%= product.product_id %>" class="btn btn-sm btn-warning">
-                <i class="fa-solid fa-pen-to-square"></i></a>
-              <a href="/admin/delete_product/<%= product.product_id %>" class="btn btn-sm btn-danger" 
-                onclick="return confirm('Are you sure to delete this tag?')">
-                <i class="fa-solid fa-trash"></i></a>
-            </td>
+            <th>SrNo</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Ingredients</th>
+            <th>Tags</th>
+            <th>Variants</th>
+            <th>Total Orders</th>
+            <th>Image Front</th>
+            <th>Image Back</th>
+            <th>Details</th>
+            <th>Usage</th>
+            <th>Health Benefits</th>
+            <th>Stock</th>
+            <th>Action</th>
           </tr>
-        <% }) %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% products.forEach((product, index) => { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= product.product_name %></td>
+              <td><%= product.product_name %></td>
+             <td><div class="scroll-box"><%= product.ingredients %></div></td>
+
+              <td class="tag-list"><%= product.tags || "-" %></td>
+              <td class="variant-list"><%- product.variants || "-" %></td>
+              <td><%= product.total_orders %></td>
+              <td><img src="/uploads/<%= product.image %>" class="product-img" /></td>
+              <td><img src="/uploads/<%= product.image2 %>" class="product-img" /></td>
+              <td><div class="scroll-box"><%= product.detail %></div></td>
+              <td><div class="scroll-box"><%= product.usage %></div></td>
+              <td><div class="scroll-box"><%= product.health_benifits %></div></td>
+              <td><%= product.stockqty %></td>
+              <td>
+                <a href="/admin/edit_product/<%= product.product_id %>" class="btn btn-sm btn-warning">
+                  <i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="/admin/delete_product/<%= product.product_id %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete this product?')">
+                  <i class="fa-solid fa-trash"></i></a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 </div>
 
 <script>
-
-// scroling bar
   $(document).ready(function() {
-  $('#productTable').DataTable({
-    responsive: true,
-    scrollX: true, // Enables horizontal scroll
-    // scrollY: '500px', // Optional: Enables vertical scroll
-    pageLength: 10,
-    columnDefs: [
-      { orderable: false, targets: [0, 7, 8] }
-    ],
-    dom: '<"dt-buttons"B>frtip',
-    buttons: [
-      {
-        extend: 'excelHtml5',
-        title: 'Product List',
-        className: 'btn btn-success'
-      },
-      {
-        extend: 'pdfHtml5',
-        title: 'Product List',
-        className: 'btn btn-danger',
-        orientation: 'landscape',
-        pageSize: 'A4'
-      },
-      {
-        extend: 'print',
-        title: 'Product List',
-        className: 'btn btn-primary'
-      }
-    ]
+    $('#productTable').DataTable({
+      responsive: true,
+      scrollX: true,
+      pageLength: 10,
+      columnDefs: [
+        { orderable: false, targets: [0, 7, 8, 13] }
+      ],
+      dom: '<"dt-buttons"B>frtip',
+      buttons: [
+        {
+          extend: 'excelHtml5',
+          title: 'Product List',
+          className: 'btn btn-success'
+        },
+        {
+          extend: 'pdfHtml5',
+          title: 'Product List',
+          className: 'btn btn-danger',
+          orientation: 'landscape',
+          pageSize: 'A4'
+        },
+        {
+          extend: 'print',
+          title: 'Product List',
+          className: 'btn btn-primary'
+        }
+      ]
+    });
   });
-});
-
 </script>
 
 <%- include("footer.ejs") %>
