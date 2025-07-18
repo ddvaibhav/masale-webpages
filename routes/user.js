@@ -181,8 +181,9 @@ router.get("/recipes", async function (req, res) {
 
 
 
-router.get("/enquiry",function(req,res){
-    res.render("user/enquiry.ejs");
+router.get("/enquiry",async function(req,res){
+  var data = await exe("SELECT * FROM contact_info");
+    res.render("user/enquiry.ejs",{"data":data[0]});
 });
 router.get("/contact_us",async function(req,res){
   var data = await exe(`SELECT * FROM contact_info`);

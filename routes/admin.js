@@ -1048,10 +1048,7 @@ router.get("/completed_orders",async function(req,res){
 });
 
 
-router.get("/enquiry",async  function(req,res){
-  var data = await exe(`SELECT * FROM enquiries`);
-  res.render("admin/enquiry.ejs",{"data":data});
-})
+
 router.get("/contact_us",async function(req,res){
   var data = await exe(`SELECT * FROM contact_us`);
   res.render("admin/contact_us.ejs",{"contact":data});
@@ -1076,14 +1073,14 @@ router.post("/enquery",async function(req,res){
   res.redirect("/enquiry");
 
 })
-router.post("/enquery",async function(req,res){
-  var d = req.body;
-  var sql = `INSERT INTO enquiries(businessName,productName,quantity,location,contactPerson,phoneNumber,email,comments) 
-  VALUES(?, ?, ?, ?, ?, ?, ?, ?)`
-  var data = await exe(sql,[d.businessName,d.productName,d.quantity,d.location,d.contactPerson,d.phoneNumber,d.email,d.comments]);
-  // res.send(data);
-  res.redirect("/enquiry");
-});
+// router.post("/enquery",async function(req,res){
+//   var d = req.body;
+//   var sql = `INSERT INTO enquiries(businessName,productName,quantity,location,contactPerson,phoneNumber,email,comments) 
+//   VALUES(?, ?, ?, ?, ?, ?, ?, ?)`
+//   var data = await exe(sql,[d.businessName,d.productName,d.quantity,d.location,d.contactPerson,d.phoneNumber,d.email,d.comments]);
+//   // res.send(data);
+//   res.redirect("/enquiry");
+// });
 
 router.get("/add_recipe",function(req,res){
   res.render("admin/add_recipe.ejs")
@@ -1234,15 +1231,30 @@ router.get("/delete_recipes/:id", async (req, res) => {
 
 
 
-// router.get("/contact_info",function(req,res){
-//   res.render("admin/contact_info.ejs");
-// });
-// router.post("/update_contact_info",async function(req,res){
-//   var d = req.body;
-//   var sql = `INSERT INTO contact_info (location , email,phone,working_hours,map_link) VALUES (? , ?, ?, ?, ?)`;
-//   var data = await exe(sql,[d.location,d.email,d.phone,d.working_hours,d.map_link]);
-//   res.send("data");
-// })
+router.get("/contact_info", async function(req, res) {
+  try {
+    const sql = `SELECT * FROM contact_info`;
+    const data = await exe(sql);
+
+    console.log("Fetched contact info:", data);
+
+    res.render("admin/contact_info.ejs", { data: data[0] || {} });
+  } catch (error) {
+    console.error("Error fetching contact info:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+
+
+router.post("/update_contact_info",async function(req,res){
+  var d = req.body;
+  var sql = `UPDATE contact_info SET location=?,phone = ? ,email = ?, working_hours = ? , map_link = ?`;
+  var data = await exe(sql,[d.location,d.phone,d.email,d.working_hours,d.map_link]);
+  // res.send(data);
+  res.redirect("/admin/contact_info");
+})
 
 
 

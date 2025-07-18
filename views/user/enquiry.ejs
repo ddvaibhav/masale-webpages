@@ -90,7 +90,7 @@
             </div>
             <div>
               <h5>Call Us</h5>
-              <a href="tel:+919876543210" class="contact-link" onclick="showToast('Opening phone app...')">+91 98765 43210</a>
+              <a href="tel:+<%=data.phone%>" class="contact-link" onclick="showToast('Opening phone app...')"><%=data.phone%></a>
             </div>
           </div>
           
@@ -100,7 +100,7 @@
             </div>
             <div>
               <h5>Email Us</h5>
-              <a href="mailto:wholesale@agrimasala.com" class="contact-link" onclick="showToast('Opening email app...')">wholesale@agrimasala.com</a>
+              <a href="mailto:<%=data.email%>" class="contact-link" onclick="showToast('Opening email app...')"><%=data.email%></a>
             </div>
           </div>
           
@@ -110,19 +110,19 @@
             </div>
             <div>
               <h5>Business Hours</h5>
-              <p class="mb-0">Mon-Fri: 9AM - 6PM | Sat: 10AM - 2PM</p>
+              <p class="mb-0"><%=data.working_hours%></p>
             </div>
           </div>
         </div>
       </div>
       
       <!-- Enquiry Form -->
-      <div class="col-lg-6 mb-5 mt-5">
+     <div class="col-lg-6 mb-5 mt-5">
         <div class="card-custom">
           <h2 class="section-title-enq">Bulk Enquiry Form</h2>
           <p class="mb-4">Fill out the form below and our wholesale team will contact you within 24 hours</p>
           
-        <form action="/admin/enquery" method="post">
+          <form action="/admin/enquery" method="post">
             <div class="form-group-custom">
               <label class="form-label-custom">Your Business Name</label>
               <input type="text" class="form-control form-control-custom" name="businessName" placeholder="Enter your business name" required>
