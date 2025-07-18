@@ -3,16 +3,19 @@ const bodyparser = require("body-parser");
 const upload = require("express-fileupload");
 const session = require("express-session");
 const path = require("path");
+var admin_route = require("./routes/admin.js");
+var accountsroute = require("./routes/accounts");
+var userroute = require("./routes/user");
+var exe = require("./conn.js")
 
-const admin_route = require("./routes/admin.js");
-const accountsroute = require("./routes/accounts");
-const userroute = require("./routes/user"); // ✅ use this one only
+
+
 
 const app = express();
 
 // Static files
 
-app.use(express.static("public"));
+app.use(express.static("public/"));
 
 // View engine setup
 app.set("view engine", "ejs");
@@ -40,6 +43,22 @@ app.use((req, res, next) => {
 app.use("/", userroute);         // frontend site (e.g., index.ejs)
 app.use("/admin", admin_route);  // admin routes
 app.use("/accounts", accountsroute); // login/register
+
+app.use(async (req, res, next) => {
+  if (req.url.startsWith('/admin')) {
+    try {
+      const [row] = await exe(`SELECT COUNT(*) AS unseenCount FROM orders WHERE is_seen = 0`);
+      res.locals.unseenCount = row.unseenCount || 0;
+    } catch (err) {
+      console.error("Error fetching unseen orders:", err);
+      res.locals.unseenCount = 0;
+    }
+  }
+  next();
+});
+
+
+
 
 // Server
 app.listen(1000, () => {

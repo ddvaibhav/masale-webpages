@@ -12,29 +12,29 @@
   <!-- Slides -->
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="https://wallpaperbat.com/img/867849-wallpaper-the-dark-background-pepper-different-spices-spoon-salt-seasoning-cuts-bay-leaf-image-for-desktop-section-ieda.jpg" class="d-block w-100" alt="Traditional Spices">
+      <img src="/images/slider_img1.png" class="d-block w-100" alt="Traditional Spices">
       <div class="carousel-caption d-none d-md-block">
         <h2>Authentic Homemade Masale</h2>
         <div class="mt-4">
-          <button class="btn btn-warning btn-lg px-4 py-2">Shop Now</button>
+          <a href="/product"><button class="btn btn-warning btn-lg px-4 py-2">Shop Now</button></a>
         </div>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="https://wallpaperbat.com/img/867818-vegetables-spices-wallpaper-vegetables-spices-stock-photos.jpg" class="d-block w-100" alt="Spice Market">
+      <img src="/images/slider_img2.jpg" class="d-block w-100" alt="Spice Market">
       <div class="carousel-caption d-none d-md-block">
         <h2>Premium Quality Spices</h2>
         <div class="mt-4">
-          <button class="btn btn-warning btn-lg px-4 py-2">Shop Now</button>
+          <a href="/product"><button class="btn btn-warning btn-lg px-4 py-2">Shop Now</button></a>
         </div>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="https://wallpaperbat.com/img/867849-wallpaper-the-dark-background-pepper-different-spices-spoon-salt-seasoning-cuts-bay-leaf-image-for-desktop-section-ieda.jpg" class="d-block w-100" alt="Traditional Recipes">
+      <img src="/images/slider_img3.jpg" class="d-block w-100" alt="Traditional Recipes">
       <div class="carousel-caption d-none d-md-block">
         <h2>Traditional Recipes</h2>
         <div class="mt-4">
-          <button class="btn btn-warning btn-lg px-4 py-2">Shop Now</button>
+          <a href="/product"><button class="btn btn-warning btn-lg px-4 py-2">Shop Now</button></a>
         </div>
       </div>
     </div>
@@ -52,8 +52,8 @@
 </div>
 
   <!-- Bootstrap Carousel End -->
-
-    <!-- Products Section -->
+   
+     <!-- Products Section -->
   <div class="product-slider__section-title">
     <h1>Our Top Selling Products</h1>
   </div>
@@ -62,56 +62,67 @@
     <div class="row">
       <!-- <button class="product-slider__nav-btn product-slider__nav-left"><i class="fas fa-chevron-left"></i></button> -->
 
-      <div class="product-slider__wrapper" id="sliderWrapper">
-        <% for(i of popular) {%>
-          <div class="product-card">
-            <div class="flip__container">
-              <div class="flip__flipper">
-                <div class="flip__front">
-                  <img src="https://m.media-amazon.com/images/I/81aN-UDQL2L.jpg" alt="Meat Masala">
-                </div>
-                <div class="flip__back">
-                  <img src="https://m.media-amazon.com/images/I/81wbHxQXdML._UF1000,1000_QL80_.jpg"
-                    alt="Meat Masala Back">
-                </div>
-              </div>
-            </div>
-            <div class="product-card__content">
-              <h5>Meat Masala</h5>
-              <p class="product-card__price">₹199</p>
-              <p class="product-card__desc">Bold & spicy for non-veg curries</p>
-              <div class="product-card__quantity-selector">
-                <label for="meatMasalaSelect" class="form-label fw-medium">Choose Quantity:</label>
-                <select class="form-select" id="meatMasalaSelect">
-                  <option>100 gm - ₹190.00</option>
-                  <option selected>250 gm - ₹370.00</option>
-                  <option>500 gm - ₹850.00</option>
-                  <option>1 kg - ₹1650.00</option>
-                </select>
-              </div>
-
-              <% if (req.session.user && req.session.user.user_id) { %>
-                <% if (cartProductIds.includes(i.product_id)) { %>
-                  <button class="btn btn-secondary w-100" disabled>
-                    <i class="fas fa-check-circle me-1"></i>Already in Cart
-                  </button>
-                  <% } else { %>
-                    <a href="/product_details/<%= i.product_id %>"
-                      class="btn btn-warning w-100 <%= i.stockqty <= 0 ? 'disabled' : '' %>">
-                      Add to Cart
-                    </a>
-                    <% } %>
-                      <% } else { %>
-                        <button class="btn btn-outline-warning w-100" onclick="alert('Please Login Or Sign Up')"
-                          <%=i.stockqty <=0 ? "disabled" : "" %>>
-                          Add to Cart
-                        </button>
-                        <% } %>
-            </div>
+    <div class="product-slider__wrapper" id="sliderWrapper">
+  <% for (let i of popular) { 
+       const variants = productVariants[i.product_id] || [];
+       const defaultVariant = variants[0];
+  %>
+    <div class="product-card">
+      <a href="/product_details/<%=i.product_id%>" class="text-decoration-none">
+      <div class="flip__container">
+        <div class="flip__flipper">
+          <div class="flip__front">
+            <img src="/uploads/<%= i.product_image_front %>" alt="<%= i.product_name %> Front">
           </div>
-          <% } %>
-
+          <div class="flip__back">
+            <img src="/uploads/<%= i.product_image_back %>" alt="<%= i.product_name %> Back">
+          </div>
+        </div>
       </div>
+
+      <div class="product-card__content">
+        <h5 class="text-danger"><%= i.product_name %></h5>  
+
+        <!-- Dynamic Price Display -->
+        <p class="product-card__price text-warning fw-bold" id="priceDisplay_<%= i.product_id %>">
+          ₹<%= defaultVariant ? defaultVariant.price.toFixed(2) : '0.00' %>
+        </p>
+</a>
+        <!-- Variant Selector -->
+        <div class="product-card__quantity-selector">
+          <label class="form-label fw-medium">Choose Quantity:</label>
+          <select 
+            class="form-select variant-selector" 
+            data-product-id="<%= i.product_id %>" 
+            onchange="updatePrice(this)">
+            <% variants.forEach(variant => { %>
+              <option value="<%= variant.price %>">
+                <%= variant.weight %> - ₹<%= variant.price.toFixed(2) %>
+              </option>
+            <% }); %>
+          </select>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <% if (req.session.user && req.session.user.user_id) { %>
+          <% if (cartProductIds.includes(i.product_id)) { %>
+            <button class="btn btn-secondary w-100" disabled>
+              <i class="fas fa-check-circle me-1"></i>Already in Cart
+            </button>
+          <% } else { %>
+            <a href="/product_details/<%= i.product_id %>" class="btn btn-warning w-100 <%= i.stockqty <= 0 ? 'disabled' : '' %>">
+              Add to Cart
+            </a>
+          <% } %>
+        <% } else { %>
+          <button class="btn btn-outline-warning w-100" onclick="alert('Please Login Or Sign Up')" <%= i.stockqty <= 0 ? 'disabled' : '' %>>
+            Add to Cart
+          </button>
+        <% } %>
+      </div>
+    </div>
+  <% } %>
+</div>
 
       <!-- <button class="product-slider__nav-btn product-slider__nav-right"><i class="fas fa-chevron-right"></i></button> -->
     </div>
@@ -124,21 +135,22 @@
   </div>
 
   <div class="category-slider__container">
-    <button class="category-slider__nav-btn category-slider__nav-left"><i class="fas fa-chevron-left"></i></button>
+  <button class="category-slider__nav-btn category-slider__nav-left"><i class="fas fa-chevron-left"></i></button>
 
-    <div class="category-slider__wrapper" id="categoriesWrapper">
-      <% for(i of category) { %>
-        <div class="category-card">
-          <a href="/category_product/<%=i.category_id%>" class="text-decoration-none">
-            <img src="https://i.pinimg.com/236x/f8/27/40/f8274041dc17291db8f1620367055060.jpg" alt="Dry Masala">
-            <h5>Dry Masala</h5>
-          </a>
-        </div>
-        <% } %>
-    </div>
-
-    <button class="category-slider__nav-btn category-slider__nav-right"><i class="fas fa-chevron-right"></i></button>
+  <div class="category-slider__wrapper" id="categoriesWrapper">
+    <% for(let i of category) { %>
+      <div class="category-card">
+        <a href="/category_product/<%= i.category_id %>" class="text-decoration-none">
+          <img src="/uploads/<%= i.category_image || 'default.jpg' %>" alt="<%= i.category_name %>">
+          <h5><%= i.category_name %></h5>
+        </a>
+      </div>
+    <% } %>
   </div>
+
+  <button class="category-slider__nav-btn category-slider__nav-right"><i class="fas fa-chevron-right"></i></button>
+</div>
+
 
 
   <!-- Why Choose Us Section -->

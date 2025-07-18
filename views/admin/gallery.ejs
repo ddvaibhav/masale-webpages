@@ -68,67 +68,79 @@
   <div class="form-section">
     <form action="/admin/save_gallery" method="POST" enctype="multipart/form-data">
       <div class="row mb-3">
-        <!-- Category Name -->
+        <!-- Gallery Category -->
+        <div class="col-md-6">
+          <label class="form-label">Gallery Category</label>
+          <select class="form-control" name="gallery_category_id" required>
+            <option value="">Select Category</option>
+            <% if (typeof categories !== "undefined" && categories.length > 0) { %>
+              <% categories.forEach(function(cat) { %>
+                <option value="<%= cat.gallery_category_name %>"><%= cat.gallery_category_name %></option>
+              <% }) %>
+            <% } %>
+          </select>
+        </div>
+
+        <!-- Gallery Name -->
         <div class="col-md-6">
           <label class="form-label">Gallery Name</label>
           <input type="text" class="form-control" name="gallery_name" required>
         </div>
 
-         <div class="col-md-6">
+        <div class="col-md-6">
           <label class="form-label">Gallery Headline</label>
           <input type="text" class="form-control" name="gallery_headline" required>
         </div>
 
-         <div class="col-md-6">
+        <div class="col-md-6">
           <label class="form-label">Gallery Image</label>
           <input type="file" class="form-control" name="gallery_image" required>
         </div>
 
-        
-
-      <!-- Submit Button -->
-       <div class="col-md-12 text-end">
-           <button type="submit" class="btn btn-primary">Save gallery</button>
-       </div>
+        <!-- Submit Button -->
+        <div class="col-md-12 text-end mt-5 text-center">
+          <button type="submit" class="btn btn-primary">Save gallery</button>
+        </div>
+      </div>
     </form>
   </div>
 
-
- <div class="container mt-4">
-  <h4 class="mb-3">Product List</h4>
-  <div class="table-responsive shadow rounded">
-    <table class="table table-bordered table-striped table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th>#</th>
-          <th>Image Name</th>
-          <th>Gallery Headline</th>
-          <th>Gallery Image</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <%gallery.map((row,i)=>{  %>
-        <tr>
-          <td><%=i+1%></td>
-          <td><%=row.gallery_name%></td>
-          <td><%=row.gallery_headline%></td>
-          <td>
-            
-            <img src="/uploads/<%=row.gallery_image%>" width="100px" />
-        </td>
-      
-          <td class="text-center">
-            <a href="/admin/edit_gallery/<%=row.gallery_id%>" class="btn btn-sm btn-light fa fa-edit"></a>
-            <a href="/admin/delete_gallery/<%=row.gallery_id%>" class="btn btn-sm btn-danger fa fa-trash"></a>
-          </td>
-        </tr>
-        <%})%>
-      </tbody>
-    </table>
-  </div>
-</div>
-
+  <div class="container mt-4">
+    <h4 class="mb-3">Product List</h4>
+    <div class="table-responsive shadow rounded">
+      <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Category</th>
+            <th>Image Name</th>
+            <th>Gallery Headline</th>
+            <th>Gallery Image</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% gallery.map((row, i) => { %>
+            <tr>
+              <td><%= i + 1 %></td>
+              <td>
+                
+                <%= row.gallery_category_id %>
+              </td>
+              <td><%= row.gallery_name %></td>
+              <td><%= row.gallery_headline %></td>
+              <td>
+                <img src="/uploads/<%= row.gallery_image %>" width="100px" />
+              </td>
+              <td class="text-center">
+                <a href="/admin/edit_gallery/<%= row.gallery_id %>" class="btn btn-sm btn-light fa fa-edit"></a>
+                <a href="/admin/delete_gallery/<%= row.gallery_id %>" class="btn btn-sm btn-danger fa fa-trash"></a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

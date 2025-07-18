@@ -3,99 +3,93 @@
   <div class="rangoli-border"></div>
 
   <div class="footer-content">
+    <!-- Column 1: Quick Links -->
     <div class="footer-column">
       <h3>Quick Links</h3>
       <div class="quick-links">
-        <a href="#" class="sachet-link"><i class="fas fa-home"></i>&nbsp;&nbsp; Home</a>
-        <a href="#" class="sachet-link"><i class="fas fa-pepper-hot"></i>&nbsp;&nbsp; Our Spices</a>
-        <a href="#" class="sachet-link"><i class="fas fa-book"></i>&nbsp;&nbsp; Recipes</a>
-        <a href="#" class="sachet-link"><i class="fas fa-info-circle"></i>&nbsp;&nbsp; About Us</a>
-        <a href="#" class="sachet-link"><i class="fas fa-blog"></i>&nbsp;&nbsp; Blog</a>
-        <a href="#" class="sachet-link"><i class="fas fa-question-circle"></i>&nbsp; FAQ</a>
+        <a href="/" class="sachet-link"><i class="fas fa-home"></i>&nbsp;&nbsp; Home</a>
+        <a href="/about" class="sachet-link"><i class="fas fa-pepper-hot"></i>&nbsp;&nbsp; About Us</a>
+        <a href="/product" class="sachet-link"><i class="fas fa-box-archive"></i>&nbsp;&nbsp; Product</a>
+        <a href="/gallery" class="sachet-link"><i class="fas fa-images"></i>&nbsp;&nbsp; Gallery</a>
+        <a href="/recipes" class="sachet-link"><i class="fas fa-kitchen-set"></i>&nbsp;&nbsp; Recipes</a>
+        <a href="/enquiry" class="sachet-link"><i class="fas fa-address-book"></i>&nbsp;&nbsp; Enquiry</a>
+        <a href="/contact_us" class="sachet-link"><i class="fas fa-phone-volume"></i>&nbsp;&nbsp; Contact Us</a>
       </div>
     </div>
 
+    <!-- Column 2: Contact Info + Social Links -->
     <div class="footer-column">
       <h3>Contact Us</h3>
       <div class="contact-info">
         <div class="contact-item">
           <i class="fas fa-map-marker-alt"></i>
-          <div><%-incon.location%></div>
+          <div><%- incon.location %></div>
         </div>
         <div class="contact-item">
           <i class="fas fa-phone-alt"></i>
-          <div><%-incon.phone_no%></div>
+          <div><%- incon.phone_no %></div>
         </div>
         <div class="contact-item">
           <i class="fas fa-envelope"></i>
-          <div><%-incon.email%></div>
+          <div><%- incon.email %></div>
         </div>
         <div class="contact-item">
           <i class="fab fa-whatsapp"></i>
-          <div>WhatsApp: <%-incon.whatsapp%></div>
+          <div>WhatsApp: <%- incon.whatsapp %></div>
         </div>
+      
 
-        <br />
-        <h3 style="font-size: medium">Social Links &nbsp;:</h3>
-        <div class="social-icons">
-          <a href="<%-incon.instagram%>" style="text-decoration: none;" target="_blank">
-            <div class="spice-jar">
-              <i class="fab fa-instagram"></i>
-            </div>
-          </a>
-          <a href="<%-incon.facebook%>" style="text-decoration: none;"  target="_blank">
-            <div class="spice-jar">
-              <i class="fab fa-facebook-f"></i>
-            </div>
-          </a>
-          <a href="<%-incon.youtube%>"style="text-decoration: none;"  target="_blank">
-            <div class="spice-jar">
-              <i class="fab fa-youtube"></i>
-            </div>
-          </a>
-        
-
-        </div>
+      <h3 style="font-size: medium; margin-top: 20px;">Social Links :</h3>
+      <div class="social-icons">
+        <a href="<%- incon.instagram %>" target="_blank" style="text-decoration: none;">
+          <div class="spice-jar"><i class="fab fa-instagram"></i></div>
+        </a>
+        <a href="<%- incon.facebook %>" target="_blank" style="text-decoration: none;">
+          <div class="spice-jar"><i class="fab fa-facebook-f"></i></div>
+        </a>
+        <a href="<%- incon.youtube %>" target="_blank" style="text-decoration: none;">
+          <div class="spice-jar"><i class="fab fa-youtube"></i></div>
+        </a>
       </div>
     </div>
+    </div>
 
+    <!-- Column 3: Privacy Policy -->
     <div class="footer-column">
       <h3>Privacy & Policy</h3>
       <p style="color: white; margin-bottom: 0.5rem; font-size: 1.0rem">
         At Organic Masale, your privacy is our top priority. We are committed to protecting your personal information
         and ensuring a safe, transparent shopping experience.
       </p>
-      <ul style="
-               color: white;
-               line-height: 1.7;
-               font-size: 1rem;
-               padding-left: 1.2rem;
-               padding: 30px;
-             ">
+      <ul style="color: white; line-height: 1.7; font-size: 1rem; padding-left: 1.2rem;">
         <li>We never sell or share your data with third parties.</li>
         <li>All orders and payments are processed through secure, encrypted channels.</li>
         <li>We only collect information necessary to fulfill your orders and improve our services.</li>
-        <li>For any privacy-related questions, email us at <a href="mailto:privacy@masalabasket.com"
-            style="color: var(--turmeric); text-decoration: underline;">privacy@masalabasket.com</a>.</li>
+        <li>For any privacy-related questions, email us at 
+          <a href="mailto:privacy@masalabasket.com" style="color: var(--turmeric); text-decoration: underline;">
+            privacy@masalabasket.com
+          </a>.
+        </li>
       </ul>
       <p style="color: white; margin-top: 1.2rem; font-size: 1rem">
-        Read our full <a href="#" style="color: var(--turmeric); text-decoration: underline;">Privacy Policy</a> and <a
-          href="#" style="color: var(--turmeric); text-decoration: underline;">Terms & Conditions</a> for more details.
+        Read our full 
+        <a href="#" style="color: var(--turmeric); text-decoration: underline;">Privacy Policy</a> and 
+        <a href="#" style="color: var(--turmeric); text-decoration: underline;">Terms & Conditions</a> for more details.
       </p>
     </div>
   </div>
 
   <div class="footer-banner">
-    Handmade with <i class="fas fa-heart" style="color: #ff0000"></i> in
-    Maharashtra | © Organic Masale 2025 <i class="fas fa-mortar-pestle"></i>
+    Handmade with <i class="fas fa-heart" style="color: #ff0000"></i> in Maharashtra |
+    © Organic Masale 2025 <i class="fas fa-mortar-pestle"></i>
   </div>
 </footer>
 
+<!-- Scripts -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="/user/script.js"></script>
 <script src="/user/gallery.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

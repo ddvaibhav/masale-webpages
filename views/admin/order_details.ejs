@@ -1,0 +1,83 @@
+<%- include("navbar.ejs") %>
+<div class="container my-5">
+  <h2 class="mb-4">Order #<%= order.order_id %> Details</h2>
+
+  <div class="card mb-4">
+  <div class="card-header bg-primary text-white">Customer Information</div>
+  <div class="card-body">
+    <p><strong>Name:</strong> <%= order.name %></p>
+    <p><strong>Email:</strong> <%= order.email %></p>
+    <p><strong>Mobile:</strong> <%= order.phone %></p>
+    <p><strong>Order Date:</strong> <%= order.created_at.toLocaleString() %></p>
+    <p><strong>Status:</strong> <%= order.order_status %></p>
+    <p><strong>Pincode:</strong> <%= order.pincode %></p>
+    <p><strong>City:</strong> <%= order.city %></p>
+    <p><strong>State:</strong> <%= order.state %></p>
+    <p><strong>Landmark:</strong> <%= order.landmark %></p>
+    <p><strong>Address:</strong> <%= order.address %></p>
+  </div>
+</div>
+
+
+  <div class="card">
+    <div class="card-header bg-success text-white">Ordered Products</div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Weight</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Subtotal</th>
+            <th>Change Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% let total = 0; %>
+          <% items.forEach(p => {
+              const subTotal = p.discount_price * p.quantity;
+              total += subTotal;
+          %>
+          <tr>
+            <td>
+              <img src="/uploads/<%= p.image %>" alt="" width="60"> <br>
+              <%= p.product_name %>
+            </td>
+            <td><%= p.weight %></td>
+            <td>
+              <small class="text-muted text-decoration-line-through">₹<%= p.price %></small><br>
+              ₹<%= p.discount_price %>
+            </td>
+            <td><%= p.quantity %></td>
+            <td>₹<%= subTotal.toFixed(2) %></td>
+            <td>
+              <form method="POST" action="/admin/order_status/<%= order.order_id %>" class="mb-4">
+  <label><strong>Update Order Status:</strong></label>
+  <div class="d-flex gap-2">
+    <select name="status" class="form-select w-auto">
+      <option value="pending" <%= order.order_status === "pending" ? "selected" : "" %>>Pending</option>
+      <option value="shipped" <%= order.order_status === "shipped" ? "selected" : "" %>>Shipped</option>
+      <option value="completed" <%= order.order_status === "completed" ? "selected" : "" %>>Completed</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Update</button>
+  </div>
+</form>
+
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="4" class="text-end">Total Amount</th>
+            <th>₹<%= total.toFixed(2) %></th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <a href="/all_orders" class="btn btn-secondary mt-4">Back to Orders</a>
+</div>
+<%- include("footer.ejs") %>

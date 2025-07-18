@@ -11,13 +11,30 @@
     transform: translate(-50%, -50%);
     z-index: 1000;
   }
+
+  @media (max-width: 768px) {
+  .container, .row {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .card_size {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .section-title {
+    text-align: center;
+  }
   .discount-badge {
   top: 10px;
   left: 10px;
   font-size: 0.85rem;
   z-index: 10;
 }
-
+  }
 </style>
 
 <!-- Hero Section -->
@@ -75,11 +92,14 @@
           <button class="btn btn-warning w-100" type="submit">Apply Filters</button>
         </form>
       </div>
+      <div class="discount_box">
+        <img src="/images/Discount_Banner.png" class="discount_img">
+      </div>
     </div>
 
     <!-- Product Grid -->
     <div class="col-md-9">
-      <h4 class="section-title">Our Products</h4>
+      <h1 class="producthead-title">Our Products</h1>
   <div class="row" id="productGrid">
   <% for (let i of product) { 
     const matchingVariants = variants.filter(w => w.product_id == i.product_id);
@@ -127,7 +147,10 @@
           <!-- Variant Dropdown -->
           <select class="form-select variant-select mb-2" onchange="updatePrice(this)">
             <% for (let v of matchingVariants) { %>
-              <option value="<%= v.price %>"><%= v.weight %> - ₹<%= v.price %></option>
+             <option data-price="<%= v.price %>">
+  <%= v.weight %> - ₹<%= v.price %>
+</option>
+
             <% } %>
           </select>
 
@@ -184,12 +207,17 @@
 
 
 <script>
-  // Function to update price when variant is selected
-  function updatePrice(selectElement) {
-    const priceValue = selectElement.value;
-    const priceElement = selectElement.closest('.product-card').querySelector('.price-value');
-    priceElement.textContent = priceValue;
+
+document.addEventListener('change', function (event) {
+  if (event.target && event.target.classList.contains('variant-select')) {
+    const selectedOption = event.target.options[event.target.selectedIndex];
+    const selectedPrice = selectedOption.getAttribute("data-price");
+    const priceElement = event.target.closest('.product-card').querySelector('.price-value');
+    priceElement.textContent = selectedPrice;
   }
+});
+
+
 
   // Function to handle form submission
   document.getElementById("filterForm").addEventListener("submit", function(e) {

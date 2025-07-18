@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var exe = require("../conn");
+const nodemailer = require("nodemailer");
+
 // const Razorpay = require("razorpay");
 const Razorpay = require("razorpay");
 const razorpay = new Razorpay({
@@ -40,7 +42,133 @@ router.post("/user_login",async function(req,res){
 });
 router.get("/profile",function(req,res){
   res.render("user/profile.ejs");
-})
+});
+router.get("/edit_profile",function(req,res){
+  res.render("user/edit_profile.ejs");
+});
+router.post("/update_profile", async function (req, res) {
+  var d = req.body;
+
+  var sql = `UPDATE user_registration SET name = ?, mobile = ?, email = ? WHERE user_id = ?`;
+  await exe(sql, [d.name, d.mobile, d.email, d.user_id]);
+
+  req.session.user.name = d.name;
+  req.session.user.email = d.email;
+  req.session.user.mobile = d.mobile;
+
+  res.redirect("/profile");
+});
+router.get("/forget_password",function(req,res){
+  res.render("user/forget_password.ejs");
+});
+router.post("/send_otp",async function(req,res){
+   const email = req.body.email;
+  
+    // 1. Generate 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000);
+  
+    // 2. Store OTP in session
+    req.session.otp = otp;
+    req.session.otp_email = email;
+    req.session.otp_time = Date.now();
+  
+    // 3. Configure nodemailer
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "gorakshnathdalavi91@gmail.com",
+        pass: "yydh qpqv vovi fjsm", // Gmail App Password
+      },
+    });
+  
+    // 4. Send email
+    try {
+      await transporter.sendMail({
+        from: '"Masala Webpage" <gorakshnathdalavi91@gmail.com>',
+        to: email,
+        subject: "Your OTP Code",
+        text: `Your OTP is ${otp}`,
+        html: `
+    <div style="max-width:500px;margin:20px auto;padding:20px;border:1px solid #e5e5e5;border-radius:10px;font-family:Arial,sans-serif;background-color:#ffffff;">
+      <div style="text-align:center;">
+        <h2 style="color:#007bff;margin-bottom:0;">Masala Webpage</h2>
+        <p style="color:#666;margin-top:5px;">OTP Verification Code</p>
+      </div>
+      <hr style="margin:20px 0;">
+      <p>Hello,</p>
+      <p>We received a request to verify your email. Please use the following OTP to complete the process:</p>
+      <div style="text-align:center; margin: 30px 0;">
+        <span style="display:inline-block;font-size:24px;font-weight:bold;color:#333;padding:10px 20px;border:2px dashed #007bff;border-radius:8px;letter-spacing:5px;">${otp}</span>
+      </div>
+      <p>This OTP is valid for 10 minutes. If you didn’t request this, you can safely ignore this email.</p>
+      <br>
+      <p style="color:#888;font-size:13px;">– Masala Webpage Support</p>
+    </div>
+  `
+  
+      });
+  
+      console.log("OTP sent to:", email, "| OTP:", otp);
+     res.redirect("/verify_otp?status=sent");
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      res.status(500).send("Failed to send OTP");
+    }
+  });
+
+  router.get("/verify_otp",function(req,res){
+    res.render("user/verify_otp.ejs");
+  });
+
+  router.post("/verify_otp", function (req, res) {
+  const userOtp = req.body.otp;
+  const sessionOtp = req.session.otp;
+  const otpTime = req.session.otp_time;
+
+  
+  const isExpired = Date.now() - otpTime > 10 * 60 * 1000;
+
+  if (isExpired) {
+    return res.send("<script>alert('OTP expired! Please try again.'); window.location='/forget_password';</script>");
+  }
+
+  if (parseInt(userOtp) === sessionOtp) {
+   
+    return res.send("<script>alert('OTP Verified! You can now reset your password.'); window.location='/reset_password';</script>");
+  } else {
+    
+    return res.send("<script>alert('Invalid OTP! Please try again.'); window.location='/verify_otp';</script>");
+  }
+});
+router.get("/reset_password", function (req, res) {
+  if (!req.session.otp_email) return res.redirect("/forget_password");
+
+  res.render("user/reset_password.ejs", {
+    status: req.query.status || null,
+  });
+});
+  router.post("/reset_password", async function (req, res) {
+  const { password, confirm } = req.body;
+
+  if (password !== confirm) {
+    return res.redirect("/reset_password?status=error");
+  }
+
+  const email = req.session.otp_email;
+
+  const sql = `UPDATE user_registration SET password = ? WHERE email = ?`;
+  await exe(sql, [password, email]);
+
+  // Clear session
+  req.session.otp = null;
+  req.session.otp_email = null;
+  req.session.otp_time = null;
+
+   res.send("<script>alert('Password updated successfully!Please Login'); window.location='/';</script>");
+});
+
+
+
 router.get("/logout",function(req,res){
   req.session.destroy();
   res.redirect("/");
@@ -60,30 +188,47 @@ router.get("/", async function (req, res) {
 
 
   const popular = await exe(`
-  SELECT 
-    p.product_id, 
-    p.product_name, 
-    p.image,
-    p.image2,
-    p.stockqty,
-    p.discount,
-    (SELECT price FROM product_price_variants WHERE product_id = p.product_id LIMIT 1) AS price,
-    COUNT(oi.product_id) AS order_count
-  FROM order_items oi
-  JOIN product p ON p.product_id = oi.product_id
-  WHERE p.status = 'active'
-  GROUP BY oi.product_id
-  ORDER BY order_count DESC
-  LIMIT 5
-`);
+    SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.image AS product_image_front,
+      p.image2 AS product_image_back,
+      p.stockqty,
+      p.discount,
+      (SELECT price FROM product_price_variants WHERE product_id = p.product_id LIMIT 1) AS price,
+      COUNT(oi.product_id) AS order_count
+    FROM order_items oi
+    JOIN product p ON p.product_id = oi.product_id
+    WHERE p.status = 'active'
+    GROUP BY oi.product_id
+    ORDER BY order_count DESC
+    LIMIT 5
+  `);
 
+  // Get all variants for popular products
+  const popularIds = popular.map(p => p.product_id);
+  let productVariants = {};
 
+  if (popularIds.length > 0) {
+    const variants = await exe(
+      `SELECT product_id, weight, price FROM product_price_variants WHERE product_id IN (?)`,
+      [popularIds]
+    );
+
+    // Group variants by product_id
+    variants.forEach(v => {
+      if (!productVariants[v.product_id]) productVariants[v.product_id] = [];
+      productVariants[v.product_id].push({ weight: v.weight, price: v.price });
+    });
+  }
+
+  // Get cart items if user is logged in
   let cartProductIds = [];
   if (userId) {
     const cart = await exe(`SELECT product_id FROM cart WHERE user_id = ? AND status = 'active'`, [userId]);
     cartProductIds = cart.map(i => i.product_id);
   }
-
+  // Render the page
   res.render("user/index.ejs", {
     incon:incon[0],
     spice_story:spice_story,
@@ -91,6 +236,7 @@ router.get("/", async function (req, res) {
     product: products,
     category: categories,
     popular: popular,
+    productVariants,
     cartProductIds,
     req
   });
@@ -166,21 +312,64 @@ router.get("/contact_us",async function(req,res){
 });
 
 
-router.get("/category_product/:id",async function(req,res){
+// router.get("/category_product/:id",async function(req,res){
+    
+//     var obj = {incon:incon[0]};
+//     res.render("user/category_product.ejs",obj);
+router.get("/category_product/:id", async function (req, res) {
+  try {
+    const categoryId = req.params.id;
     var incon = await exe(`SELECT * FROM incon`);
-    var obj = {incon:incon[0]};
-    res.render("user/category_product.ejs",obj);
+
+    // Get category name
+    const [categoryData] = await exe(`SELECT category_name FROM category WHERE category_id = ?`, [categoryId]);
+
+    // Get all products under the category
+    const productData = await exe(`SELECT p.*, c.category_name FROM product p
+                                   JOIN category c ON p.category_id = c.category_id
+                                   WHERE p.status = 'active' AND p.category_id = ?`, [categoryId]);
+
+    // Get all variants (can be optimized if you have a lot of data)
+    const variantData = await exe(`SELECT * FROM product_price_variants`);
+
+    // If user is logged in, get cart items for them
+    let cartProductIds = [];
+    if (req.session.user && req.session.user.user_id) {
+      const userId = req.session.user.user_id;
+      const cartData = await exe(`SELECT product_id FROM cart WHERE user_id = ?`, [userId]);
+      cartProductIds = cartData.map(item => item.product_id);
+    }
+
+    res.render("user/category_product.ejs", {
+      categoryName: categoryData?.category_name || "Category Products",
+      incon:incon[0],
+      product: productData,
+      variants: variantData,
+      cartProductIds: cartProductIds,
+      req: req
+    });
+  } catch (err) {
+    console.error("Category Product Route Error:", err);
+    res.status(500).send("Server Error");
+  }
 });
+
 router.get("/product_details/:id", async function (req, res) {
   const id = req.params.id;
   var incon = await exe(`SELECT * FROM incon`);
 
-  const product = await exe(`
-    SELECT product_id, product_name, image, image2, detail, \`usage\`, health_benifits, ingredients, discount 
+  // Get main product
+  const [product] = await exe(`
+    SELECT product_id, product_name, image, image2, detail, \`usage\`, health_benifits, ingredients, discount, category_id
     FROM product 
     WHERE status = 'active' AND product_id = ?
   `, [id]);
 
+  if (!product) {
+    return res.send("Product not found");
+  }
+
+  // Get variants
   const variants = await exe(`
     SELECT id, weight, price 
     FROM product_price_variants 
@@ -194,13 +383,44 @@ router.get("/product_details/:id", async function (req, res) {
     ORDER BY date DESC
   `, [id]);
 
-  res.render("user/product_details.ejs", {
-    incon:incon[0],
-    product: product[0],
+  // res.render("user/product_details.ejs", {
+  //   variants,
+  //   reviews
+  // });
+
+  
+const related = await exe(`
+  SELECT product_id, product_name, image
+  FROM product 
+  WHERE status = 'active' 
+    AND category_id = ? 
+    AND product_id != ? 
+  ORDER BY product_id DESC 
+  LIMIT 6
+`, [product.category_id, id]);
+
+const relatedVariantsMap = {};
+for (let rel of related) {
+  const variants = await exe(`
+    SELECT id, weight, price 
+    FROM product_price_variants 
+    WHERE product_id = ?
+  `, [rel.product_id]);
+  relatedVariantsMap[rel.product_id] = variants;
+}
+
+res.render("user/product_details.ejs", {
+    incon: incon[0],
+    product,  // <- फक्त हे
     variants,
-    reviews
-  });
+    reviews,
+    related,
+    relatedVariantsMap 
 });
+
+
+});
+
 
 
 router.post('/submit_review', async (req, res) => {
@@ -209,6 +429,9 @@ router.post('/submit_review', async (req, res) => {
   await exe(sql, [product_id, username, rating, comment]);
   res.redirect('/product_details/' + product_id);
 });
+
+
+
 
 
 
@@ -335,7 +558,7 @@ router.get("/checkout", async function(req, res) {
 
 
   res.render("user/checkout.ejs", { cart , incon:incon[0]});
-});
+})
 
 
 router.post("/create-order", async (req, res) => {
@@ -356,8 +579,11 @@ router.post("/create-order", async (req, res) => {
   }
 });
 
-
 router.get("/place_order", async (req, res) => {
+  if (!req.session.user || !req.session.user.user_id) {
+    return res.send("User not logged in. Please login to place order.");
+  }
+
   const {
     razorpay_payment_id,
     name,
@@ -368,92 +594,23 @@ router.get("/place_order", async (req, res) => {
     city,
     landmark,
     address,
-    amount, // This will be overridden below with calculated discount total
     products,
     payment_method
   } = req.query;
 
-  const userId = req.session.user?.user_id;
-  if (!razorpay_payment_id || !products) return res.send("Payment failed");
+  const userId = req.session.user.user_id;
 
-  const productList = decodeURIComponent(products).split(","); // ["1_100_90_2", "3_200_180_1"]
-  const [firstProductId, firstPrice, firstDiscountPrice] = productList[0].split("_");
-
-  let totalQuantity = 0;
-  let totalDiscountAmount = 0;
-  let totalSavings = 0;
-
-  productList.forEach(item => {
-    const [_, price, discount_price, qty] = item.split("_");
-    const quantity = parseInt(qty) || 0;
-    const originalPrice = parseFloat(price) || 0;
-    const discountPrice = parseFloat(discount_price) || 0;
-
-    totalQuantity += quantity;
-    totalDiscountAmount += discountPrice * quantity;
-    totalSavings += (originalPrice - discountPrice) * quantity;
-  });
-
-  // Insert order
-  const orderResult = await exe(`
-    INSERT INTO orders 
-    (user_id, payment_id, product_id, name, phone, email, pincode, state, city, landmark, address, total_amount, quantity, price, discount_price, payment_method)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [
-      userId,
-      razorpay_payment_id,
-      firstProductId,
-      name,
-      phone,
-      email,
-      pincode,
-      state,
-      city,
-      landmark,
-      address,
-      totalDiscountAmount,     
-      totalQuantity,
-      parseFloat(firstPrice),
-      parseFloat(firstDiscountPrice),
-      payment_method
-    ]
-  );
-
-  const order_id = orderResult.insertId;
-
-  // Insert order items
-  for (const item of productList) {
-    const [product_id, price, discount_price, quantity] = item.split("_");
-
-    await exe(`
-      INSERT INTO order_items (order_id, product_id, price, discount_price, quantity)
-      VALUES (?, ?, ?, ?, ?)`,
-      [
-        order_id,
-        product_id,
-        parseFloat(price) || 0,
-        parseFloat(discount_price) || 0,
-        quantity
-      ]
-    );
+  if (!razorpay_payment_id || !products) {
+    return res.send("Payment failed");
   }
 
-  // Clear user cart
-  await exe(`DELETE FROM cart WHERE user_id = ?`, [userId]);
-
-  // Render success page
-  res.render("user/order_success.ejs", {
-    paymentId: razorpay_payment_id
-  });
-});
+}); 
 
 
 
 
-router.get("/order_success",async function(req,res){
-  var incon = await exe(`SELECT * FROM incon`);
-  res.render("user/order_success.ejs",{incon:incon[0]});
-});
+
+
 
 router.post("/cancel_order/:id", async (req, res) => {
   const id = req.params.id;

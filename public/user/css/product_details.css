@@ -72,7 +72,7 @@
     }
 
     .product-card {
-      background: white;
+      background-color: white;
       border-radius: 15px;
       box-shadow: 0 10px 25px rgba(93, 64, 55, 0.08);
       padding: 30px;
@@ -107,17 +107,17 @@
       margin-bottom: 1.5rem;
     }
 
-    .btn-warning-custom {
+    .btn-product-custom {
       background-color:#ff9933;
       border: none;
       font-weight: 600;
       padding: 12px 25px;
-      border-radius: 50px;
+      border-radius: 10px;
       color: white;
       transition: all 0.3s;
     }
 
-    .btn-warning-custom:hover {
+    .btn-product-custom:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 15px rgba(216, 108, 30, 0.35);
       color: black;

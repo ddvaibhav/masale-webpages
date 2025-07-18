@@ -31,7 +31,7 @@ body {
 }
 
 .navbar-brand img {
-  height: 80px;
+  height: 60px;
   width: 150px;
   transition: all 0.3s ease;
 }
@@ -259,12 +259,7 @@ body {
   border-radius: 2px;
 }
 
-.product-slider__container {
-  max-width: 1400px;
-  margin: 0 auto 80px;
-  padding: 0 20px;
-  position: relative;
-}
+
 
 .product-slider__wrapper {
   display: flex;
@@ -337,7 +332,7 @@ body {
 /* Flip */
 .flip__container {
   perspective: 1000px;
-  height: 250px;
+  height: 180px;
   position: relative;
   transform-style: preserve-3d;
 }
@@ -350,7 +345,7 @@ body {
   transform-style: preserve-3d;
 }
 
-.flip__container:hover .flip__flipper {
+.flip_container:hover .flip_flipper {
   transform: rotateY(180deg);
 }
 
@@ -394,14 +389,14 @@ body {
 
 /* Product Content */
 .product-card__content {
-  padding: 20px;
+  padding: 15px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
 .product-card__content h5 {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--dark-brown);
   margin-bottom: 10px;
@@ -422,9 +417,9 @@ body {
   flex-grow: 1;
 }
 
-.product-card__quantity-selector {
-  margin-bottom: 15px;
-}
+/* .product-card__quantity-selector {
+  margin-bottom: px;
+} */
 
 .product-card__quantity-selector label {
   display: block;
@@ -1370,6 +1365,9 @@ body {
 
 /* Responsive for very small devices (phones) */
 @media (max-width: 480px) {
+  .spice-hero-section {
+  min-height: 50vh;
+  }
   .spice-hero-title {
     font-size: 2.2rem;
   }
@@ -1451,13 +1449,13 @@ body {
       .quick-links {
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 1.2rem;
       }
 
       .sachet-link {
         width: auto;
         background: rgb(235, 234, 233);
-        padding: 1.2rem 2rem;
+        padding: 1rem 1.3rem;
         border-radius: 40px;
         color: #333;
         text-decoration: none;
@@ -1562,18 +1560,16 @@ body {
 
       .footer-banner {
         text-align: center;
-        margin-top: 6rem;
-        padding-top: 2rem;
+        margin-top: 1rem;
+        padding-top: 0.5rem;
         border-top: 3px dashed var(--turmeric);
         color: var(--turmeric);
-        font-size: 1.4rem;
-        position: relative;
-        z-index: 2;
+        font-size: 1.2rem;
         font-weight: 600;
       }
 
       .footer-banner i {
-        margin: 0 8px;
+        margin: 0 3px;
       }
 
       /* Spice Trail Effect */
@@ -1931,6 +1927,25 @@ body {
     font-size: 0.85rem;
     z-index: 10;
   }
+  .discount_box{
+    height: 500px;
+    width: 270px;
+    margin-top: 30px;
+    transition: all 0.4s ease;
+
+  }
+.discount_box:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(255, 153, 51, 0.25);
+}
+  .discount_img{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    border: 3px solid #ff9933;
+
+
+  }
 
 /* hero-section-img */
     
@@ -2188,10 +2203,11 @@ body {
       font-size: 0.9rem;
     }
 
-    .section-title {
+    .producthead-title {
       font-weight: 700;
       color: var(--saffron-brown);
       margin-bottom: 1.5rem;
+      text-align: center;
     }
 
     .stock-status {
@@ -2248,9 +2264,3 @@ body {
         margin-left: 25px;
       }
     }
-
-
-
-
-
-      

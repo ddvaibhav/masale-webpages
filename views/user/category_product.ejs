@@ -1,5 +1,188 @@
-<%-include("navbar.ejs")%>
+<%- include("navbar.ejs") %>
+<br><br>
 
-<h1>Welcome</h1>
+<style>
+  .product-card {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #e6e6e6;
+    background-color: #fff;
+  }
 
-<%-include("footer.ejs")%>
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .flip-box {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    perspective: 1000px;
+    overflow: hidden;
+  }
+
+  .flip-box-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+
+  .flip-box:hover .flip-box-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-box-front,
+  .flip-box-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+  }
+
+  .flip-box-front {
+    z-index: 2;
+  }
+
+  .flip-box-back {
+    transform: rotateY(180deg);
+  }
+
+  .flip-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .discount-badge {
+    top: 10px;
+    left: 10px;
+    font-size: 0.85rem;
+    z-index: 10;
+  }
+
+  .price-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #111;
+  }
+
+  .variant-select {
+    font-size: 0.9rem;
+  }
+
+  .btn-custom {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .product-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+  }
+
+  .card-body-custom {
+    padding: 16px;
+  }
+</style>
+
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-5"><%= categoryName %></h2>
+    <% if (product.length === 0) { %>
+      <p class="text-center text-muted">No products found in this category.</p>
+    <% } else { %>
+      <div class="row g-4">
+        <% for (let i of product) {
+          const matchingVariants = variants.filter(v => v.product_id == i.product_id);
+          const isInCart = cartProductIds.includes(i.product_id);
+        %>
+        <div class="col-6 col-md-3">
+          <div class="product-card shadow-sm h-100 d-flex flex-column">
+            <a href="/product_details/<%= i.product_id %>" class="text-decoration-none">
+              <div class="flip-box position-relative">
+                <% if (i.discount > 0) { %>
+                  <div class="discount-badge position-absolute bg-danger text-white px-2 py-1 rounded">
+                    <%= i.discount %>% OFF
+                  </div>
+                <% } %>
+                <div class="flip-box-inner">
+                  <div class="flip-box-front">
+                    <img src="/uploads/<%= i.image %>" alt="Front Image">
+                  </div>
+                  <div class="flip-box-back">
+                    <img src="/uploads/<%= i.image2 %>" alt="Back Image">
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <div class="card-body-custom d-flex flex-column flex-grow-1 justify-content-between">
+              <div>
+                <h5 class="product-name"><%= i.product_name %></h5>
+                <p class="text-muted mb-1">Category: <%= i.category_name %></p>
+
+                <% if (i.stockqty > 10) { %>
+                  <span class="badge bg-success mb-2">In stock</span>
+                <% } else if (i.stockqty > 0) { %>
+                  <span class="badge bg-warning text-dark mb-2">Limited stock</span>
+                <% } else { %>
+                  <span class="badge bg-danger mb-2">Out of stock</span>
+                <% } %>
+
+                <!-- Variant Dropdown -->
+                <select class="form-select variant-select mb-2">
+                  <% for (let v of matchingVariants) { %>
+                    <option data-price="<%= v.price %>">
+                      <%= v.weight %> - ₹<%= v.price %>
+                    </option>
+                  <% } %>
+                </select>
+
+                <div class="price-value mb-2">₹<span class="price-text"><%= matchingVariants[0]?.price || "0.00" %></span></div>
+              </div>
+
+              <div>
+                <% if (req.session.user && req.session.user.user_id) { %>
+                  <% if (isInCart) { %>
+                    <button class="btn btn-outline-success btn-sm w-100 btn-custom" disabled>
+                      <i class="fas fa-check-circle me-1"></i> In Cart
+                    </button>
+                  <% } else { %>
+                    <a href="/product_details/<%= i.product_id %>" class="btn btn-warning btn-sm w-100 btn-custom <%= i.stockqty <= 0 ? 'disabled' : '' %>">
+                      <i class="fas fa-cart-plus me-1"></i> Add to Cart
+                    </a>
+                  <% } %>
+                <% } else { %>
+                  <button class="btn btn-outline-secondary btn-sm w-100 btn-custom" onclick="alert('Please login to add to cart')" <%= i.stockqty <= 0 ? 'disabled' : '' %>>
+                    <i class="fas fa-user-lock me-1"></i> Login to Add
+                  </button>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".variant-select").forEach(select => {
+      select.addEventListener("change", function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const price = selectedOption.getAttribute("data-price");
+        const card = this.closest(".product-card");
+        const priceSpan = card.querySelector(".price-text");
+        if (priceSpan) priceSpan.textContent = price;
+      });
+    });
+  });
+</script>
+
+<%- include("footer.ejs") %>

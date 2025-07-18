@@ -76,7 +76,11 @@
             <div class="cart-item d-flex align-items-center gap-4">
               <img src="/uploads/<%= item.image %>" alt="Product" />
               <div class="flex-grow-1">
-                <h5 class="mb-1"><%= item.product_name %> (<%= item.weight %>)</h5>
+               <h5 class="mb-1">
+  <%= item.product_name %>
+  <span class="badge bg-light text-dark border ms-2"> <%= item.weight %> </span>
+</h5>
+
                 <p class="mb-1">
                   <span class="text-strike">₹<%= item.price %></span>
                   <span class="fw-semibold ms-2 text-success">₹<%= item.discount_price %> × <%= item.quantity %></span>

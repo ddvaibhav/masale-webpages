@@ -57,8 +57,6 @@
 .task-banner .stripe-2 {
   right: 75px;
 }
-
-
   .table-box {
     background: #fff;
     padding: 25px;
@@ -124,25 +122,20 @@
 
       <thead>
         <tr>
-            <thead>
-  <tr>
-    <th>SrNo</th>
-    <th>Name</th>
-    <th>Category</th>
-    <th>Ingredients</th>
-    <th>Tags</th>
-    <th>Variants</th>
-    <th>Discount</th> 
-    <th>Image Front</th>
-    <th>Image Back</th>
-    <th>Details</th>
-    <th>Usage</th>
-    <th>Health Benifits</th>
-    <th>Stock</th>
-    <th>Action</th>
-  </tr>
-</thead>
-
+            <th>SrNo</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Ingredients</th>
+          <th>Tags</th>
+          <th>Variants</th>
+          <th>Total Orders</th>
+          <th>Image Front</th>
+          <th>Image Back</th>
+          <th>Details</th>
+          <th>Usage</th>
+          <th>Health Benifits</th>
+          <th>Stock</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -150,12 +143,11 @@
           <tr>
             <td><%=index+1%></td>
             <td><%= product.product_name %></td>
-            <td><%= product.category_name %></td>
+            <td><%= product.product_name %></td>
             <td><%= product.ingredients %></td>
             <td class="tag-list"><%= product.tags || "-" %></td>
             <td class="variant-list"><%- product.variants || "-" %></td>
-            <td><%= product.discount %> %</td> 
-           
+            <td><%= product.total_orders %></td>
             <td><img src="/uploads/<%= product.image %>" class="product-img" /></td>
             <td><img src="/uploads/<%= product.image2 %>" class="product-img" /></td>
             <td><%= product.detail %></td>
