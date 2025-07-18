@@ -224,7 +224,6 @@ router.get("/", async function (req, res) {
 
 
   let info = await exe("select * from slider");
-
   // Render the page
   res.render("user/index.ejs", {
     product: products,
@@ -286,14 +285,33 @@ router.get("/gallery",async function(req,res){
     var obj = {"data":data};
     res.render("user/gallery.ejs",obj);
 });
-router.get("/recipes",function(req,res){
-    res.render("user/recipes.ejs");
+
+router.get("/recipes", async function (req, res) {
+  let recipes = await exe("SELECT * FROM recipes");
+
+  let updatedRecipes = recipes.map(r => {
+    return {
+      ...r,
+      ingredients_list: r.ingredients
+        ? r.ingredients.split(",").map(i => i.trim())
+        : []
+    };
+  });
+
+  res.render("user/recipes.ejs", {
+    data: updatedRecipes,
+    mainRecipe: updatedRecipes[0], // default first recipe
+  });
 });
+
+
+
 router.get("/enquiry",function(req,res){
     res.render("user/enquiry.ejs");
 });
-router.get("/contact_us",function(req,res){
-    res.render("user/contact_us.ejs");
+router.get("/contact_us",async function(req,res){
+  var data = await exe(`SELECT * FROM contact_info`);
+    res.render("user/contact_us.ejs",{"data":data[0]});
 });
 
 

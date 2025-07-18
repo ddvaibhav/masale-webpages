@@ -1,6 +1,7 @@
 var express = require("express");
 var exe = require("../conn");
 var router = express.Router();
+const formidable = require('formidable');
 const  authMiddleware = require("./authMiddleware");
 
 
@@ -14,10 +15,10 @@ var obj = {"admin":data[0]};
 const stats = await exe(`
   SELECT 
     COUNT(*) AS total_orders,
-    COUNT(CASE WHEN order_status = 'Pending' THEN 1 END) AS pending_orders,
-    COUNT(CASE WHEN order_status = 'Shipped' THEN 1 END) AS shipped_orders,
-    COUNT(CASE WHEN order_status = 'Completed' THEN 1 END) AS completed_orders,
-    COUNT(CASE WHEN order_status = 'Cancelled' THEN 1 END) AS cancelled_orders
+    COUNT(CASE WHEN order_status = 'Pending' AND status='active' THEN 1 END) AS pending_orders,
+    COUNT(CASE WHEN order_status = 'Shipped' AND status='active' THEN 1 END) AS shipped_orders,
+    COUNT(CASE WHEN order_status = 'Completed' AND status='active' THEN 1 END) AS completed_orders,
+    COUNT(CASE WHEN order_status = 'Cancelled' AND status='active' THEN 1 END) AS cancelled_orders
   FROM orders
   WHERE status = 'active'
 `);
@@ -1038,17 +1039,7 @@ router.get("/completed_orders",async function(req,res){
   }
 });
 
-router.get("/contact_us",async function(req,res){
-  var data = await exe(`SELECT * FROM contact_us`);
-  res.render("admin/contact_us.ejs",{"contact":data});
-})
-router.post("/contact_us",async function(req,res){
-  var d = req.body;
-  var sql = `INSERT INTO contact_us (first_name,last_name,email,mobile,subject,message)VALUES(?, ?, ?, ?, ?, ?)`;
-  var data = await exe(sql,[d.first_name,d.last_name,d.email,d.mobile,d.subject,d.message]);
-  // res.send(data);
-  res.redirect("/contact_us")
-});
+
 router.get("/enquiry",async  function(req,res){
   var data = await exe(`SELECT * FROM enquiries`);
   res.render("admin/enquiry.ejs",{"data":data});
@@ -1061,6 +1052,163 @@ router.post("/enquery",async function(req,res){
   // res.send(data);
   res.redirect("/enquiry");
 });
+
+router.get("/add_recipe",function(req,res){
+  res.render("admin/add_recipe.ejs")
+});
+
+
+router.post("/submit_recipe", async (req, res) => {
+  const {
+    heading,
+    about_recipe,
+    ingredients,
+    dish_name,
+    step1, step2, step3, step4, step5, step6,
+    img1Base64, img2Base64, img3Base64, img4Base64, img5Base64,
+    details
+  } = req.body;
+
+  const sql = `
+    INSERT INTO recipes (
+      heading, about_recipe, ingredients, dish_name, 
+      step1, step2, step3, step4, step5, step6,
+      image1, image2, image3, image4, image5,
+      details
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  await exe(sql, [
+    heading,
+    about_recipe,
+    ingredients,
+    dish_name,
+    step1, step2, step3, step4, step5, step6,
+    img1Base64, img2Base64, img3Base64, img4Base64, img5Base64,
+    details
+  ]);
+
+  res.redirect("/admin/add_recipe");
+});
+
+
+
+
+router.get("/manage_recipe", async function (req, res) {
+  const recipes = await exe("SELECT * FROM recipes ORDER BY recipe_id DESC");
+  res.render("admin/manage_recipe.ejs", { recipes });
+});
+router.get("/edit_recipes/:id", async function (req, res) {
+  const id = req.params.id;
+  const sql = "SELECT * FROM recipes WHERE recipe_id = ?";
+  const [recipe] = await exe(sql, [id]);
+  
+  res.render("admin/edit_recipes.ejs", { recipe });
+});
+
+
+router.post("/update_recipe/:id", async function (req, res) {
+  try {
+    const id = req.params.id;
+    const d = req.body;
+
+    let imagePaths = {};
+
+    // Check and save uploaded images
+    for (let i = 1; i <= 5; i++) {
+      const imageField = `image${i}`;
+      if (req.files && req.files[imageField]) {
+        const file = req.files[imageField];
+        const filename = Date.now() + "_" + file.name;
+        const uploadPath = __dirname + "/../public/uploads/" + filename;
+
+        await file.mv(uploadPath); // move file to uploads folder
+
+        imagePaths[imageField] = "/uploads/" + filename;
+      }
+    }
+
+    // Build the update query
+    let sql = `
+      UPDATE recipes SET
+        heading = ?, dish_name = ?, about_recipe = ?, ingredients = ?,
+        step1 = ?, step2 = ?, step3 = ?, step4 = ?, step5 = ?, step6 = ?, details = ?
+    `;
+    let values = [
+      d.heading,
+      d.dish_name,
+      d.about_recipe,
+      d.ingredients,
+      d.step1, d.step2, d.step3,
+      d.step4, d.step5, d.step6,
+      d.details
+    ];
+
+   loaded
+    for (let i = 1; i <= 5; i++) {
+      if (imagePaths[`image${i}`]) {
+        sql += `, image${i} = ?`;
+        values.push(imagePaths[`image${i}`]);
+      }
+    }
+
+    sql += " WHERE recipe_id = ?";
+    values.push(id);
+
+    await exe(sql, values);
+    res.redirect("/admin/manage_recipe");
+  } catch (err) {
+    console.error("Update error:", err);
+    res.status(500).send("Update failed");
+  }
+});
+
+router.get("/delete_recipes/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    
+    const result = await exe("SELECT image1, image2, image3, image4, image5 FROM recipes WHERE recipe_id = ?", [id]);
+
+    if (result.length === 0) {
+      return res.status(404).send("Recipe not found");
+    }
+
+    const recipe = result[0];
+
+    
+    for (let i = 1; i <= 5; i++) {
+      const imagePath = recipe[`image${i}`];
+      if (imagePath) {
+        const filePath = path.join(__dirname, "../public", imagePath);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      }
+    }
+
+    
+    await exe("DELETE FROM recipes WHERE recipe_id = ?", [id]);
+
+    
+    res.redirect("/admin/manage_recipe");
+
+  } catch (err) {
+    console.error("Error deleting recipe:", err);
+    res.status(500).send("Server error while deleting recipe");
+  }
+});
+
+// router.get("/contact_info",function(req,res){
+//   res.render("admin/contact_info.ejs");
+// });
+// router.post("/update_contact_info",async function(req,res){
+//   var d = req.body;
+//   var sql = `INSERT INTO contact_info (location , email,phone,working_hours,map_link) VALUES (? , ?, ?, ?, ?)`;
+//   var data = await exe(sql,[d.location,d.email,d.phone,d.working_hours,d.map_link]);
+//   res.send("data");
+// })
+
 
 
 

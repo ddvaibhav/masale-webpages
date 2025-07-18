@@ -1,0 +1,63 @@
+<%- include("navbar") %>
+
+<div class="container mt-5">
+  <h2 class="mb-4">Manage Recipes</h2>
+  
+  <table id="recipeTable" class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Image</th>
+        <th>Heading</th>
+        <th>Dish Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% recipes.forEach((r, index) => { %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td>
+            <% if (r.image1) { %>
+              <img src="<%= r.image1 %>" width="80" height="80" style="object-fit: cover; border-radius: 5px;" />
+            <% } else { %>
+              <span>No Image</span>
+            <% } %>
+          </td>
+          <td><%= r.heading %></td>
+          <td><%= r.dish_name %></td>
+          <td>
+            <a href="/admin/view_recipe/<%= r.recipe_id %>" class="btn btn-sm btn-info">View</a>
+            <a href="/admin/edit_recipes/<%= r.recipe_id %>" class="btn btn-sm btn-warning">Edit</a>
+            <a href="/admin/delete_recipes/<%= r.recipe_id %>" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<!-- DataTables & Export Buttons -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" />
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#recipeTable').DataTable({
+      dom: 'Bfrtip',
+      buttons: ['excel', 'pdf']
+    });
+  });
+</script>
+
+<%- include("footer") %>

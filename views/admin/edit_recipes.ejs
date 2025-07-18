@@ -1,0 +1,65 @@
+<%- include("navbar") %>
+
+<div class="container mt-5">
+  <h2 class="mb-4">Edit Recipe</h2>
+
+  <form action="/admin/update_recipe/<%= recipe.recipe_id %>" method="POST" enctype="multipart/form-data">
+    <div class="row">
+      <div class="mb-3 col-md-6">
+        <label for="heading" class="form-label">Heading</label>
+        <input type="text" class="form-control" name="heading" id="heading" value="<%= recipe.heading %>" required>
+      </div>
+
+      <div class="mb-3 col-md-6">
+        <label for="dish_name" class="form-label">Dish Name</label>
+        <input type="text" class="form-control" name="dish_name" id="dish_name" value="<%= recipe.dish_name %>" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="mb-3 col-md-6">
+        <label for="about_recipe" class="form-label">About Recipe</label>
+        <textarea class="form-control" name="about_recipe" id="about_recipe" rows="3" required><%= recipe.about_recipe %></textarea>
+      </div>
+
+      <div class="mb-3 col-md-6">
+        <label for="ingredients" class="form-label">Ingredients</label>
+        <textarea class="form-control" name="ingredients" id="ingredients" rows="3" required><%= recipe.ingredients %></textarea>
+      </div>
+    </div>
+
+    <!-- Steps -->
+    <div class="row">
+      <% for (let i = 1; i <= 6; i++) { %>
+        <div class="mb-3 col-md-6">
+          <label for="step<%= i %>" class="form-label">Step <%= i %></label>
+          <textarea class="form-control" id="step<%= i %>" name="step<%= i %>" rows="2"><%= recipe["step" + i] || "" %></textarea>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Current Image Preview and Upload -->
+    <div class="row">
+      <% for (let i = 1; i <= 5; i++) { %>
+        <div class="mb-3 col-md-4">
+          <label class="form-label">Image <%= i %></label><br>
+          <% if (recipe["image" + i]) { %>
+            <img src="<%= recipe["image" + i] %>" width="100" height="100" style="object-fit: cover; border-radius: 5px;"><br><br>
+          <% } else { %>
+            <p>No Image</p>
+          <% } %>
+          <input type="file" class="form-control" name="image<%= i %>" accept="image/*" />
+        </div>
+      <% } %>
+    </div>
+
+    <div class="mb-3">
+      <label for="details" class="form-label">More Details</label>
+      <textarea class="form-control" id="details" name="details" rows="3"><%= recipe.details %></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Recipe</button>
+  </form>
+</div>
+
+<%- include("footer") %>

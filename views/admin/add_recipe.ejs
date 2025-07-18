@@ -1,0 +1,89 @@
+<%- include("navbar.ejs") %>
+
+<div class="container mt-5">
+  <h2 class="mb-4">Add New Recipe</h2>
+  <form action="/admin/submit_recipe" method="POST">
+    <div class="row">
+      <div class="mb-3 col-md-6">
+        <label for="heading" class="form-label">Heading</label>
+        <input type="text" class="form-control" id="heading" name="heading" required>
+      </div>
+
+      <div class="mb-3 col-md-6">
+        <label for="dish_name" class="form-label">Dish Name</label>
+        <input type="text" class="form-control" id="dish_name" name="dish_name" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="mb-3 col-md-6">
+        <label for="about_recipe" class="form-label">About Recipe</label>
+        <textarea class="form-control" id="about_recipe" name="about_recipe" rows="3" required></textarea>
+      </div>
+
+      <div class="mb-3 col-md-6">
+        <label for="ingredients" class="form-label">Ingredients</label>
+        <textarea class="form-control" id="ingredients" name="ingredients" rows="3" required></textarea>
+      </div>
+    </div>
+
+    <!-- Steps -->
+    <div class="row">
+      <% for (let i = 1; i <= 6; i++) { %>
+        <div class="mb-3 col-md-6">
+          <label for="step<%= i %>" class="form-label">Step <%= i %></label>
+          <textarea class="form-control" id="step<%= i %>" name="step<%= i %>" rows="2"></textarea>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Image Inputs and Hidden Base64 Fields -->
+    <div class="row">
+      <% for (let i = 1; i <= 5; i++) { %>
+        <div class="mb-3 col-md-4">
+          <label for="imgFile<%= i %>" class="form-label">Image <%= i %></label>
+          <input type="file" class="form-control" id="imgFile<%= i %>" accept="image/*" onchange="convertToBase64(this, 'img<%= i %>Base64')" />
+          <input type="hidden" name="img<%= i %>Base64" id="img<%= i %>Base64" />
+        </div>
+      <% } %>
+    </div>
+
+    <div class="mb-3">
+      <label for="details" class="form-label">More Details</label>
+      <textarea class="form-control" id="details" name="details" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Recipe</button>
+  </form>
+</div>
+
+<script>
+  async function convertToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result); // base64 string
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  document.querySelector("form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    for (let i = 1; i <= 5; i++) {
+      const fileInput = document.getElementById(`imgFile${i}`);
+      const hiddenInput = document.getElementById(`img${i}Base64`);
+
+      if (fileInput.files.length > 0) {
+        const base64 = await convertToBase64(fileInput.files[0]);
+        hiddenInput.value = base64;
+      }
+    }
+
+    this.submit(); // submit after base64 values are filled
+  });
+</script>
+
+
+
+<%- include("footer.ejs") %>

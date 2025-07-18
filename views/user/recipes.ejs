@@ -1,4 +1,4 @@
-    <%-include("navbar.ejs")%>
+<%-include("navbar.ejs")%>
 
 <section class="hero-section-img">
     <div class="container">
@@ -11,224 +11,128 @@
         </div>
       </div>
     </div>
-  </section>
+</section>
 
-    <!-- Recipe Banner -->
-     <section>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 mt-5">
-            
-            <div class="recipe-banner">
-            <div class="text-light p-8 ms-5">
-                <h1 class="recipe-banner__title">Authentic Misal Pav</h1>
-                <p class="recipe-banner__subtitle">With our signature Goda Masale blend</p>
-                <div class="mt-4 d-flex align-items-center recipe-banner__delayed-animation">
-                    <div class="text-white px-3 py-2 rounded-pill btn btn-warning me-2">
-                        ★★★★★ 4.8 (124 reviews)
-                    </div>
-                    <div class="px-4 py-2 rounded-full text-sm text-warning btn btn-light">
-                        ⏱ 45 min
-                    </div>
-                </div>
-            </div>
-        </div>
-    <!-- About Recipe -->
-
-        <div class="recipe-about p-4 mb-5">
-            <h2 class="fw-bold recipe-about__title mb-3">About This Recipe</h2>
-            <p class="mb-4">
-                Misal Pav is Maharashtra's beloved spicy sprouted bean curry served with pav (bread rolls).
-                Our authentic preparation uses the traditional Goda Masale blend that gives it the perfect balance
-                of heat, sweetness, and earthiness.
-            </p>
-            
-            <div class="d-flex flex-wrap gap-2 mt-4">
-                <div class="recipe-about__tag px-3 py-2">
-                    🍛 Serves 4
-                </div>
-                <div class="recipe-about__tag px-3 py-2">
-                    🔥 Medium Spice
-                </div>
-                <div class="recipe-about__tag px-3 py-2">
-                    🕒 Prep 20 min, Cook 25 min
-                </div>
-            </div>
-        </div>
-
+<!-- Recipe Banner -->
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 mt-5">
+        <div class="recipe-banner">
+          <div class="text-light p-8 ms-5">
+            <h1 class="recipe-banner__title" id="recipe-title"><%= mainRecipe.dish_name %></h1>
+            <p class="recipe-banner__subtitle" id="recipe-heading"><%= mainRecipe.heading %></p>
           </div>
         </div>
+
+        <!-- About Recipe -->
+        <div class="recipe-about p-4 mb-5">
+          <h2 class="fw-bold recipe-about__title mb-3">About This Recipe</h2>
+          <p class="mb-4" id="about-recipe">
+            <%= mainRecipe.about_recipe %>
+          </p>
+        </div>
       </div>
-     </section>
-
- 
-
-    
-    <!-- Ingredients and Instructions -->
-    <div class="recipe-container py-5">
-        <div class="row g-4">
-            <!-- Ingredients Section -->
-            <div class="col-md-4">
-                <div class="recipe-section__header">
-                    <h2 class="h4 fw-bold">Ingredients</h2>
-                    <p class="mb-0 text-light">For the authentic misal experience</p>
-                </div>
-                <div class="recipe-section__content">
-                    <h5 class="text-warning fw-bold">For Goda Masala:</h5>
-                    <p class="text-muted">(Use our special blend or make your own)</p>
-                    <ul class="list-unstyled">
-                        <li class="recipe-ingredient p-2 border rounded mb-2">2 tbsp our Goda Masale</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">(or homemade blend)</li>
-                    </ul>
-                    
-                    <h5 class="text-warning fw-bold mt-4">For Misal:</h5>
-                    <ul class="list-unstyled">
-                        <li class="recipe-ingredient p-2 border rounded mb-2">1 cup sprouted matki (moth beans)</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">1 large onion, finely chopped</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">2 tomatoes, pureed</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">4-5 garlic cloves, minced</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">1-inch ginger, grated</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">2 tbsp oil</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">1 tsp mustard seeds</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">1 tsp cumin seeds</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">8-10 curry leaves</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">1 tsp turmeric powder</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">1 tbsp jaggery</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">Salt to taste</li>
-                    </ul>
-                    
-                    <h5 class="text-warning fw-bold mt-4">For Serving:</h5>
-                    <ul class="list-unstyled">
-                        <li class="recipe-ingredient p-2 border rounded mb-2">Pav (bread rolls)</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">Farsan (crispy topping)</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">Chopped onions</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">Lemon wedges</li>
-                        <li class="recipe-ingredient p-2 border rounded mb-2">Fresh coriander</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- Instructions Section -->
-            <div class="col-md-8">
-                <div class="recipe-section__header">
-                    <h2 class="h4 fw-bold">Instructions</h2>
-                    <p class="mb-0 text-light">Step-by-step guide to authentic Misal Pav</p>
-                </div>
-                <div class="recipe-section__content">
-                    <div class="mb-4">
-                        <div class="d-flex">
-                            <div class="recipe-step__number">1</div>
-                            <div>
-                                <h5>Prepare the Sprouts</h5>
-                                <p>Pressure cook sprouted matki with 1/2 tsp turmeric and salt (3 whistles). Drain and set aside.</p>
-                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a0a5fcca-06ec-4c85-9cd0-c0033633da5e.png" class="recipe-step__image rounded mt-2" alt="Sprouted matki cooking">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <div class="d-flex">
-                            <div class="recipe-step__number">2</div>
-                            <div>
-                                <h5>Tempering (Tadka)</h5>
-                                <p>Heat oil, add mustard seeds, cumin, and curry leaves. When they splutter, add onions and sauté. Then add ginger-garlic paste.</p>
-                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5a209057-537e-4492-8dd8-c9d4ab909723.png" class="recipe-step__image rounded mt-2" alt="Tadka process">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <div class="d-flex">
-                            <div class="recipe-step__number">3</div>
-                            <div>
-                                <h5>Add Spices & Cook</h5>
-                                <p>Add tomato puree and cook until oil separates. Then add Goda Masale, turmeric, jaggery. Cook 2–3 mins.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <div class="d-flex">
-                            <div class="recipe-step__number">4</div>
-                            <div>
-                                <h5>Combine & Simmer</h5>
-                                <p>Add sprouts and 2 cups water. Boil, then simmer for 10–15 mins. Adjust salt & spice.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <div class="d-flex">
-                            <div class="recipe-step__number">5</div>
-                            <div>
-                                <h5>Prepare Accompaniments</h5>
-                                <p>Chop onions, coriander, lemon wedges. Toast pav in butter if desired.</p>
-                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ba08088d-d5be-410d-9b0f-34a6177739cd.png" class="recipe-step__image rounded mt-2" alt="Accompaniments">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <div class="d-flex">
-                            <div class="recipe-step__number">6</div>
-                            <div>
-                                <h5>Serve Hot</h5>
-                                <p>Layer farsan in a bowl, pour hot misal, top with farsan, onion, coriander, lemon. Serve with pav.</p>
-                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/93600282-e584-446e-944c-0ce367850630.png" class="recipe-step__image rounded mt-2" alt="Final misal pav dish">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Chef's Tips -->
-                    <div class="recipe-tip mt-5 p-4 rounded">
-                        <h5 class="recipe-tip__title">Chef's Tips:</h5>
-                        <ul class="mt-2">
-                            <li>• Add 1/4 cup grated coconut with tomato for richness</li>
-                            <li>• Goda Masala includes dagad phool (black stone flower)</li>
-                            <li>• Let misal sit for 30 mins after cooking for deeper flavor</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-    
-    <!-- More Recipes -->
-    <div class="recipe-container">
-        <h2 class="more-recipes__title">More Recipes with Our Masale</h2>
-        <div class="more-recipes__grid">
-            <!-- Recipe Card 1 -->
-            <div class="recipe-card animate__animated animate__fadeIn animate__delay-1s">
-                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7022b3e7-93ed-435f-9563-fa8bf62ba736.png" 
-                     alt="Zunka" class="recipe-card__image">
-                <div class="recipe-card__content">
-                    <h3 class="recipe-card__title">Zunka</h3>
-                    <p class="recipe-card__description">Authentic Maharashtrian dish with besan and our special masale</p>
-                    <a href="/recipes"><button class="recipe-card__button">View Recipe</button></a>
-                </div>
-            </div>
-            
-            <!-- Recipe Card 2 -->
-            <div class="recipe-card animate__animated animate__fadeIn animate__delay-2s">
-                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8123cafe-9012-4c0f-babc-99b24ccefde6.png" 
-                     alt="Kolhapuri Mutton" class="recipe-card__image">
-                <div class="recipe-card__content">
-                    <h3 class="recipe-card__title">Kolhapuri Mutton</h3>
-                    <p class="recipe-card__description">Fiery specialty with our intense Kolhapuri Masale blend</p>
-                    <a href="/recipes"><button class="recipe-card__button">View Recipe</button></a>
-                </div>
-            </div>
-            
-            <!-- Recipe Card 3 -->
-            <div class="recipe-card animate__animated animate__fadeIn animate__delay-3s">
-                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e43cdddd-2b4e-4001-9659-cd801961ecea.png" 
-                     alt="Bharli Vangi" class="recipe-card__image">
-                <div class="recipe-card__content">
-                    <h3 class="recipe-card__title">Bharli Vangi</h3>
-                    <p class="recipe-card__description">Stuffed eggplants with our special coconut masale</p>
-                    <a href="/recipes"><button class="recipe-card__button">View Recipe</button></a>
-                </div>
-            </div>
-        </div>
+  </div>
+</section>
+
+<!-- Ingredients and Instructions -->
+<div class="recipe-container py-5">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="recipe-section__header">
+        <h2 class="h4 fw-bold">Ingredients</h2>
+        <p class="mb-0 text-light">For the authentic experience</p>
+      </div>
+      <div class="recipe-section__content">
+        <ul class="list-unstyled" id="ingredients-list">
+          <% mainRecipe.ingredients_list.forEach(function(ing) { %>
+            <li class="recipe-ingredient p-2 border rounded mb-2"><%= ing %></li>
+          <% }); %>
+        </ul>
+      </div>
     </div>
-        <%-include("footer.ejs")%>
+    <div class="col-md-8">
+      <div class="recipe-section__header">
+        <h2 class="h4 fw-bold">Instructions</h2>
+        <p class="mb-0 text-light">Step-by-step guide</p>
+      </div>
+      <div class="recipe-section__content" id="recipe-steps">
+        <h5>Step 1</h5>
+        <p><%= mainRecipe.step1 %></p>
+        <h5>Step 2</h5>
+        <p><%= mainRecipe.step2 %></p>
+        <h5>Step 3</h5>
+        <p><%= mainRecipe.step3 %></p>
+        <h5>Step 4</h5>
+        <p><%= mainRecipe.step4 %></p>
+        <h5>Step 5</h5>
+        <p><%= mainRecipe.step5 %></p>
+        <h5>Step 6</h5>
+        <p><%= mainRecipe.step6 %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- More Recipes -->
+<div class="recipe-container">
+  <h2 class="more-recipes__title">More Recipes with Our Masale</h2>
+  <div class="more-recipes__grid">
+    <% data.forEach(function(r, i) { %>
+      <div class="recipe-card">
+        <img src="<%= r.image1 %>" alt="<%= r.dish_name %>" class="recipe-card__image">
+        <div class="recipe-card__content">
+          <h3 class="recipe-card__title"><%= r.dish_name %></h3>
+          <p class="recipe-card__description"><%= r.heading.substring(0, 70) %>...</p>
+          <button class="recipe-card__button view-btn" data-index="<%= i %>">View Recipe</button>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<script>
+  const allRecipes = <%- JSON.stringify(data) %>;
+  document.querySelectorAll(".view-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const index = btn.getAttribute("data-index");
+      const recipe = allRecipes[index];
+
+      document.getElementById("recipe-title").innerText = recipe.dish_name;
+      document.getElementById("recipe-heading").innerText = recipe.heading;
+      document.getElementById("about-recipe").innerText = recipe.about_recipe;
+
+      // Ingredients
+      const list = document.getElementById("ingredients-list");
+      list.innerHTML = "";
+      recipe.ingredients_list.forEach(ing => {
+        const li = document.createElement("li");
+        li.className = "recipe-ingredient p-2 border rounded mb-2";
+        li.innerText = ing;
+        list.appendChild(li);
+      });
+
+      // Steps
+    const stepsContainer = document.getElementById("recipe-steps");
+stepsContainer.innerHTML = "";
+
+for (let i = 1; i <= 6; i++) {
+  const step = recipe[`step${i}`]; 
+  if (step) {
+    const h5 = document.createElement("h5");
+    h5.textContent = `Step ${i}`;
+    const p = document.createElement("p");
+    p.textContent = step;
+
+    stepsContainer.appendChild(h5);
+    stepsContainer.appendChild(p);
+  }
+}
+
+    });
+  });
+</script>
+
+<%-include("footer.ejs")%>
