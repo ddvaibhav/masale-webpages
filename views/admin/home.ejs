@@ -208,18 +208,7 @@
                    
                     
 
-                    <% sr = 1; for(i of latestOrders)
-                    { %>
-<tr>
-                      <td><%=sr++%></td>
-                      <td><%=i.name%></td>
-                      <td><%=i.created_at%></td>
-                      <td><%=i.total_amount%></td>
-                      <td><span class="badge bg-success"><%=i.order_status%></span></td>
-                      <td><a href="/admin/order_details/<%=i.order_id%>" class="btn btn-sm btn-outline-primary">View</a></td>
-                    </tr>
-                 <%   }%>
-                    
+                   
                   </tbody>
                 </table>
               </div>
