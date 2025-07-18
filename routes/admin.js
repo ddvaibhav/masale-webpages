@@ -949,7 +949,6 @@ router.get("/delete_gallery_category/:id",async function(req,res){
   var sql = `DELETE FROM gallery_category WHERE gallery_category_id =?`;
   var data = await exe(sql,[id])
   res.redirect("/admin/gallery_category")
-<<<<<<< HEAD
 });
 
 router.get("/pending_orders", async (req, res) => {
@@ -1027,9 +1026,6 @@ router.post("/enquery",async function(req,res){
   // res.send(data);
   res.redirect("/enquiry");
 });
-=======
-})
->>>>>>> ae0efa2673cc84f8b532922ca589bb75a1f041bb
 
 
 

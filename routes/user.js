@@ -92,11 +92,8 @@ router.get("/", async function (req, res) {
     const cart = await exe(`SELECT product_id FROM cart WHERE user_id = ? AND status = 'active'`, [userId]);
     cartProductIds = cart.map(i => i.product_id);
   }
-<<<<<<< HEAD
 
 
-=======
->>>>>>> ae0efa2673cc84f8b532922ca589bb75a1f041bb
 
   let info = await exe("select * from slider");
 
