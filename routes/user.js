@@ -140,9 +140,12 @@ router.get("/product", async function(req, res) {
     cartProductIds = userCart.map(item => item.product_id);
   }
 
+  var banner = await exe("select * from banner");
+
   res.render("user/product.ejs", {
     product,
     category,
+    banner:banner,
     variants: allVariants,
     uniqueWeights,
     cartProductIds,

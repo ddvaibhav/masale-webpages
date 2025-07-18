@@ -16,10 +16,16 @@ var obj = {"admin":data[0]};
 const stats = await exe(`
   SELECT 
     COUNT(*) AS total_orders,
+
     COUNT(CASE WHEN order_status = 'Pending' AND status='active' THEN 1 END) AS pending_orders,
     COUNT(CASE WHEN order_status = 'Shipped' AND status='active' THEN 1 END) AS shipped_orders,
     COUNT(CASE WHEN order_status = 'Completed' AND status='active' THEN 1 END) AS completed_orders,
-    COUNT(CASE WHEN order_status = 'Cancelled' AND status='active' THEN 1 END) AS cancelled_orders
+    COUNT(CASE WHEN order_status = 'Cancelled' AND status='active' THEN 1 END) AS cancelled_orders,
+    COUNT(CASE WHEN order_status = 'Pending' THEN 1 END) AS pending_orders,
+    COUNT(CASE WHEN order_status = 'Shipped' THEN 1 END) AS shipped_orders,
+    COUNT(CASE WHEN order_status = 'Completed' THEN 1 END) AS completed_orders,
+    COUNT(CASE WHEN order_status = 'Cancelled' THEN 1 END) AS cancelled_orders
+
   FROM orders
   WHERE status = 'active'
 `);
@@ -45,9 +51,6 @@ res.render("admin/home.ejs", {
   orderStats,
   latestOrders
 });
-
-   
-
 });
 
 router.get("/profile",async function(req,res){
@@ -506,6 +509,7 @@ router.get("/add_product",async function(req,res){
     tags:tags}
   );
 });
+
 
 router.post("/add-product", async (req, res) => {
   try {
@@ -990,6 +994,7 @@ router.get("/delete_gallery_category/:id",async function(req,res){
   res.redirect("/admin/gallery_category")
 });
 
+
 router.get("/pending_orders", async (req, res) => {
   try {
     const query = `
@@ -1046,6 +1051,30 @@ router.get("/completed_orders",async function(req,res){
 router.get("/enquiry",async  function(req,res){
   var data = await exe(`SELECT * FROM enquiries`);
   res.render("admin/enquiry.ejs",{"data":data});
+})
+router.get("/contact_us",async function(req,res){
+  var data = await exe(`SELECT * FROM contact_us`);
+  res.render("admin/contact_us.ejs",{"contact":data});
+})
+router.post("/contact_us",async function(req,res){
+  var d = req.body;
+  var sql = `INSERT INTO contact_us (first_name,last_name,email,mobile,subject,message)VALUES(?, ?, ?, ?, ?, ?)`;
+  var data = await exe(sql,[d.first_name,d.last_name,d.email,d.mobile,d.subject,d.message]);
+  // res.send(data);
+  res.redirect("/contact_us")
+});
+router.get("/enquiry",async  function(req,res){
+  var data = await exe(`SELECT * FROM enquiries`);
+  res.render("admin/enquiry.ejs",{"data":data});
+})
+router.post("/enquery",async function(req,res){
+  var d = req.body;
+  var sql = `INSERT INTO enquiries(businessName,productName,quantity,location,contactPerson,phoneNumber,email,comments) 
+  VALUES(?, ?, ?, ?, ?, ?, ?, ?)`
+  var data = await exe(sql,[d.businessName,d.productName,d.quantity,d.location,d.contactPerson,d.phoneNumber,d.email,d.comments]);
+  // res.send(data);
+  res.redirect("/enquiry");
+
 })
 router.post("/enquery",async function(req,res){
   var d = req.body;
@@ -1204,6 +1233,7 @@ router.get("/delete_recipes/:id", async (req, res) => {
 
 
 
+
 // router.get("/contact_info",function(req,res){
 //   res.render("admin/contact_info.ejs");
 // });
@@ -1217,7 +1247,34 @@ router.get("/delete_recipes/:id", async (req, res) => {
 
 
 
+router.get("/banner",async function(req,res){
+  var sql = `select * from banner`;
+  var banner = await exe(sql);
+  res.render("admin/banner.ejs",{banner});
+})
+router.get("/edit_banner/:bid",async function(req,res){
+  var id = req.params.bid;
+  var sql = `select * from banner where id = ?`;
+  var banner = await exe(sql,[id]);
+  res.render("admin/edit_banner.ejs",{banner});
+})
 
+
+router.post("/update_banner", async function(req, res) {
+  var d = req.body;
+  var image = "";
+
+  if (req.files && req.files.image && req.files.image.name) {
+    var file = req.files.image;
+    var filename = Date.now() + "_" + file.name;
+    await file.mv("public/uploads/" + filename);
+    image = filename; 
+  } else {
+    image = d.old_image; 
+  }
+  await exe("UPDATE banner SET image=? WHERE id=?", [image, d.id]);
+  res.redirect("/admin/banner");
+});
 
 
 
