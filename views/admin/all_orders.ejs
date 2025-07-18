@@ -62,7 +62,7 @@
       <tbody>
       <% let count = 1; %>
 <% for (let order of orders) { %>
-  <tr>
+  <td>
     <td><%= count++ %></td>
     <td><%= order.order_id %></td>
     <td><%= order.user_name %></td>
@@ -74,10 +74,10 @@
       <% 
         const status = order.order_status.toLowerCase().trim(); 
         let badgeClass = 'bg-secondary';
-        if (status === 'pending') badgeClass = 'bg-warning text-dark';
-        else if (status === 'shipped') badgeClass = 'bg-info text-dark';
-        else if (status === 'completed') badgeClass = 'bg-success';
-        else if (status === 'cancelled') badgeClass = 'bg-danger';
+        if (status === 'pending') badgeClass = 'mt-3 bg-warning text-dark';
+        else if (status === 'shipped') badgeClass = 'mt-3 bg-info text-dark';
+        else if (status === 'completed') badgeClass = 'mt-3 bg-success';
+        else if (status === 'cancelled') badgeClass = 'mt-3 bg-danger';
       %>
 
       <span class="badge <%= badgeClass %>"><%= order.order_status %></span>
@@ -97,7 +97,7 @@
           <option value="Cancelled" <%= order.order_status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
         </select>
       </form>
-    </td>
+    </td></td>
 
   
     <td>

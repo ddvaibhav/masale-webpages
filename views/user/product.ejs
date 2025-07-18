@@ -93,7 +93,9 @@
         </form>
       </div>
       <div class="discount_box">
-        <img src="/images/Discount_Banner.png" class="discount_img">
+        <%for(var i=0;i<banner.length;i++){%>
+        <img src="/uploads/<%= banner[i].image %>" class="discount_img">
+        <%}%>
       </div>
     </div>
 

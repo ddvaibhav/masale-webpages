@@ -847,7 +847,7 @@ body {
 }
 
 /* Instagram Carousel Styles */
-.section-title {
+.section-title_reel {
   text-align: center;
   font-size: 2.2rem;
   color: #5c3d0d;
@@ -856,7 +856,7 @@ body {
   font-weight: 600;
 }
 
-.section-title::after {
+.section-title_reel::after {
   content: "";
   position: absolute;
   bottom: -10px;
@@ -1946,6 +1946,13 @@ body {
 
 
   }
+  @media (max-width: 768px){
+    .discount_box{
+      margin-left: 30px;
+      width: 300px;
+
+    }
+  }
 
 /* hero-section-img */
     
@@ -2082,7 +2089,7 @@ body {
       transform: translateY(-2px);
     }
     
-    .btn-primary {
+    .btn-contact{
       background-color: var(--primary-color);
       border: none;
       padding: 10px 24px;
@@ -2090,7 +2097,7 @@ body {
       font-weight: 500;
     }
     
-    .btn-primary:hover {
+    .btn-contact:hover {
       background-color: var(--accent-color);
     }
      
@@ -2256,11 +2263,23 @@ body {
       transform: rotateY(180deg);
     }
 
+
     @media (max-width: 768px) {
-      .flip-box {
-        height: 200px;
-      }
-      .card_size{
-        margin-left: 25px;
-      }
-    }
+  .container, .row {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+
+  .card_size {
+    padding-left: 30px !important;
+    padding-right: 8px !important;
+  }
+
+  .product-card {
+    margin-left: 35px;
+  }
+
+}

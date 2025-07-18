@@ -16,6 +16,10 @@ const app = express();
 // Static files
 
 app.use(express.static("public/"));
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true, limit: '20mb' }));
+app.use(express.json({ limit: '20mb' }));
+
 
 // View engine setup
 app.set("view engine", "ejs");

@@ -1,5 +1,61 @@
 <%- include("navbar.ejs") %>
 
+<style>
+  .custom-heading {
+    position: relative;
+    background: linear-gradient(to right, #5b4d9c 0%, #5b4d9c 70%, #ffffff 100%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 26px;
+    text-transform: uppercase;
+    padding: 15px 40px;
+    border-left: 6px solid #ffc107; 
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 30px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    border-radius: 4px 0 0 4px;
+  }
+
+
+  .custom-heading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -60px;
+    width: 60px;
+    height: 100%;
+    background: linear-gradient(
+      -45deg,
+      #ffc107 0 10px,
+      #ffc107 10px,
+      #0d572c 10px 15px,
+      #0d572c 15px,
+      #ff8c00 15px 20px,
+      #ff8c00 20px,
+      transparent 20px
+    );
+    transform: skewX(-10deg);
+  }
+
+  @media (max-width: 768px) {
+    .custom-heading {
+      font-size: 20px;
+      padding: 12px 25px;
+    }
+
+    .custom-heading::after {
+      width: 40px;
+    }
+  }
+</style>
+
+<div class="container-fluid py-4 content-container">
+  
+  <div class="custom-heading">Dashboard</div>
+
+ 
+ <div class="row mb-4">
 
  <!-- Dashboard Content -->
     <div class="container-fluid py-4 content-container">
@@ -10,19 +66,29 @@
 
       <!-- Stats Cards -->
        <div class="row mb-4">
+
         <div class="col-xl-3 col-md-6 mb-4">
           <div class="stat-card card dashboard-card border-start border-primary">
             <div class="card-body">
+              <a href="/admin/all_orders" class="text-decoration-none">
               <div class="d-flex justify-content-between">
                 <div>
                   <h5 class="card-title text-uppercase text-muted mb-2">Total Orders</h5>
-                  <h2 class="mb-0 fw-bold"><%= orderStats.total_orders %></h2>
+                  <h2 class="mb-0 fw-bold"><%=orderStats.total_orders%></h2>
+
+                  <!-- <h2 class="mb-0 fw-bold"><%= orderStats.total_orders %></h2> -->
+
                 </div>
                 <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
                   <i class="bi bi-cart fs-4"></i>
                 </div>
               </div>
-            
+
+
+            </a>
+
+            </a>
+           
             </div>
           </div>
         </div>
@@ -31,14 +97,22 @@
             <div class="card-body">
               <div class="d-flex justify-content-between">
                 <div>
-                  <h5 class="card-title text-uppercase text-muted mb-2">Shipped Orders</h5>
-                  <h2 class="mb-0 fw-bold"><%= orderStats.shipped_orders %></h2>
+
+                  <h5 class="card-title text-uppercase text-muted mb-2">Completed Orders</h5>
+                  <h2 class="mb-0 fw-bold"><%=orderStats.completed_orders%></h2>
+
+                  <!-- <h5 class="card-title text-uppercase text-muted mb-2">Shipped Orders</h5> -->
+                  <!-- <h2 class="mb-0 fw-bold"><%= orderStats.shipped_orders %></h2> -->
+
                 </div>
                 <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
                   <i class="bi bi-currency-rupee fs-4"></i>
                 </div>
               </div>
+
+
              
+
             </div>
           </div>
         </div>
@@ -48,7 +122,11 @@
               <div class="d-flex justify-content-between">
                 <div>
                   <h5 class="card-title text-uppercase text-muted mb-2">Pending Orders</h5>
-                  <h2 class="mb-0 fw-bold"><%= orderStats.pending_orders %></h2>
+
+                  <h2 class="mb-0 fw-bold"><%=orderStats.pending_orders%></h2>
+
+                  <!-- <h2 class="mb-0 fw-bold"><%= orderStats.pending_orders %></h2> -->
+
                 </div>
                 <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
                   <i class="bi bi-hourglass-split fs-4"></i>
@@ -63,21 +141,35 @@
             <div class="card-body">
               <div class="d-flex justify-content-between">
                 <div>
-                  <h5 class="card-title text-uppercase text-muted mb-2">Completed Orders</h5>
-                  <h2 class="mb-0 fw-bold"><%= orderStats.completed_orders %></h2>
+
+                  <h5 class="card-title text-uppercase text-muted mb-2">Shipped Orders</h5>
+                  <h2 class="mb-0 fw-bold"><%=orderStats.shipped_orders%></h2>
+
+                  <!-- <h5 class="card-title text-uppercase text-muted mb-2">Completed Orders</h5> -->
+                  <!-- <h2 class="mb-0 fw-bold"><%= orderStats.completed_orders %></h2> -->
+
                 </div>
                 <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
                   <i class="bi bi-people fs-4"></i>
                 </div>
               </div>
+
+             
+
             
+
             </div>
           </div>
         </div>
       </div> 
 
+
+      
+
+
     
       <!-- Recent Orders -->
+
       <div class="row">
         <div class="col-12">
           <div class="card dashboard-card">
@@ -99,6 +191,23 @@
                     </tr>
                   </thead>
                   <tbody>
+
+                    <% sr=1; for(i of latestOrders)
+                    { %>
+
+                      <tr>
+                        <td>#<%=sr++%></td>
+                        <td><%=i.name%></td>
+                        <td><%=i.created_at%></td>
+                        <td><%=i.total_amount%></td>
+                        <td><span class="badge bg-success"><%=i.order_status%></span></td>
+                        <td><a  href="/admin/order_details/<%=i.order_id%>" class="btn btn-sm btn-outline-primary">View</a></td>
+                      </tr>
+                    <%}%>
+                    
+                   
+                    
+
                     <% sr = 1; for(i of latestOrders)
                     { %>
 <tr>
@@ -111,7 +220,6 @@
                     </tr>
                  <%   }%>
                     
-                 
                   </tbody>
                 </table>
               </div>
@@ -119,6 +227,6 @@
           </div>
         </div>
       </div>
-    </div>
+</div>
 
 <%- include("footer.ejs") %>

@@ -1,0 +1,62 @@
+<%- include("navbar.ejs") %>
+<div class="container mt-4">
+  <h3 class="mb-3 text-center">Shipped Orders</h3>
+
+  <table id="shippedOrdersTable" class="table table-bordered table-hover table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Order ID</th>
+        <th>Customer</th>
+        <th>Email</th>
+        <th>Total Amount</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% orders.forEach(o => { %>
+        <tr>
+          <td><%= o.order_id %></td>
+          <td><%= o.name %></td>
+          <td><%= o.email %></td>
+          <td>₹<%= o.total_amount %></td>
+          <td><span class="badge bg-success mt-3"><%= o.order_status %></span></td>
+          <td><%= new Date(o.created_at).toLocaleString() %></td>
+          <td>
+        <a href="/admin/order_details/<%= o.order_id %>" class="btn btn-sm btn-primary">View</a>
+
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<!-- DataTables & Export Scripts -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#shippedOrdersTable').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        'excelHtml5',
+        'pdfHtml5',
+        'print'
+      ]
+    });
+  });
+</script>
+
+<%- include("footer") %>

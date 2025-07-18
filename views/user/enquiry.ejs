@@ -122,67 +122,57 @@
           <h2 class="section-title-enq">Bulk Enquiry Form</h2>
           <p class="mb-4">Fill out the form below and our wholesale team will contact you within 24 hours</p>
           
-          <form>
+        <form action="/admin/enquery" method="post">
             <div class="form-group-custom">
               <label class="form-label-custom">Your Business Name</label>
-              <input type="text" class="form-control form-control-custom" placeholder="Enter your business name" required>
+              <input type="text" class="form-control form-control-custom" name="businessName" placeholder="Enter your business name" required>
             </div>
             
             <div class="form-group-custom">
               <label class="form-label-custom">Product Interest</label>
-              <select class="form-control form-control-custom" required>
-                <option value="" selected disabled>Select product(s) you're interested in</option>
-                <option>Agri Masala Blend</option>
-                <option>Turmeric Powder</option>
-                <option>Red Chili Powder</option>
-                <option>Coriander Powder</option>
-                <option>Cumin Seeds</option>
-                <option>Garam Masala</option>
-                <option>Complete Product Range</option>
-                <option>Other (specify in comments)</option>
-              </select>
+             <input type="text" class="form-control form-control-custom" name="productName" id="">
             </div>
             
             <div class="form-group-custom">
               <label class="form-label-custom">Estimated Monthly Quantity (kg)</label>
-              <select class="form-control form-control-custom" required>
+              <select class="form-control form-control-custom" name="quantity" required>
                 <option value="" selected disabled>Select quantity range</option>
-                <option>50 - 100 kg</option>
-                <option>100 - 250 kg</option>
-                <option>250 - 500 kg</option>
-                <option>500 - 1000 kg</option>
-                <option>1000+ kg</option>
+                <option value="50 - 100 kg">50 - 100 kg</option>
+                <option value="100 - 250 kg">100 - 250 kg</option>
+                <option value="250 - 500 kg">250 - 500 kg</option>
+                <option value="500 - 1000 kg">500 - 1000 kg</option>
+                <option value="1000+ kg">1000+ kg</option>
               </select>
             </div>
             
             <div class="form-group-custom">
               <label class="form-label-custom">Your Location</label>
-              <input type="text" class="form-control form-control-custom" placeholder="City, State" required>
+              <input type="text" class="form-control form-control-custom" name="location" placeholder="City, State" required>
             </div>
             
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group-custom">
                   <label class="form-label-custom">Contact Person</label>
-                  <input type="text" class="form-control form-control-custom" placeholder="Full name" required>
+                  <input type="text" class="form-control form-control-custom" name="contactPerson" placeholder="Full name" required>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group-custom">
                   <label class="form-label-custom">Phone Number</label>
-                  <input type="tel" class="form-control form-control-custom" placeholder="+91 12345 67890" required>
+                  <input type="tel" class="form-control form-control-custom" name="phoneNumber" placeholder="+91 12345 67890" required>
                 </div>
               </div>
             </div>
             
             <div class="form-group-custom">
               <label class="form-label-custom">Email Address</label>
-              <input type="email" class="form-control form-control-custom" placeholder="you@yourbusiness.com" required>
+              <input type="email" class="form-control form-control-custom" name="email" placeholder="you@yourbusiness.com" required>
             </div>
             
             <div class="form-group-custom">
               <label class="form-label-custom">Additional Comments</label>
-              <textarea class="form-control form-control-custom" rows="4" placeholder="Tell us about your business or specific requirements"></textarea>
+              <textarea class="form-control form-control-custom" rows="4" name="comments" placeholder="Tell us about your business or specific requirements"></textarea>
             </div>
             
             <button type="submit" class="btn btn-submit">

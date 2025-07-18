@@ -1,0 +1,33 @@
+<%-include("navbar")%>
+  <div class="container mt-5">
+    <h2 class="mb-4">Edit Contact Information</h2>
+
+    <form action="/admin/update_contact_info" method="POST" class="bg-white p-4 shadow rounded">
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" name="location" id="location" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="phone" class="form-label">Phone Number</label>
+        <input type="tel" name="phone" id="phone" class="form-control"  required>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" id="email" class="form-control"  required>
+      </div>
+
+      <div class="mb-3">
+        <label for="working_hours" class="form-label">Working Hours</label>
+        <input type="text" name="working_hours" id="working_hours" class="form-control"  required>
+      </div>
+ <div class="mb-3">
+        <label for="map_link" class="form-label">Map Link</label>
+        <input type="text" name="map_link" id="map_link" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-success">Update Info</button>
+    </form>
+  </div>
+<%-include("footer")%>
+

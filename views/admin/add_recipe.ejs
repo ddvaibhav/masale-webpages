@@ -1,0 +1,160 @@
+<%- include("navbar.ejs") %>
+
+<style>
+  .custom-heading {
+    position: relative;
+    background: linear-gradient(to right, #5b4d9c 0%, #5b4d9c 70%, #ffffff 100%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 26px;
+    text-transform: uppercase;
+    padding: 15px 40px;
+    border-left: 6px solid #ffc107;
+    display: inline-block;
+    width: 100%;
+    margin: 40px 0 30px 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    border-radius: 4px 0 0 4px;
+  }
+
+  .custom-heading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -60px;
+    width: 60px;
+    height: 100%;
+    background: linear-gradient(
+      -45deg,
+      #ffc107 0 10px,
+      #ffc107 10px,
+      #0d572c 10px 15px,
+      #0d572c 15px,
+      #ff8c00 15px 20px,
+      #ff8c00 20px,
+      transparent 20px
+    );
+    transform: skewX(-10deg);
+  }
+
+  .form-label {
+    font-weight: 600;
+  }
+
+  textarea.form-control {
+    resize: none;
+  }
+
+  .btn-primary {
+    background-color: #5b4d9c;
+    border-color: #5b4d9c;
+  }
+
+  .btn-primary:hover {
+    background-color: #473d7e;
+    border-color: #473d7e;
+  }
+
+  .container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+
+</style>
+
+<div class="container mt-5">
+  <div class="custom-heading">Add New Recipe</div>
+  
+  <form action="/admin/submit_recipe" method="POST">
+    <div class="row">
+      <div class="mb-3 col-md-6">
+        <label for="heading" class="form-label">Heading</label>
+        <input type="text" class="form-control" id="heading" name="heading" required>
+      </div>
+
+      <div class="mb-3 col-md-6">
+        <label for="dish_name" class="form-label">Dish Name</label>
+        <input type="text" class="form-control" id="dish_name" name="dish_name" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="mb-3 col-md-6">
+        <label for="about_recipe" class="form-label">About Recipe</label>
+        <textarea class="form-control" id="about_recipe" name="about_recipe" rows="3" required></textarea>
+      </div>
+
+      <div class="mb-3 col-md-6">
+        <label for="ingredients" class="form-label">Ingredients</label>
+        <textarea class="form-control" id="ingredients" name="ingredients" rows="3" required></textarea>
+      </div>
+    </div>
+
+    <!-- Steps -->
+    <div class="row">
+      <% for (let i = 1; i <= 6; i++) { %>
+        <div class="mb-3 col-md-6">
+          <label for="step<%= i %>" class="form-label">Step <%= i %></label>
+          <textarea class="form-control" id="step<%= i %>" name="step<%= i %>" rows="2"></textarea>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Image Inputs -->
+    <div class="row">
+      <% for (let i = 1; i <= 5; i++) { %>
+        <div class="mb-3 col-md-4">
+          <label for="imgFile<%= i %>" class="form-label">Image <%= i %></label>
+          <input type="file" class="form-control" id="imgFile<%= i %>" accept="image/*" onchange="convertToBase64(this, 'img<%= i %>Base64')" />
+          <input type="hidden" name="img<%= i %>Base64" id="img<%= i %>Base64" />
+        </div>
+      <% } %>
+    </div>
+
+    <div class="mb-3">
+      <label for="details" class="form-label">More Details</label>
+      <textarea class="form-control" id="details" name="details" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary px-4">Submit Recipe</button>
+  </form>
+</div>
+
+<script>
+  async function convertToBase64(input, hiddenId) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      document.getElementById(hiddenId).value = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  document.querySelector("form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    for (let i = 1; i <= 5; i++) {
+      const fileInput = document.getElementById(`imgFile${i}`);
+      const hiddenInput = document.getElementById(`img${i}Base64`);
+
+      if (fileInput.files.length > 0) {
+        const base64 = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+          reader.readAsDataURL(fileInput.files[0]);
+        });
+
+        hiddenInput.value = base64;
+      }
+    }
+
+    this.submit();
+  });
+</script>
+
+<%- include("footer.ejs") %>

@@ -61,6 +61,8 @@
               <i class="bi bi-cart-check me-2"></i>All Orders</a></li>
             <li><a href="/admin/pending_orders" class="nav-link text-white py-1 submenu-link" style="--i:2">
               <i class="bi bi-hourglass-split me-2"></i>Pending Orders</a></li>
+            <li><a href="/admin/shipped_orders" class="nav-link text-white py-1 submenu-link" style="--i:2">
+              <i class="bi bi-hourglass-split me-2"></i>Shipped Orders</a></li>
             <li><a href="/admin/completed_orders" class="nav-link text-white py-1 submenu-link" style="--i:3">
               <i class="bi bi-check-circle me-2"></i>Completed Orders</a></li>
           </ul>
@@ -103,8 +105,19 @@
               <i class="bi bi-plus-lg me-2"></i>Add Product</a></li>
             <li><a href="/admin/manage_products" class="nav-link text-white py-1 submenu-link" style="--i:2">
               <i class="bi bi-list-check me-2"></i>Manage Products</a></li>
-            <li><a href="/admin/inventory" class="nav-link text-white py-1 submenu-link" style="--i:3">
-              <i class="bi bi-clipboard-data me-2"></i>Inventory</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link d-flex justify-content-between align-items-center text-white px-4 py-1 toggle-submenu" data-target="#RecipeMenu">
+            <span><i class="bi bi-box-seam me-2"></i>Recipe</span>
+            <i class="bi bi-chevron-down small chevron-animate"></i>
+          </a>
+          <ul class="submenu list-unstyled ps-4 mb-2" id="RecipeMenu">
+            <li><a href="/admin/add_recipe" class="nav-link text-white py-1 submenu-link" style="--i:1">
+              <i class="bi bi-plus-lg me-2"></i>Add Recipe</a></li>
+            <li><a href="/admin/manage_recipe" class="nav-link text-white py-1 submenu-link" style="--i:2">
+              <i class="bi bi-list-check me-2"></i>Manage Recipe</a></li>
+           
           </ul>
         </li>
 
@@ -164,11 +177,22 @@
               <span><i class="fa-solid fa-question-circle me-2"></i>FAQs</span>
             </a>
           </li>
-           <li>
+          <li>
             <a href="/admin/slider" class="nav-link text-white py-1 submenu-link d-flex justify-content-between align-items-center" style="--i:6">
-              <span><i class="fa-solid fa-question-circle me-2"></i>slider</span>
+              <span><i class="fa-solid fa-question-circle me-2"></i>Slider</span>
             </a>
           </li>
+          <li>
+            <a href="/admin/enquiry" class="nav-link text-white py-1 submenu-link d-flex justify-content-between align-items-center" style="--i:6">
+              <span><i class="fa-solid fa-question-circle me-2"></i>Enquiry</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/contact_info" class="nav-link text-white py-1 submenu-link d-flex justify-content-between align-items-center" style="--i:6">
+              <span><i class="fa-solid fa-question-circle me-2"></i>Contact Info</span>
+            </a>
+          </li>
+          
 
 
         <li>
@@ -213,7 +237,19 @@
           </ul>
         </li>
 
+         <li>
+            <a href="/admin/slider" class="nav-link text-white py-1 submenu-link d-flex justify-content-between align-items-center" style="--i:6">
+              <span><i class="fas fa-images"></i> slider</span>
+            </a>
+          </li>
+           <li>
+            <a href="/admin/banner" class="nav-link text-white py-1 submenu-link d-flex justify-content-between align-items-center" style="--i:6">
+              <span><i class="fas fa-images"></i> Update Discount banner</span>
+            </a>
+          </li>
+
       </ul>
+      
       
       <!-- Scroll indicator -->
       <div class="scroll-indicator">

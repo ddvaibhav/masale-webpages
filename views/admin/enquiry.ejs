@@ -1,0 +1,79 @@
+<%- include("navbar.ejs") %>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
+
+<div class="container my-5">
+  <div class="text-center mb-4">
+    <h2 class="fw-bold text-uppercase text-success">📦 Bulk Enquiries</h2>
+    <p class="text-muted">View and manage all bulk product enquiries from your customers.</p>
+  </div>
+
+  <div class="card shadow rounded-4 border-0">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table id="enquiryTable" class="table table-bordered table-hover align-middle mb-0" style="width:100%">
+          <thead class="table-dark text-center">
+            <tr>
+              <th>#</th>
+              <th>Business Name</th>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Location</th>
+              <th>Contact Person</th>
+              <th>Phone Number</th>
+              <th>Email</th>
+              <th>Comments</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.forEach((row, index) => { %>
+              <tr>
+                <td class="text-center"><%= index + 1 %></td>
+                <td><%= row.businessName %></td>
+                <td><%= row.productName %></td>
+                <td><%= row.quantity %></td>
+                <td><%= row.location %></td>
+                <td><%= row.contactPerson %></td>
+                <td><%= row.phoneNumber %></td>
+                <td><%= row.email %></td>
+                <td><%= row.comments %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- jQuery + DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- DataTables Export Buttons -->
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#enquiryTable').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        { extend: 'copy', className: 'btn btn-outline-primary' },
+        { extend: 'excel', className: 'btn btn-outline-success' },
+        { extend: 'pdf', className: 'btn btn-outline-danger' },
+        { extend: 'print', className: 'btn btn-outline-dark' }
+      ],
+      responsive: true,
+      pageLength: 10
+    });
+  });
+</script>
+
+<%- include("footer.ejs") %>

@@ -1,0 +1,176 @@
+<%- include("navbar") %>
+
+<style>
+  .task-banner {
+    position: relative;
+    background: #5d4c9c;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 18px 30px;
+    border-left: 6px solid #ffc107;
+    margin: 40px 0 25px;
+    width: 100%;
+    max-width: 900px;
+    overflow: hidden;
+  }
+
+  .task-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0.2), white);
+    transform: skewX(-30deg);
+    transform-origin: right;
+  }
+
+  .task-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 95px;
+    width: 6px;
+    height: 100%;
+    background-color: #fbc02d;
+    transform: skewX(-30deg);
+  }
+
+  .scroll-box {
+    max-height: 100px;
+    overflow-y: auto;
+    padding: 5px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+  .table-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 40px;
+  }
+
+  .recipe-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 4px;
+  }
+
+  table th {
+    background: #f0f0f0;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: #444;
+  }
+
+  .btn-sm {
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+</style>
+
+<div class="container">
+  <div class="task-banner">Manage Recipes</div>
+
+  <div class="table-box">
+    <div style="overflow-x: auto;">
+      <table id="recipeTable" class="table table-bordered table-striped align-middle" style="width: 100%;">
+        <thead>
+          <tr>
+            <th>Sr No</th>
+            <th>Images</th>
+            <th>Heading</th>
+            <th>Dish Name</th>
+            <th>Ingredients</th>
+            <th>About</th>
+            <th>Steps</th>
+            <th>Details</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% recipes.forEach((r, index) => { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td class="text-center">
+                <% for(let i=1; i<=5; i++) {
+                  let img = r[`image${i}`];
+                  if(img) { %>
+                  <img src="<%= img %>" class="recipe-img" />
+                <% } } %>
+              </td>
+              <td><%= r.heading %></td>
+              <td><%= r.dish_name %></td>
+              <td><div class="scroll-box"><%= r.ingredients %></div></td>
+              <td><div class="scroll-box"><%= r.about_recipe %></div></td>
+              <td>
+                <div class="scroll-box">
+                  <% for(let i=1;i<=6;i++) {
+                    let step = r[`step${i}`];
+                    if(step) { %>
+                      <div><strong>Step <%= i %>:</strong> <%= step %></div>
+                  <% } } %>
+                </div>
+              </td>
+              <td><div class="scroll-box"><%= r.details %></div></td>
+              <td><%= new Date(r.created_at).toLocaleDateString() %></td>
+              <td>
+                <a href="/admin/view_recipe/<%= r.recipe_id %>" class="btn btn-sm btn-info mb-1">View</a>
+                <a href="/admin/edit_recipes/<%= r.recipe_id %>" class="btn btn-sm btn-warning mb-1">Edit</a>
+                <a href="/admin/delete_recipes/<%= r.recipe_id %>" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- DataTables Script -->
+<script>
+  $(document).ready(function() {
+    $('#recipeTable').DataTable({
+      responsive: true,
+      scrollX: true,
+      pageLength: 10,
+      columnDefs: [
+        { orderable: false, targets: [0,1,9] }
+      ],
+      dom: '<"dt-buttons"B>frtip',
+      buttons: [
+        {
+          extend: 'excelHtml5',
+          title: 'Recipe List',
+          className: 'btn btn-success'
+        },
+        {
+          extend: 'pdfHtml5',
+          title: 'Recipe List',
+          className: 'btn btn-danger',
+          orientation: 'landscape',
+          pageSize: 'A4'
+        },
+        {
+          extend: 'print',
+          title: 'Recipe List',
+          className: 'btn btn-primary'
+        }
+      ]
+    });
+  });
+</script>
+
+<%- include("footer") %>
