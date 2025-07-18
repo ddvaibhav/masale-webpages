@@ -1,8 +1,6 @@
 var express = require("express");
 var router = express.Router();
 var exe = require("../conn");
-const nodemailer = require("nodemailer");
-
 // const Razorpay = require("razorpay");
 const Razorpay = require("razorpay");
 const razorpay = new Razorpay({
@@ -40,133 +38,7 @@ router.post("/user_login",async function(req,res){
 });
 router.get("/profile",function(req,res){
   res.render("user/profile.ejs");
-});
-router.get("/edit_profile",function(req,res){
-  res.render("user/edit_profile.ejs");
-});
-router.post("/update_profile", async function (req, res) {
-  var d = req.body;
-
-  var sql = `UPDATE user_registration SET name = ?, mobile = ?, email = ? WHERE user_id = ?`;
-  await exe(sql, [d.name, d.mobile, d.email, d.user_id]);
-
-  req.session.user.name = d.name;
-  req.session.user.email = d.email;
-  req.session.user.mobile = d.mobile;
-
-  res.redirect("/profile");
-});
-router.get("/forget_password",function(req,res){
-  res.render("user/forget_password.ejs");
-});
-router.post("/send_otp",async function(req,res){
-   const email = req.body.email;
-  
-    // 1. Generate 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000);
-  
-    // 2. Store OTP in session
-    req.session.otp = otp;
-    req.session.otp_email = email;
-    req.session.otp_time = Date.now();
-  
-    // 3. Configure nodemailer
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "gorakshnathdalavi91@gmail.com",
-        pass: "yydh qpqv vovi fjsm", // Gmail App Password
-      },
-    });
-  
-    // 4. Send email
-    try {
-      await transporter.sendMail({
-        from: '"Masala Webpage" <gorakshnathdalavi91@gmail.com>',
-        to: email,
-        subject: "Your OTP Code",
-        text: `Your OTP is ${otp}`,
-        html: `
-    <div style="max-width:500px;margin:20px auto;padding:20px;border:1px solid #e5e5e5;border-radius:10px;font-family:Arial,sans-serif;background-color:#ffffff;">
-      <div style="text-align:center;">
-        <h2 style="color:#007bff;margin-bottom:0;">Masala Webpage</h2>
-        <p style="color:#666;margin-top:5px;">OTP Verification Code</p>
-      </div>
-      <hr style="margin:20px 0;">
-      <p>Hello,</p>
-      <p>We received a request to verify your email. Please use the following OTP to complete the process:</p>
-      <div style="text-align:center; margin: 30px 0;">
-        <span style="display:inline-block;font-size:24px;font-weight:bold;color:#333;padding:10px 20px;border:2px dashed #007bff;border-radius:8px;letter-spacing:5px;">${otp}</span>
-      </div>
-      <p>This OTP is valid for 10 minutes. If you didn’t request this, you can safely ignore this email.</p>
-      <br>
-      <p style="color:#888;font-size:13px;">– Masala Webpage Support</p>
-    </div>
-  `
-  
-      });
-  
-      console.log("OTP sent to:", email, "| OTP:", otp);
-     res.redirect("/verify_otp?status=sent");
-    } catch (error) {
-      console.error("Error sending OTP:", error);
-      res.status(500).send("Failed to send OTP");
-    }
-  });
-
-  router.get("/verify_otp",function(req,res){
-    res.render("user/verify_otp.ejs");
-  });
-
-  router.post("/verify_otp", function (req, res) {
-  const userOtp = req.body.otp;
-  const sessionOtp = req.session.otp;
-  const otpTime = req.session.otp_time;
-
-  
-  const isExpired = Date.now() - otpTime > 10 * 60 * 1000;
-
-  if (isExpired) {
-    return res.send("<script>alert('OTP expired! Please try again.'); window.location='/forget_password';</script>");
-  }
-
-  if (parseInt(userOtp) === sessionOtp) {
-   
-    return res.send("<script>alert('OTP Verified! You can now reset your password.'); window.location='/reset_password';</script>");
-  } else {
-    
-    return res.send("<script>alert('Invalid OTP! Please try again.'); window.location='/verify_otp';</script>");
-  }
-});
-router.get("/reset_password", function (req, res) {
-  if (!req.session.otp_email) return res.redirect("/forget_password");
-
-  res.render("user/reset_password.ejs", {
-    status: req.query.status || null,
-  });
-});
-  router.post("/reset_password", async function (req, res) {
-  const { password, confirm } = req.body;
-
-  if (password !== confirm) {
-    return res.redirect("/reset_password?status=error");
-  }
-
-  const email = req.session.otp_email;
-
-  const sql = `UPDATE user_registration SET password = ? WHERE email = ?`;
-  await exe(sql, [password, email]);
-
-  // Clear session
-  req.session.otp = null;
-  req.session.otp_email = null;
-  req.session.otp_time = null;
-
-   res.send("<script>alert('Password updated successfully!Please Login'); window.location='/';</script>");
-});
-
-
-
+})
 router.get("/logout",function(req,res){
   req.session.destroy();
   res.redirect("/");
@@ -542,7 +414,7 @@ router.get("/checkout", async function(req, res) {
 
 
 
-  res.render("user/checkout.ejs", { cart,req });
+  res.render("user/checkout.ejs", { cart });
 });
 
 

@@ -1,48 +1,51 @@
 <%- include("navbar.ejs") %>
 
-<!-- Bootstrap 5 Hero Carousel -->
-<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-  <!-- Indicators -->
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
-  
-  <!-- Slides -->
- <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <% for(let i = 0; i < info.length; i++) { %>
-      <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
-        <img src="/uploads/<%= info[i].image %>" class="d-block w-100" alt="info<%= i+1 %>">
-        <div class="carousel-caption d-none d-md-block">
-          <h2><%= info[i].title %></h2>
-          <div class="mt-4">
-            <a href="/product">
-              <button class="btn btn-warning btn-lg px-4 py-2">Shop Now</button>
-            </a>
-          </div>
-        </div>
-      </div>
-    <% } %>
-  </div>
-</div>
+  <!-- Bootstrap 5 Hero Carousel -->
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+        aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
 
-  
-  <!-- Controls -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+    <!-- Slides -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <% for(let i=0; i < info.length; i++) { %>
+          <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+            <img src="/uploads/<%= info[i].image %>" class="d-block w-100" alt="info<%= i+1 %>">
+            <div class="carousel-caption d-none d-md-block">
+              <h2>
+                <%= info[i].title %>
+              </h2>
+              <div class="mt-4">
+                <a href="/product">
+                  <button class="btn btn-warning btn-lg px-4 py-2">Shop Now</button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <% } %>
+      </div>
+    </div>
+
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 
   <!-- Bootstrap Carousel End -->
-   
-     <!-- Products Section -->
+
+  <!-- Products Section -->
   <div class="product-slider__section-title">
     <h1>Our Top Selling Products</h1>
   </div>
@@ -51,70 +54,70 @@
     <div class="row">
       <!-- <button class="product-slider__nav-btn product-slider__nav-left"><i class="fas fa-chevron-left"></i></button> -->
 
-    <div class="product-slider__wrapper" id="sliderWrapper">
-  <% for (let i of popular) { 
-       const variants = productVariants[i.product_id] || [];
-       const defaultVariant = variants[0];
-  %>
-    <div class="product-card">
-      <a href="/product_details/<%=i.product_id%>" class="text-decoration-none">
-      <div class="flip__container">
-        <div class="flip__flipper">
-          <div class="flip__front">
-            <img src="/uploads/<%= i.product_image_front %>" alt="<%= i.product_name %> Front">
-          </div>
-          <div class="flip__back">
-            <img src="/uploads/<%= i.product_image_back %>" alt="<%= i.product_name %> Back">
-          </div>
-        </div>
-      </div>
+      <div class="product-slider__wrapper" id="sliderWrapper">
+        <% for (let i of popular) { const variants=productVariants[i.product_id] || []; const
+          defaultVariant=variants[0]; %>
+          <div class="product-card">
+            <a href="/product_details/<%=i.product_id%>" class="text-decoration-none">
+              <div class="flip__container">
+                <div class="flip__flipper">
+                  <div class="flip__front">
+                    <img src="/uploads/<%= i.product_image_front %>" alt="<%= i.product_name %> Front">
+                  </div>
+                  <div class="flip__back">
+                    <img src="/uploads/<%= i.product_image_back %>" alt="<%= i.product_name %> Back">
+                  </div>
+                </div>
+              </div>
 
-      <div class="product-card__content">
-        <h5 class="text-danger"><%= i.product_name %></h5>  
+              <div class="product-card__content">
+                <h5 class="text-danger">
+                  <%= i.product_name %>
+                </h5>
 
-        <!-- Dynamic Price Display -->
-        <p class="product-card__price text-warning fw-bold" id="priceDisplay_<%= i.product_id %>">
-          ₹<%= defaultVariant ? defaultVariant.price.toFixed(2) : '0.00' %>
-        </p>
-</a>
-        <!-- Variant Selector -->
-        <div class="product-card__quantity-selector">
-          <label class="form-label fw-medium">Choose Quantity:</label>
-          <select 
-            class="form-select variant-selector" 
-            data-product-id="<%= i.product_id %>" 
-            onchange="updatePrice(this)">
-            <% variants.forEach(variant => { %>
-              <option value="<%= variant.price %>">
-                <%= variant.weight %> - ₹<%= variant.price.toFixed(2) %>
-              </option>
-            <% }); %>
-          </select>
-        </div>
-
-        <!-- Add to Cart Button -->
-        <% if (req.session.user && req.session.user.user_id) { %>
-          <% if (cartProductIds.includes(i.product_id)) { %>
-            <button class="btn btn-secondary w-100" disabled>
-              <i class="fas fa-check-circle me-1"></i>Already in Cart
-            </button>
-          <% } else { %>
-            <a href="/product_details/<%= i.product_id %>" class="btn btn-warning w-100 <%= i.stockqty <= 0 ? 'disabled' : '' %>">
-              Add to Cart
+                <!-- Dynamic Price Display -->
+                <p class="product-card__price text-warning fw-bold" id="priceDisplay_<%= i.product_id %>">
+                  ₹<%= defaultVariant ? defaultVariant.price.toFixed(2) : '0.00' %>
+                </p>
             </a>
-          <% } %>
-        <% } else { %>
-          <button class="btn btn-outline-warning w-100" onclick="alert('Please Login Or Sign Up')" <%= i.stockqty <= 0 ? 'disabled' : '' %>>
-            Add to Cart
-          </button>
-        <% } %>
-      </div>
-    </div>
-  <% } %>
-</div>
+            <!-- Variant Selector -->
+            <div class="product-card__quantity-selector">
+              <label class="form-label fw-medium">Choose Quantity:</label>
+              <select class="form-select variant-selector" data-product-id="<%= i.product_id %>"
+                onchange="updatePrice(this)">
+                <% variants.forEach(variant=> { %>
+                  <option value="<%= variant.price %>">
+                    <%= variant.weight %> - ₹<%= variant.price.toFixed(2) %>
+                  </option>
+                  <% }); %>
+              </select>
+            </div>
 
-      <!-- <button class="product-slider__nav-btn product-slider__nav-right"><i class="fas fa-chevron-right"></i></button> -->
+            <!-- Add to Cart Button -->
+            <% if (req.session.user && req.session.user.user_id) { %>
+              <% if (cartProductIds.includes(i.product_id)) { %>
+                <button class="btn btn-secondary w-100" disabled>
+                  <i class="fas fa-check-circle me-1"></i>Already in Cart
+                </button>
+                <% } else { %>
+                  <a href="/product_details/<%= i.product_id %>"
+                    class="btn btn-warning w-100 <%= i.stockqty <= 0 ? 'disabled' : '' %>">
+                    Add to Cart
+                  </a>
+                  <% } %>
+                    <% } else { %>
+                      <button class="btn btn-outline-warning w-100" onclick="alert('Please Login Or Sign Up')"
+                        <%=i.stockqty <=0 ? 'disabled' : '' %>>
+                        Add to Cart
+                      </button>
+                      <% } %>
+          </div>
+      </div>
+      <% } %>
     </div>
+
+    <!-- <button class="product-slider__nav-btn product-slider__nav-right"><i class="fas fa-chevron-right"></i></button> -->
+  </div>
   </div>
 
 
@@ -124,21 +127,23 @@
   </div>
 
   <div class="category-slider__container">
-  <button class="category-slider__nav-btn category-slider__nav-left"><i class="fas fa-chevron-left"></i></button>
+    <button class="category-slider__nav-btn category-slider__nav-left"><i class="fas fa-chevron-left"></i></button>
 
-  <div class="category-slider__wrapper" id="categoriesWrapper">
-    <% for(let i of category) { %>
-      <div class="category-card">
-        <a href="/category_product/<%= i.category_id %>" class="text-decoration-none">
-          <img src="/uploads/<%= i.category_image || 'default.jpg' %>" alt="<%= i.category_name %>">
-          <h5><%= i.category_name %></h5>
-        </a>
-      </div>
-    <% } %>
+    <div class="category-slider__wrapper" id="categoriesWrapper">
+      <% for(let i of category) { %>
+        <div class="category-card">
+          <a href="/category_product/<%= i.category_id %>" class="text-decoration-none">
+            <img src="/uploads/<%= i.category_image || 'default.jpg' %>" alt="<%= i.category_name %>">
+            <h5>
+              <%= i.category_name %>
+            </h5>
+          </a>
+        </div>
+        <% } %>
+    </div>
+
+    <button class="category-slider__nav-btn category-slider__nav-right"><i class="fas fa-chevron-right"></i></button>
   </div>
-
-  <button class="category-slider__nav-btn category-slider__nav-right"><i class="fas fa-chevron-right"></i></button>
-</div>
 
 
 
@@ -274,7 +279,7 @@
 
       <div class="text-center mt-4">
         <a href="/recipes"><button class="viewrecipe-btn btn-lg px-4">View All Recipes</button></a>
-        
+
       </div>
     </div>
   </section>
@@ -296,7 +301,7 @@
 
           </div>
 
-          <div class="section-title">Spice Story Reel</div>
+          <div class="section-title_reel">Spice Story Reel</div>
           <p style="text-align: center; margin-bottom: 20px; color: #7f5a2b">
             Hover over any post to flip and see details
           </p>

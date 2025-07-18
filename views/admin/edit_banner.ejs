@@ -1,0 +1,65 @@
+<%- include("navbar") %>
+
+<style>
+  .edit-banner-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+
+  .edit-banner-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+
+  .edit-banner-container img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-left: 100px;
+  }
+
+  .edit-banner-container label {
+    font-weight: 500;
+    margin-top: 15px;
+    display: block;
+  }
+
+  .edit-banner-container input[type="file"] {
+    margin-top: 10px;
+  }
+
+  .edit-banner-container .btn {
+    display: inline-block;
+    margin-top: 20px;
+    width: 100%;
+  }
+</style>
+
+<div class="edit-banner-container">
+  <h2>Edit Banner</h2>
+  <form action="/admin/update_banner" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<%= banner[0].id %>">
+    <input type="hidden" name="old_image" value="<%= banner[0].image %>">
+
+    <div>
+      <label>Current Image:</label>
+      <img src="/uploads/<%= banner[0].image %>" alt="Current Banner">
+    </div>
+
+    <div>
+      <label>Change Image:</label>
+      <input type="file" name="image">
+    </div>
+
+    <button type="submit" class="btn btn-success">Update</button>
+  </form>
+</div>
+
+<%- include("footer") %>

@@ -6,6 +6,7 @@ const  authMiddleware = require("./authMiddleware");
 
 
 router.get("/",authMiddleware,async function(req,res){
+
     // 1. Admin details
 var sql = `SELECT * FROM admin WHERE admin_id=?`;
 var data = await exe(sql,[req.session.admin.admin_id]);
@@ -44,6 +45,9 @@ res.render("admin/home.ejs", {
   orderStats,
   latestOrders
 });
+
+   
+
 });
 
 router.get("/profile",async function(req,res){
@@ -502,7 +506,6 @@ router.get("/add_product",async function(req,res){
     tags:tags}
   );
 });
-
 
 router.post("/add-product", async (req, res) => {
   try {
