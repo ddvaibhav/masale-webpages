@@ -1202,6 +1202,8 @@ router.get("/delete_recipes/:id", async (req, res) => {
   }
 });
 
+
+
 // router.get("/contact_info",function(req,res){
 //   res.render("admin/contact_info.ejs");
 // });
