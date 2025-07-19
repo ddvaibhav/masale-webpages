@@ -37,9 +37,24 @@ router.post("/user_login",async function(req,res){
   }
 
 });
-router.get("/profile",function(req,res){
+router.get("/profile",check_login,function(req,res){
   res.render("user/profile.ejs");
-})
+});
+router.get("/edit_profile",check_login,function(req,res){
+  res.render("user/edit_profile.ejs");
+});
+router.post("/update_profile",check_login, async function (req, res) {
+  var d = req.body;
+
+  var sql = `UPDATE user_registration SET name = ?, mobile = ?, email = ? WHERE user_id = ?`;
+  await exe(sql, [d.name, d.mobile, d.email, d.user_id]);
+
+  req.session.user.name = d.name;
+  req.session.user.email = d.email;
+  req.session.user.mobile = d.mobile;
+
+  res.redirect("/profile");
+});
 router.get("/logout",function(req,res){
   req.session.destroy();
   res.redirect("/");
