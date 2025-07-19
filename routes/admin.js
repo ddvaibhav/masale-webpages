@@ -1300,21 +1300,22 @@ router.post("/update_banner", async function(req, res) {
 
 
 
-router.get("/update_icon", async function (req, res) {
 
-  var data = await exe(`SELECT * FROM incon WHERE incon_id = '1'`)
+// ✅ POST route - update data in DB
+router.post("/update_icon", async function (req, res) {
+  try {
+    const { location, phone_no, email, whatsapp, instagram, facebook, youtube } = req.body;
 
-  res.render("admin/update_icon.ejs", { info: data[0] })
-  if (req.files && req.files.image && req.files.image.name) {
-    var file = req.files.image;
-    var filename = Date.now() + "_" + file.name;
-    await file.mv("public/uploads/" + filename);
-    image = filename; 
-  } else {
-    image = d.old_image; 
+    await exe(
+      `UPDATE incon SET location=?, phone_no=?, email=?, whatsapp=?, instagram=?, facebook=?, youtube=? WHERE incon_id = 1`,
+      [location, phone_no, email, whatsapp, instagram, facebook, youtube]
+    );
+
+    res.redirect("/admin/update_icon");
+  } catch (err) {
+    console.error("Error updating data:", err);
+    res.send("Error updating data.");
   }
-  await exe("UPDATE banner SET image=? WHERE id=?", [image, d.id]);
-  res.redirect("/admin/banner");
 });
 
 
