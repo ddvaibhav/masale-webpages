@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var exe = require("../conn");
+var check_login = require("./check_login");
 // const Razorpay = require("razorpay");
 const Razorpay = require("razorpay");
 const razorpay = new Razorpay({
@@ -195,9 +196,11 @@ router.get("/recipes", async function (req, res) {
 router.get("/enquiry",async function(req,res){
 
   var data = await exe("SELECT * FROM contact_info");
-    res.render("user/enquiry.ejs",{"data":data[0]});
+    var incon = await exe(`SELECT * FROM incon`);
+    res.render("user/enquiry.ejs",{"data":data[0],
+     "incon": incon[0]
+    });
 
-    // var incon = await exe(`SELECT * FROM incon`);
     // res.render("user/enquiry.ejs",{incon:incon[0]});
 });
 router.get("/contact_us",async function(req,res){
@@ -424,7 +427,7 @@ router.get("/remove_cart/:id",async function(req,res){
   res.redirect("/add_tocart");
 
 });
-router.get("/checkout", async function(req, res) {
+router.get("/checkout",check_login, async function(req, res) {
   const userId = req.session.user?.user_id;
   var incon = await exe(`SELECT * FROM incon`)
   if (!userId) return res.redirect("/");
@@ -437,13 +440,15 @@ router.get("/checkout", async function(req, res) {
   WHERE c.user_id = ? AND c.status = 'active'
 `, [userId]);
 
+var contact = await exe(`SELECT * FROM contact_info`);
 
 
-  res.render("user/checkout.ejs", { cart , incon:incon[0]});
+
+  res.render("user/checkout.ejs", { cart , incon:incon[0],contact:contact[0]});
 });
 
 
-router.post("/create-order", async (req, res) => {
+router.post("/create-order",check_login, async (req, res) => {
   const { amount } = req.body;
 
   const options = {
@@ -461,7 +466,7 @@ router.post("/create-order", async (req, res) => {
   }
 });
 
-router.get("/place_order", async (req, res) => {
+router.get("/place_order",check_login, async (req, res) => {
   var incon = await exe(`SELECT * FROM incon`)
   const {
     razorpay_payment_id,
@@ -576,14 +581,14 @@ const orderResult = await exe(query, values);
 
 
 
-router.post("/cancel_order/:id", async (req, res) => {
+router.post("/cancel_order/:id",check_login, async (req, res) => {
   const id = req.params.id;
   await exe("UPDATE orders SET order_status = 'Cancelled' WHERE order_id = ?", [id]);
   res.redirect("/orders");
 });
 
 
-router.get("/orders", async function (req, res) {
+router.get("/orders", check_login, async function (req, res) {
   const userId = req.session.user?.user_id;
   if (!userId) return res.redirect("/");
   var incon = await exe(`SELECT * FROM incon`)
@@ -622,7 +627,7 @@ router.get("/orders", async function (req, res) {
   });
 });
 
-router.get("/order_details/:id", async (req, res) => {
+router.get("/order_details/:id",check_login, async (req, res) => {
   const userId = req.session.user?.user_id;
   var incon = await exe(`SELECT * FROM incon`)
   if (!userId) return res.redirect("/");

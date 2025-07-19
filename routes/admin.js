@@ -195,7 +195,7 @@ router.post("/update", async function (req, res) {
 // company info
 
 
-router.get("/company_info",async function(req,res){
+router.get("/company_info",authMiddleware,async function(req,res){
   var sql = `select * from company_info`;
   var company_info = await exe(sql);
   res.render("admin/company_info.ejs",{company_info})
@@ -501,7 +501,7 @@ router.get("/add_price",async function(req,res){
 })
 
 // add product 
-router.get("/add_product",async function(req,res){
+router.get("/add_product",authMiddleware,async function(req,res){
   var category = await exe(`SELECT * FROM category WHERE status = 'active'`);
   var tags = await exe(`SELECT * FROM tags WHERE status = 'active'`);
   res.render("admin/add_product.ejs",
@@ -806,7 +806,7 @@ router.get("/all_orders", async (req, res) => {
 
 
 
-router.post("/all_orders", async (req, res) => {
+router.post("/all_orders",authMiddleware, async (req, res) => {
   const { order_id, order_status } = req.body;
 
   try {
@@ -983,8 +983,8 @@ router.post("/update_gallery_category",function(req,res){
   var d = req.body;
   var sql = `UPDATE gallery_category SET gallery_category_name =? WHERE gallery_category_id =?`;
   var data = exe(sql,[d.gallery_category_name,d.gallery_category_id])
-  res.send(req.body)
-  // res.redirect("/admin/gallery_category")
+  // res.send(req.body)
+  res.redirect("/admin/gallery_category")
   })
   
 router.get("/delete_gallery_category/:id",async function(req,res){
@@ -995,7 +995,7 @@ router.get("/delete_gallery_category/:id",async function(req,res){
 });
 
 
-router.get("/pending_orders", async (req, res) => {
+router.get("/pending_orders",authMiddleware, async (req, res) => {
   try {
     const query = `
       SELECT o.order_id, o.total_amount, o.order_status, o.created_at,
@@ -1029,7 +1029,7 @@ router.get("/shipped_orders", async (req, res) => {
     res.send("Something went wrong");
   }
 });
-router.get("/completed_orders",async function(req,res){
+router.get("/completed_orders",authMiddleware,async function(req,res){
    try {
     const query = `
       SELECT o.order_id, o.total_amount, o.order_status, o.created_at,
@@ -1244,7 +1244,7 @@ router.get("/contact_info", async function(req, res) {
 
     res.render("admin/contact_info.ejs", { data: data[0] || {} });
 
-    res.render("admin/contact_info.ejs", { data: data || {} });
+    // res.render("admin/contact_info.ejs", { data: data || {} });
   } catch (error) {
     console.error("Error fetching contact info:", error);
     res.status(500).send("Internal Server Error");
@@ -1262,9 +1262,7 @@ router.post("/update_contact_info",async function(req,res){
   // res.send(data);
   res.redirect("/admin/contact_info");
 
-  var sql = `INSERT INTO contact_info (location , email,phone,working_hours,map_link) VALUES (? , ?, ?, ?, ?)`;
-  var data = await exe(sql,[d.location,d.email,d.phone,d.working_hours,d.map_link]);
-  res.send("data");
+
 })
 
 
