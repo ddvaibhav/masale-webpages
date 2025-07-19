@@ -1300,6 +1300,20 @@ router.post("/update_banner", async function(req, res) {
 
 
 
+var express = require("express");
+var router = express.Router();
+var exe = require("../conn");
+
+// ✅ GET route - form view
+router.get("/update_icon", async function (req, res) {
+  try {
+    var data = await exe(`SELECT * FROM incon WHERE incon_id = '1'`);
+    res.render("admin/update_icon.ejs", { info: data[0] });
+  } catch (err) {
+    console.error("Error loading form:", err);
+    res.send("Error loading data.");
+  }
+});
 
 // ✅ POST route - update data in DB
 router.post("/update_icon", async function (req, res) {
