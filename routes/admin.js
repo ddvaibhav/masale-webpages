@@ -1300,60 +1300,29 @@ router.post("/update_banner", async function(req, res) {
 
 
 
-var express = require("express");
-var router = express.Router();
-var exe = require("../conn");
-
-// ✅ GET route - form view
 router.get("/update_icon", async function (req, res) {
-  try {
-    var data = await exe(`SELECT * FROM incon WHERE incon_id = '1'`);
-    res.render("admin/update_icon.ejs", { info: data[0] });
-  } catch (err) {
-    console.error("Error loading form:", err);
-    res.send("Error loading data.");
-  }
-});
-
-// ✅ POST route - update data in DB
-router.post("/update_icon", async function (req, res) {
-  try {
-    const { location, phone_no, email, whatsapp, instagram, facebook, youtube } = req.body;
-
-    await exe(
-      `UPDATE incon SET location=?, phone_no=?, email=?, whatsapp=?, instagram=?, facebook=?, youtube=? WHERE incon_id = 1`,
-      [location, phone_no, email, whatsapp, instagram, facebook, youtube]
-    );
-
-    res.redirect("/admin/update_icon");
-  } catch (err) {
-    console.error("Error updating data:", err);
-    res.send("Error updating data.");
-  }
+  const data = await exe(`SELECT * FROM incon WHERE incon_id = '1'`);
+  res.render("admin/update_icon.ejs", { info: data[0] });
 });
 
 
+
 router.post("/update_icon", async function (req, res) {
-  var b = req.body;
+  const b = req.body;
 
-  var sql = `UPDATE incon SET 
-            instagram = ? ,
-            facebook = ? ,
-            youtube = ? ,
-            location = ? ,
-            phone_no = ? ,
-            email = ? ,
-            whatsapp = ? 
+  const sql = `
+    UPDATE incon SET 
+      instagram = ?,
+      facebook = ?,
+      youtube = ?
+    WHERE incon_id = '1'
+  `;
 
-            WHERE incon_id = '1'
-            `;
-
-  var data = await exe(sql, [b.instagram , b.facebook , b.youtube , b.location , b.phone_no , b.email , b.whatsapp]);
-
+  await exe(sql, [b.instagram, b.facebook, b.youtube]);
 
   res.redirect("/admin/update_icon");
-
 });
+
 
 
 

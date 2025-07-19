@@ -63,6 +63,7 @@ router.get("/", async function (req, res) {
 
   var incon = await exe(`SELECT * FROM incon`)
   var recipe = await exe(`SELECT * FROM recipe`);
+  var contactinfo = await exe("SELECT * FROM contact_info");
   var spice_story = await exe(`SELECT * FROM spice_story`);
   const userId = req.session.user?.user_id;
 
@@ -127,6 +128,7 @@ router.get("/", async function (req, res) {
     productVariants,
     cartProductIds,
     info:info,
+    contactinfo:contactinfo[0],
     req
   });
 });
@@ -136,7 +138,8 @@ router.get("/", async function (req, res) {
 
 router.get("/about",async function(req,res){
   var incon = await exe(`SELECT * FROM incon`)
-    res.render("user/about.ejs",{incon:incon[0]});
+    var contactinfo = await exe("SELECT * FROM contact_info");
+    res.render("user/about.ejs",{incon:incon[0],contactinfo:contactinfo[0]});
 });
 router.get("/product", async function(req, res) {
   var incon = await exe(`SELECT * FROM incon`);
@@ -165,6 +168,7 @@ router.get("/product", async function(req, res) {
   }
 
   var banner = await exe("select * from banner");
+  var contactinfo = await exe("SELECT * FROM contact_info");
 
   res.render("user/product.ejs", {
     incon:incon[0],
@@ -174,6 +178,7 @@ router.get("/product", async function(req, res) {
     variants: allVariants,
     uniqueWeights,
     cartProductIds,
+    contactinfo:contactinfo[0],
     req
   });
 });
@@ -183,13 +188,15 @@ router.get("/product", async function(req, res) {
 router.get("/gallery",async function(req,res){
     var incon = await exe(`SELECT * FROM incon`)
     var data = await exe("SELECT * FROM gallery");
-    var obj = {"data":data , incon:incon[0]};
+      var contactinfo = await exe("SELECT * FROM contact_info");
+    var obj = {"data":data , incon:incon[0],contactinfo:contactinfo[0]};
     res.render("user/gallery.ejs",obj);
 });
 
 router.get("/recipes", async function (req, res) {
   let recipes = await exe("SELECT * FROM recipes");
   var incon = await exe(`SELECT * FROM incon`)
+    var contactinfo = await exe("SELECT * FROM contact_info");
   let updatedRecipes = recipes.map(r => {
     return {
       ...r,
@@ -202,7 +209,8 @@ router.get("/recipes", async function (req, res) {
   res.render("user/recipes.ejs", {
     incon:incon[0],
     data: updatedRecipes,
-    mainRecipe: updatedRecipes[0], // default first recipe
+    mainRecipe: updatedRecipes[0],
+    contactinfo:contactinfo[0]
   });
 });
 
