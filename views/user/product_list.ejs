@@ -37,7 +37,7 @@
         <div class="price mb-3">₹<span class="price-value"><%= matchingVariants[0]?.price || "0.00" %></span></div>
 
         <% if (req?.session?.user) { %>
-          <a href="/product_details" class="btn add-to-cart-btn w-100" <%= i.stockqty <= 0 ? "disabled" : "" %>>Add to Cart</a>
+          <a href="/product_details/<%=i.product_id%>" class="btn add-to-cart-btn w-100" <%= i.stockqty <= 0 ? "disabled" : "" %>>Add to Cart</a>
         <% } else { %>
           <button class="btn add-to-cart-btn w-100" onclick="alert('Please Login Or Sign Up')" <%= i.stockqty <= 0 ? "disabled" : "" %>>
             Add to Cart

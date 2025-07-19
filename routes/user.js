@@ -443,7 +443,7 @@ router.get("/add_tocart", async (req, res) => {
 
   var contactinfo = await exe("SELECT * FROM contact_info");
 
-  res.render("user/add_tocart.ejs", { cart: cartItems , incon:incon[0],"contactinfo":contactinfo });
+  res.render("user/add_tocart.ejs", { cart: cartItems , incon:incon[0],"contactinfo":contactinfo[0] });
 });
 
 router.get("/remove_cart/:id",async function(req,res){
@@ -621,7 +621,8 @@ router.post("/cancel_order/:id",check_login, async (req, res) => {
 router.get("/orders", check_login, async function (req, res) {
   const userId = req.session.user?.user_id;
   if (!userId) return res.redirect("/");
-  var incon = await exe(`SELECT * FROM incon`)
+  var incon = await exe(`SELECT * FROM incon`);
+  var contactinfo = await exe("SELECT * FROM contact_info");
 
  const orders = await exe(`
   SELECT order_id, order_status, created_at, date_at 
@@ -653,6 +654,7 @@ router.get("/orders", check_login, async function (req, res) {
   res.render("user/orders.ejs", {
     incon:incon[0],
     orders,
+    contactinfo:contactinfo[0],
     groupedItems
   });
 });
