@@ -30,7 +30,7 @@
               </div>
               <div class="contact-info-text">
                 <h5 class="fw-bold mb-1">Our Location</h5>
-                <p class="mb-0 text-secondary"><%=data.location%></p>
+                <p class="mb-0 text-secondary"><%=contactinfo.location%></p>
               </div>
             </div>
             
@@ -40,7 +40,7 @@
               </div>
               <div class="contact-info-text">
                 <h5 class="fw-bold mb-1">Phone Number</h5>
-                <p class="mb-0 text-secondary"><%=data.phone%></p>
+                <p class="mb-0 text-secondary"><%=contactinfo.phone%></p>
               </div>
             </div>
             
@@ -50,7 +50,7 @@
               </div>
               <div class="contact-info-text">
                 <h5 class="fw-bold mb-1">Email Address</h5>
-                <p class="mb-0 text-secondary"><%=data.email%></p>
+                <p class="mb-0 text-secondary"><%=contactinfo.email%></p>
               </div>
             </div>
             
@@ -60,7 +60,7 @@
               </div>
               <div class="contact-info-text">
                 <h5 class="fw-bold mb-1">Working Hours</h5>
-                <p class="mb-0 text-secondary"><%=data.working_hours%></p>
+                <p class="mb-0 text-secondary"><%=contactinfo.working_hours%></p>
                 <!-- <p class="mb-0 text-secondary">Saturday: 10:00 AM - 4:00 PM</p> -->
               </div>
             </div>
@@ -124,7 +124,7 @@
                 
                 <div class="col-12 mt-4">
 
-                  <button type="submit" class="btn btn-danger px-4 py-2">
+                  <!-- <button type="submit" class="px-4 py-2"> -->
 
                   <button type="submit" class="btn-contact px-4 py-2">
 
@@ -144,7 +144,7 @@
             <h2 class="section-title-1">Find Us on Map</h2>
             <div class="map-container mt-3">
               <iframe 
-                src="<%=data.map_link%>"
+                src="<%=contactinfo.map_link%>"
                 width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy">
               </iframe>
             </div>

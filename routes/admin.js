@@ -1301,44 +1301,28 @@ router.post("/update_banner", async function(req, res) {
 
 
 router.get("/update_icon", async function (req, res) {
-
-  var data = await exe(`SELECT * FROM incon WHERE incon_id = '1'`)
-
-  res.render("admin/update_icon.ejs", { info: data[0] })
-  if (req.files && req.files.image && req.files.image.name) {
-    var file = req.files.image;
-    var filename = Date.now() + "_" + file.name;
-    await file.mv("public/uploads/" + filename);
-    image = filename; 
-  } else {
-    image = d.old_image; 
-  }
-  await exe("UPDATE banner SET image=? WHERE id=?", [image, d.id]);
-  res.redirect("/admin/banner");
+  const data = await exe(`SELECT * FROM incon WHERE incon_id = '1'`);
+  res.render("admin/update_icon.ejs", { info: data[0] });
 });
+
 
 
 router.post("/update_icon", async function (req, res) {
-  var b = req.body;
+  const b = req.body;
 
-  var sql = `UPDATE incon SET 
-            instagram = ? ,
-            facebook = ? ,
-            youtube = ? ,
-            location = ? ,
-            phone_no = ? ,
-            email = ? ,
-            whatsapp = ? 
+  const sql = `
+    UPDATE incon SET 
+      instagram = ?,
+      facebook = ?,
+      youtube = ?
+    WHERE incon_id = '1'
+  `;
 
-            WHERE incon_id = '1'
-            `;
-
-  var data = await exe(sql, [b.instagram , b.facebook , b.youtube , b.location , b.phone_no , b.email , b.whatsapp]);
-
+  await exe(sql, [b.instagram, b.facebook, b.youtube]);
 
   res.redirect("/admin/update_icon");
-
 });
+
 
 
 

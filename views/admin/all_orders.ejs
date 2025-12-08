@@ -1,6 +1,6 @@
 <%- include("navbar.ejs") %>
-<style>
 
+<style>
   .heading-banner {
     background: linear-gradient(to right, #5b4d9c 0%, #5b4d9c 70%, #ffffff 100%);
     position: relative;
@@ -33,14 +33,13 @@
   .heading-banner::after {
     right: 75px;
   }
-
 </style>
-<div class="container heading-banner">
 
+<div class="container heading-banner">
   <h2 class="mb-4 text-center">Order Management</h2>
 </div>
-<div class="container mt-5">
 
+<div class="container mt-5">
   <div class="table-responsive">
     <table id="orderTable" class="table table-bordered table-striped">
       <thead class="table-dark">
@@ -52,74 +51,70 @@
           <th>Total Amount</th>
           <th>Status</th>
           <th>Date</th>
-          <th>Change </th>
-          <th>Change </th>
+          <th>Change Status</th>
           <th>Date At</th>
-          <!-- <th>Change Status</th> -->
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-      <% let count = 1; %>
-<% for (let order of orders) { %>
-  <td>
-    <td><%= count++ %></td>
-    <td><%= order.order_id %></td>
-    <td><%= order.user_name %></td>
-    <td><%= order.user_email %></td>
-    <td>₹<%= order.total_amount.toFixed(2) %></td>
+        <% let count = 1; %>
+        <% for (let order of orders) { %>
+          <tr>
+            <td><%= count++ %></td>
+            <td><%= order.order_id %></td>
+            <td><%= order.user_name %></td>
+            <td><%= order.user_email %></td>
+            <td>₹<%= order.total_amount.toFixed(2) %></td>
 
-    <!-- Status Badge -->
-    <td>
-      <% 
-        const status = order.order_status.toLowerCase().trim(); 
-        let badgeClass = 'bg-secondary';
-        if (status === 'pending') badgeClass = 'mt-3 bg-warning text-dark';
-        else if (status === 'shipped') badgeClass = 'mt-3 bg-info text-dark';
-        else if (status === 'completed') badgeClass = 'mt-3 bg-success';
-        else if (status === 'cancelled') badgeClass = 'mt-3 bg-danger';
-      %>
+            <!-- Status Badge -->
+            <td>
+              <% 
+                const status = order.order_status.toLowerCase().trim(); 
+                let badgeClass = 'bg-secondary';
+                if (status === 'pending') badgeClass = 'mt-3 bg-warning text-dark';
+                else if (status === 'shipped') badgeClass = 'mt-3 bg-info text-dark';
+                else if (status === 'completed') badgeClass = 'mt-3 bg-success';
+                else if (status === 'cancelled') badgeClass = 'mt-3 bg-danger';
+              %>
+              <span class="badge <%= badgeClass %>"><%= order.order_status %></span>
+            </td>
 
-      <span class="badge <%= badgeClass %>"><%= order.order_status %></span>
-    </td>
+            <!-- Order Date -->
+            <td><%= order.order_date.toLocaleDateString('en-IN') %></td>
 
-    <!-- Order Created Date -->
-    <td><%= order.order_date.toLocaleDateString('en-IN') %></td>
+            <!-- Change Status Dropdown -->
+            <td>
+              <form action="/admin/all_orders" method="POST">
+                <input type="hidden" name="order_id" value="<%= order.order_id %>">
+                <select name="order_status" onchange="this.form.submit()" class="form-select form-select-sm">
+                  <option value="Pending" <%= order.order_status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                  <option value="Shipped" <%= order.order_status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                  <option value="Completed" <%= order.order_status === 'Completed' ? 'selected' : '' %>>Completed</option>
+                  <option value="Cancelled" <%= order.order_status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                </select>
+              </form>
+            </td>
 
-    <!-- Form to Change Status -->
-    <td colspan="2">
-      <form action="/admin/all_orders" method="POST">
-        <input type="hidden" name="order_id" value="<%= order.order_id %>">
-        <select name="order_status" onchange="this.form.submit()" class="form-select form-select-sm">
-          <option value="Pending" <%= order.order_status === 'Pending' ? 'selected' : '' %>>Pending</option>
-          <option value="Shipped" <%= order.order_status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
-          <option value="Completed" <%= order.order_status === 'Completed' ? 'selected' : '' %>>Completed</option>
-          <option value="Cancelled" <%= order.order_status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
-        </select>
-      </form>
-    </td></td>
+            <!-- Date At -->
+            <td>
+              <% if (order.date_at) { %>
+                <%= new Date(order.date_at).toLocaleDateString('en-IN', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric'
+                }) %>
+              <% } else { %>
+                <span class="text-muted">—</span>
+              <% } %>
+            </td>
 
-  
-    <td>
-      <% if (order.date_at) { %>
-        <%= new Date(order.date_at).toLocaleDateString('en-IN', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        }) %>
-      <% } else { %>
-        <span class="text-muted">—</span>
-      <% } %>
-    </td>
-
-    <!-- Actions -->
-    <td>
-      <a href="/admin/order_details/<%= order.order_id %>" class="btn btn-sm btn-primary">View</a>
-      <a href="/admin/orders/delete/<%= order.order_id %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
-    </td>
-  </tr>
-<% } %>
-
+            <!-- Actions -->
+            <td>
+              <a href="/admin/order_details/<%= order.order_id %>" class="btn btn-sm btn-primary">View</a>
+              <a href="/admin/orders/delete/<%= order.order_id %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+          </tr>
+        <% } %>
       </tbody>
     </table>
   </div>

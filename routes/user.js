@@ -37,9 +37,24 @@ router.post("/user_login",async function(req,res){
   }
 
 });
-router.get("/profile",function(req,res){
+router.get("/profile",check_login,function(req,res){
   res.render("user/profile.ejs");
-})
+});
+router.get("/edit_profile",check_login,function(req,res){
+  res.render("user/edit_profile.ejs");
+});
+router.post("/update_profile",check_login, async function (req, res) {
+  var d = req.body;
+
+  var sql = `UPDATE user_registration SET name = ?, mobile = ?, email = ? WHERE user_id = ?`;
+  await exe(sql, [d.name, d.mobile, d.email, d.user_id]);
+
+  req.session.user.name = d.name;
+  req.session.user.email = d.email;
+  req.session.user.mobile = d.mobile;
+
+  res.redirect("/profile");
+});
 router.get("/logout",function(req,res){
   req.session.destroy();
   res.redirect("/");
@@ -48,6 +63,7 @@ router.get("/", async function (req, res) {
 
   var incon = await exe(`SELECT * FROM incon`)
   var recipe = await exe(`SELECT * FROM recipe`);
+  var contactinfo = await exe("SELECT * FROM contact_info");
   var spice_story = await exe(`SELECT * FROM spice_story`);
   const userId = req.session.user?.user_id;
 
@@ -112,6 +128,7 @@ router.get("/", async function (req, res) {
     productVariants,
     cartProductIds,
     info:info,
+    contactinfo:contactinfo[0],
     req
   });
 });
@@ -121,7 +138,8 @@ router.get("/", async function (req, res) {
 
 router.get("/about",async function(req,res){
   var incon = await exe(`SELECT * FROM incon`)
-    res.render("user/about.ejs",{incon:incon[0]});
+    var contactinfo = await exe("SELECT * FROM contact_info");
+    res.render("user/about.ejs",{incon:incon[0],contactinfo:contactinfo[0]});
 });
 router.get("/product", async function(req, res) {
   var incon = await exe(`SELECT * FROM incon`);
@@ -150,6 +168,7 @@ router.get("/product", async function(req, res) {
   }
 
   var banner = await exe("select * from banner");
+  var contactinfo = await exe("SELECT * FROM contact_info");
 
   res.render("user/product.ejs", {
     incon:incon[0],
@@ -159,6 +178,7 @@ router.get("/product", async function(req, res) {
     variants: allVariants,
     uniqueWeights,
     cartProductIds,
+    contactinfo:contactinfo[0],
     req
   });
 });
@@ -168,13 +188,15 @@ router.get("/product", async function(req, res) {
 router.get("/gallery",async function(req,res){
     var incon = await exe(`SELECT * FROM incon`)
     var data = await exe("SELECT * FROM gallery");
-    var obj = {"data":data , incon:incon[0]};
+      var contactinfo = await exe("SELECT * FROM contact_info");
+    var obj = {"data":data , incon:incon[0],contactinfo:contactinfo[0]};
     res.render("user/gallery.ejs",obj);
 });
 
 router.get("/recipes", async function (req, res) {
   let recipes = await exe("SELECT * FROM recipes");
   var incon = await exe(`SELECT * FROM incon`)
+    var contactinfo = await exe("SELECT * FROM contact_info");
   let updatedRecipes = recipes.map(r => {
     return {
       ...r,
@@ -187,7 +209,8 @@ router.get("/recipes", async function (req, res) {
   res.render("user/recipes.ejs", {
     incon:incon[0],
     data: updatedRecipes,
-    mainRecipe: updatedRecipes[0], // default first recipe
+    mainRecipe: updatedRecipes[0],
+    contactinfo:contactinfo[0]
   });
 });
 
@@ -195,9 +218,9 @@ router.get("/recipes", async function (req, res) {
 
 router.get("/enquiry",async function(req,res){
 
-  var data = await exe("SELECT * FROM contact_info");
+  var contactinfo = await exe("SELECT * FROM contact_info");
     var incon = await exe(`SELECT * FROM incon`);
-    res.render("user/enquiry.ejs",{"data":data[0],
+    res.render("user/enquiry.ejs",{"contactinfo":contactinfo[0],
      "incon": incon[0]
     });
 
@@ -205,8 +228,8 @@ router.get("/enquiry",async function(req,res){
 });
 router.get("/contact_us",async function(req,res){
   var incon = await exe(`SELECT * FROM incon`)
-  var data = await exe(`SELECT * FROM contact_info`);
-    res.render("user/contact_us.ejs",{"data":data[0] , incon:incon[0]});
+  var contactinfo = await exe(`SELECT * FROM contact_info`);
+    res.render("user/contact_us.ejs",{"contactinfo":contactinfo[0] , incon:incon[0]});
 });
 
 
@@ -233,12 +256,15 @@ router.get("/category_product/:id", async function (req, res) {
       cartProductIds = cartData.map(item => item.product_id);
     }
 
+      var contactinfo = await exe("SELECT * FROM contact_info");
+
     res.render("user/category_product.ejs", {
       incon:incon[0],
       categoryName: categoryData?.category_name || "Category Products",
       product: productData,
       variants: variantData,
       cartProductIds: cartProductIds,
+      contactinfo:contactinfo[0],
       req: req
     });
   } catch (err) {
@@ -415,8 +441,9 @@ router.get("/add_tocart", async (req, res) => {
   WHERE c.status = 'active' AND c.user_id = ?
 `, [userId]);
 
+  var contactinfo = await exe("SELECT * FROM contact_info");
 
-  res.render("user/add_tocart.ejs", { cart: cartItems , incon:incon[0] });
+  res.render("user/add_tocart.ejs", { cart: cartItems , incon:incon[0],"contactinfo":contactinfo[0] });
 });
 
 router.get("/remove_cart/:id",async function(req,res){
@@ -430,6 +457,7 @@ router.get("/remove_cart/:id",async function(req,res){
 router.get("/checkout",check_login, async function(req, res) {
   const userId = req.session.user?.user_id;
   var incon = await exe(`SELECT * FROM incon`)
+  var contactinfo = await exe("SELECT * FROM contact_info");
   if (!userId) return res.redirect("/");
 
   const cart = await exe(`
@@ -444,7 +472,7 @@ var contact = await exe(`SELECT * FROM contact_info`);
 
 
 
-  res.render("user/checkout.ejs", { cart , incon:incon[0],contact:contact[0]});
+  res.render("user/checkout.ejs", { cart , incon:incon[0],contact:contact[0],"contactinfo":contactinfo[0]});
 });
 
 
@@ -467,7 +495,8 @@ router.post("/create-order",check_login, async (req, res) => {
 });
 
 router.get("/place_order",check_login, async (req, res) => {
-  var incon = await exe(`SELECT * FROM incon`)
+  var incon = await exe(`SELECT * FROM incon`);
+  var contactinfo = await exe("SELECT * FROM contact_info");
   const {
     razorpay_payment_id,
     name,
@@ -568,6 +597,7 @@ const orderResult = await exe(query, values);
   // ✅ Render success
   res.render("user/order_success.ejs", {
     incon:incon[0],
+    "contactinfo":contactinfo[0],
     paymentId: razorpay_payment_id
   });
 });
@@ -591,7 +621,8 @@ router.post("/cancel_order/:id",check_login, async (req, res) => {
 router.get("/orders", check_login, async function (req, res) {
   const userId = req.session.user?.user_id;
   if (!userId) return res.redirect("/");
-  var incon = await exe(`SELECT * FROM incon`)
+  var incon = await exe(`SELECT * FROM incon`);
+  var contactinfo = await exe("SELECT * FROM contact_info");
 
  const orders = await exe(`
   SELECT order_id, order_status, created_at, date_at 
@@ -623,6 +654,7 @@ router.get("/orders", check_login, async function (req, res) {
   res.render("user/orders.ejs", {
     incon:incon[0],
     orders,
+    contactinfo:contactinfo[0],
     groupedItems
   });
 });
