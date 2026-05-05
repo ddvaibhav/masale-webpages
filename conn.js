@@ -1,47 +1,36 @@
-const mysql = require("mysql");
-const util = require("util");
+const mysql = require('mysql2/promise');
+require('dotenv').config();
 
-let conn;
+const pool = mysql.createPool({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'masala_db',
+  port: process.env.DB_PORT || 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  acquireTimeout: 60000,
+  timeout: 60000
+});
 
-function handleConnection() {
-  conn = mysql.createConnection({
-    host: "boeedsfwvbqgh4rbnrht-mysql.services.clever-cloud.com",
-    user: "uoppg4q7cmxqz6om",
-    password: "Rk6OamcT8Gn6JqArHM9C",
-    database: "boeedsfwvbqgh4rbnrht",
-  });
+// Test connection on startup
+(async () => {
+  try {
+    const connection = await pool.getConnection();
+    console.log('✅ MySQL Pool Connected Successfully');
+    connection.release();
+  } catch (err) {
+    console.error('❌ MySQL Pool Connection Failed:', err);
+    process.exit(1);
+  }
+})();
 
-  conn.connect((err) => {
-    if (err) {
-      console.error("❌ Error connecting to MySQL:", err);
-      setTimeout(handleConnection, 2000); // Retry after 2 seconds
-    } else {
-      console.log("✅ Connected to Clever Cloud MySQL");
-    }
-  });
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  console.log('Closing MySQL pool...');
+  await pool.end();
+  process.exit(0);
+});
 
-  conn.on("error", (err) => {
-    console.error("❌ MySQL Error:", err);
-    if (err.code === "PROTOCOL_CONNECTION_LOST") {
-      console.log("🔁 Reconnecting to DB...");
-      handleConnection();
-    } else {
-      throw err;
-    }
-  });
-}
-
-handleConnection();
-
-// Export promisified query
-const exe = (...args) => {
-  return new Promise((resolve, reject) => {
-    if (!conn) return reject("No DB connection.");
-    const query = util.promisify(conn.query).bind(conn);
-    query(...args)
-      .then(resolve)
-      .catch(reject);
-  });
-};
-
-module.exports = exe;
+module.exports = pool.execute.bind(pool);
